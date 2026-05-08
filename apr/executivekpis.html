@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard สรุปผลการดำเนินงาน เมษายน 2026</title>
+    
+    <!-- นำเข้า Tailwind CSS สำหรับการจัดรูปแบบ -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- นำเข้า Chart.js สำหรับทำกราฟ -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- นำเข้า FontAwesome สำหรับไอคอน -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- นำเข้า Google Fonts (Prompt) -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkblue: {
+                            900: '#050b14',
+                            800: '#0a1526',
+                            700: '#112240',
+                        },
+                        neonorange: '#FF6B00',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #050b14; /* Deep Dark Blue */
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(255, 107, 0, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(17, 34, 64, 0.5), transparent 25%);
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+        
+        /* Glassmorphism Effect */
+        .glass-card {
+            background: rgba(10, 21, 38, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+        }
+
+        /* Glow Effects */
+        .glow-orange {
+            box-shadow: 0 0 20px rgba(255, 107, 0, 0.3);
+            border: 1px solid rgba(255, 107, 0, 0.4);
+        }
+        .glow-orange:hover {
+            box-shadow: 0 0 30px rgba(255, 107, 0, 0.5);
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+
+        .glow-blue {
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+        .glow-blue:hover {
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.4);
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+
+        .text-glow {
+            text-shadow: 0 0 10px rgba(255, 107, 0, 0.6);
+        }
+        
+        /* Table Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02); 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 107, 0, 0.5); 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 107, 0, 0.8); 
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto space-y-6">
+        
+        <!-- Header Section -->
+        <div class="flex flex-col md:flex-row justify-between items-center mb-8 glass-card p-6 rounded-2xl relative overflow-hidden border-t border-t-neonorange/30">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-neonorange to-transparent opacity-50"></div>
+            <div>
+                <h1 class="text-3xl font-bold text-white mb-2 flex items-center">
+                    <div class="w-10 h-10 rounded-lg bg-neonorange/20 flex items-center justify-center mr-3 border border-neonorange/50 glow-orange">
+                        <i class="fa-solid fa-chart-pie text-neonorange"></i>
+                    </div>
+                    รายงานสรุปผลการดำเนินงาน
+                </h1>
+                <p class="text-gray-400 text-lg">
+                    <span class="font-medium text-gray-200">บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด</span> 
+                    <span class="mx-2 text-gray-600">|</span> 
+                    ประจำเดือน <span class="font-bold text-neonorange text-glow">เมษายน 2026</span>
+                </p>
+            </div>
+            <div class="mt-4 md:mt-0 bg-darkblue-800/80 px-4 py-2 rounded-lg border border-neonorange/30 flex items-center space-x-3 backdrop-blur-md">
+                <div class="w-10 h-10 rounded-full bg-neonorange/10 flex items-center justify-center text-neonorange">
+                    <i class="fa-solid fa-check-circle text-xl"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-400 font-semibold uppercase tracking-wider">สถานะข้อมูล</p>
+                    <p class="font-bold text-white">อัปเดตสมบูรณ์ (เม.ย.)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- KPI Cards Section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- Card 1: อัตราการมาทำงาน -->
+            <div class="rounded-2xl p-6 glass-card glow-blue relative overflow-hidden">
+                <div class="absolute -right-6 -top-6 opacity-5 text-9xl text-white">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+                <div class="relative z-10">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-medium text-gray-200">อัตราการมาทำงาน (เม.ย.)</h2>
+                        <span class="bg-sky-500/20 border border-sky-500/50 text-sky-400 px-3 py-1 rounded-full text-sm font-bold shadow-[0_0_10px_rgba(56,189,248,0.5)]">
+                            <i class="fa-solid fa-check-circle mr-1"></i> ทะลุเป้า
+                        </span>
+                    </div>
+                    <div class="flex items-baseline space-x-2 my-4">
+                        <span class="text-6xl font-bold tracking-tight text-white text-shadow-sm" style="text-shadow: 0 0 10px rgba(56,189,248,0.4);">99.35</span>
+                        <span class="text-xl font-medium text-gray-400">%</span>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-white/10 flex justify-between items-center">
+                        <div>
+                            <p class="text-sm text-gray-500">เป้าหมายประจำปี</p>
+                            <p class="font-semibold text-lg text-gray-300">> 98.00%</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm text-gray-500">สะสม (YTD)</p>
+                            <p class="font-semibold text-lg text-sky-400">98.52%</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: อุบัติเหตุจากการทำงาน -->
+            <div class="rounded-2xl p-6 glass-card glow-orange relative overflow-hidden">
+                <div class="absolute -right-6 -top-6 opacity-10 text-9xl text-neonorange">
+                    <i class="fa-solid fa-shield-heart"></i>
+                </div>
+                <div class="relative z-10">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-medium text-gray-200">อุบัติเหตุถึงขั้นหยุดงาน (เม.ย.)</h2>
+                        <span class="bg-neonorange/20 border border-neonorange/50 text-neonorange px-3 py-1 rounded-full text-sm font-bold shadow-[0_0_10px_rgba(255,107,0,0.5)]">
+                            <i class="fa-solid fa-shield-check mr-1"></i> ปลอดภัย
+                        </span>
+                    </div>
+                    <div class="flex items-baseline space-x-2 my-4">
+                        <span class="text-6xl font-bold tracking-tight text-white text-glow">0</span>
+                        <span class="text-xl font-medium text-gray-400">ครั้ง</span>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-white/10 flex justify-between items-center">
+                        <div>
+                            <p class="text-sm text-gray-500">เป้าหมาย</p>
+                            <p class="font-semibold text-lg text-gray-300">0 ครั้ง</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm text-gray-500">สะสม (YTD)</p>
+                            <p class="font-semibold text-lg text-neonorange">1 ครั้ง <span class="text-xs font-normal text-gray-500">(ก.พ.)</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+            
+            <!-- Chart 1: แนวโน้มอัตราการมาทำงาน -->
+            <div class="glass-card p-6 rounded-2xl">
+                <div class="flex justify-between items-center mb-4 border-b border-white/5 pb-3">
+                    <h3 class="text-lg font-bold text-gray-200">
+                        <i class="fa-solid fa-chart-line text-sky-400 mr-2"></i>แนวโน้มอัตราการมาทำงาน
+                    </h3>
+                </div>
+                <div class="relative h-64 w-full">
+                    <canvas id="attendanceChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Chart 2: สถิติอุบัติเหตุ -->
+            <div class="glass-card p-6 rounded-2xl glow-orange">
+                <div class="flex justify-between items-center mb-4 border-b border-white/5 pb-3">
+                    <h3 class="text-lg font-bold text-gray-200">
+                        <i class="fa-solid fa-chart-column text-neonorange mr-2"></i>สถิติอุบัติเหตุจากการทำงาน
+                    </h3>
+                </div>
+                <div class="relative h-64 w-full">
+                    <canvas id="accidentChart"></canvas>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Data Table Section (Dark & Glow Theme) -->
+        <div class="glass-card p-6 rounded-2xl mt-6 overflow-hidden">
+            <div class="flex justify-between items-center mb-6 border-b border-white/10 pb-4">
+                <h3 class="text-xl font-bold text-white flex items-center">
+                    <i class="fa-solid fa-list-check text-neonorange mr-3"></i>รายละเอียดผลการดำเนินงาน
+                </h3>
+                <span class="text-sm text-gray-500">อัปเดตล่าสุด: เมษายน 2026</span>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left border-collapse">
+                    <thead>
+                        <tr class="text-gray-400 border-b border-white/10">
+                            <th class="py-4 px-4 font-semibold uppercase tracking-wider">ตัวชี้วัด (KPIs)</th>
+                            <th class="py-4 px-4 font-semibold uppercase tracking-wider text-center">เป้าหมาย</th>
+                            <th class="py-4 px-4 font-semibold uppercase tracking-wider text-center">ม.ค.</th>
+                            <th class="py-4 px-4 font-semibold uppercase tracking-wider text-center">ก.พ.</th>
+                            <th class="py-4 px-4 font-semibold uppercase tracking-wider text-center">มี.ค.</th>
+                            <th class="py-4 px-4 font-semibold uppercase tracking-wider text-center text-neonorange bg-neonorange/10 rounded-t-xl border-b-2 border-neonorange">เม.ย. (ล่าสุด)</th>
+                            <th class="py-4 px-4 font-semibold uppercase tracking-wider text-center">สะสม (YTD)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-white/5">
+                        <!-- Row 1: อุบัติเหตุ -->
+                        <tr class="hover:bg-white/5 transition duration-150 group">
+                            <td class="py-5 px-4">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 rounded-xl bg-neonorange/20 text-neonorange border border-neonorange/30 flex items-center justify-center mr-4 group-hover:scale-110 transition shadow-[0_0_10px_rgba(255,107,0,0.2)]">
+                                        <i class="fa-solid fa-user-injured text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-gray-200 text-base">จำนวนอุบัติเหตุถึงขั้นหยุดงาน</p>
+                                        <p class="text-xs text-gray-500 mt-0.5">หน่วย: ครั้ง</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-5 px-4 text-center">
+                                <span class="bg-darkblue-900 text-gray-300 py-1.5 px-4 rounded-full text-xs font-bold border border-white/10 shadow-sm">0</span>
+                            </td>
+                            <td class="py-5 px-4 text-center font-medium text-gray-400">0</td>
+                            <td class="py-5 px-4 text-center font-medium text-red-400">1</td>
+                            <td class="py-5 px-4 text-center font-medium text-gray-400">0</td>
+                            <td class="py-5 px-4 text-center font-bold text-white bg-neonorange/5 text-xl text-glow">0</td>
+                            <td class="py-5 px-4 text-center">
+                                <div class="inline-flex items-center justify-center bg-red-500/20 text-red-400 px-4 py-1.5 rounded-lg border border-red-500/30 font-bold">
+                                    1
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- Row 2: อัตราการมาทำงาน -->
+                        <tr class="hover:bg-white/5 transition duration-150 group">
+                            <td class="py-5 px-4">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 border border-sky-500/30 flex items-center justify-center mr-4 group-hover:scale-110 transition shadow-[0_0_10px_rgba(56,189,248,0.2)]">
+                                        <i class="fa-solid fa-user-check text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-gray-200 text-base">อัตราการมาทำงาน</p>
+                                        <p class="text-xs text-gray-500 mt-0.5">หน่วย: เปอร์เซ็นต์ (%)</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-5 px-4 text-center">
+                                <span class="bg-darkblue-900 text-gray-300 py-1.5 px-4 rounded-full text-xs font-bold border border-white/10 shadow-sm">> 98.00</span>
+                            </td>
+                            <td class="py-5 px-4 text-center font-medium text-red-400">97.44%</td>
+                            <td class="py-5 px-4 text-center font-medium text-sky-400">98.21%</td>
+                            <td class="py-5 px-4 text-center font-medium text-sky-400">99.08%</td>
+                            <td class="py-5 px-4 text-center font-bold text-sky-400 bg-neonorange/5 text-xl" style="text-shadow: 0 0 10px rgba(56,189,248,0.3);">
+                                99.35%
+                            </td>
+                            <td class="py-5 px-4 text-center">
+                                <div class="inline-flex items-center justify-center bg-sky-500/20 text-sky-400 px-4 py-1.5 rounded-lg border border-sky-500/30 font-bold shadow-sm">
+                                    98.52%
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <footer class="text-center text-gray-600 text-sm mt-8 pb-4 border-t border-white/5 pt-4">
+            บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด | ข้อมูลอ้างอิงจากรายงานเป้าหมายประจำปี 2026
+        </footer>
+    </div>
+
+    <!-- Script สำหรับวาดกราฟ -->
+    <script>
+        // กำหนด Font และสีเริ่มต้นให้ Chart.js รองรับ Dark Theme
+        Chart.defaults.font.family = "'Prompt', sans-serif";
+        Chart.defaults.color = '#94a3b8'; // gray-400
+
+        // 1. กราฟอัตราการมาทำงาน (เว้นข้อมูลเดือน เม.ย. ไว้)
+        const ctxAttendance = document.getElementById('attendanceChart').getContext('2d');
+        new Chart(ctxAttendance, {
+            type: 'bar',
+            data: {
+                labels: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.'],
+                datasets: [
+                    {
+                        type: 'line',
+                        label: 'เป้าหมาย (98%)',
+                        data: [98, 98, 98, 98],
+                        borderColor: '#FF6B00', // Neon Orange
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        fill: false,
+                        pointRadius: 0
+                    },
+                    {
+                        type: 'bar',
+                        label: 'อัตราการมาทำงาน (%)',
+                        data: [97.44, 98.21, 99.08, 99.35], // อัปเดตข้อมูลเดือนเมษายน
+                        backgroundColor: [
+                            'rgba(248, 113, 113, 0.7)', // Jan (Red)
+                            'rgba(56, 189, 248, 0.7)',  // Feb (Sky Blue)
+                            'rgba(56, 189, 248, 0.8)',  // Mar (Sky Blue)
+                            'rgba(56, 189, 248, 0.9)'   // Apr (Sky Blue)
+                        ],
+                        borderColor: [
+                            'rgb(248, 113, 113)',
+                            'rgb(56, 189, 248)',
+                            'rgb(56, 189, 248)',
+                            'rgb(56, 189, 248)'
+                        ],
+                        borderWidth: 1,
+                        borderRadius: 6,
+                        barPercentage: 0.5
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: { usePointStyle: true, color: '#e2e8f0' }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(10, 21, 38, 0.9)',
+                        titleColor: '#FF6B00',
+                        bodyColor: '#fff',
+                        borderColor: 'rgba(255, 107, 0, 0.5)',
+                        borderWidth: 1
+                    }
+                },
+                scales: {
+                    y: {
+                        min: 96,
+                        max: 100,
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: { callback: function(value) { return value + "%" } }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // 2. กราฟอุบัติเหตุ (Bar Chart - เน้นสีส้ม)
+        const ctxAccident = document.getElementById('accidentChart').getContext('2d');
+        new Chart(ctxAccident, {
+            type: 'bar',
+            data: {
+                labels: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.'],
+                datasets: [{
+                    label: 'จำนวนอุบัติเหตุ (ครั้ง)',
+                    data: [0, 1, 0, 0],
+                    backgroundColor: [
+                        'rgba(56, 189, 248, 0.7)',  // Jan - 0 (Sky Blue)
+                        'rgba(248, 113, 113, 0.7)', // Feb - 1 (Red)
+                        'rgba(56, 189, 248, 0.7)',  // Mar - 0 (Sky Blue)
+                        'rgba(255, 107, 0, 0.9)'    // Apr - 0 (Neon Orange Glow)
+                    ],
+                    borderColor: [
+                        'rgb(56, 189, 248)',
+                        'rgb(248, 113, 113)',
+                        'rgb(56, 189, 248)',
+                        'rgb(255, 107, 0)'
+                    ],
+                    borderWidth: 1,
+                    borderRadius: 6,
+                    barPercentage: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(10, 21, 38, 0.9)',
+                        titleColor: '#FF6B00',
+                        borderColor: 'rgba(255, 107, 0, 0.5)',
+                        borderWidth: 1
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        min: 0,
+                        max: 2,
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: { stepSize: 1 }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+    </script>
+<a href="kaize.html" style="position: fixed; bottom: 20px; right: 20px; background-color: #0d6efd; color: white; padding: 10px 20px; text-decoration: none; border-radius: 30px; font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); z-index: 9999;">
+    หน้าถัดไป (Kaizen) ➜
+</body>
+</html>

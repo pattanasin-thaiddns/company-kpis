@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard ติดตามผลการดำเนินงาน 2026</title>
+    <!-- Tailwind CSS for Styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js for Graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts: Prompt -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #f1f5f9; /* slate-100 */
+        }
+        .glass-header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        .kpi-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            border-color: #cbd5e1;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8 min-h-screen">
+
+    <!-- Navigation Button -->
+    <div class="mb-4 flex justify-end">
+        <a href="../index.html" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg shadow-md transition-all font-medium text-sm">
+            <i class="fa-solid fa-house"></i> กลับสู่หน้าหลัก (Dashboard)
+        </a>
+    </div>
+
+    <!-- Header Section -->
+    <header class="glass-header text-white rounded-2xl p-6 mb-8 flex flex-col md:flex-row justify-between items-center">
+        <div class="flex items-center gap-4 mb-4 md:mb-0">
+            <div class="bg-white p-3 rounded-lg shadow-lg">
+                <!-- Placeholder for Company Logo -->
+                <i class="fa-solid fa-chart-pie text-blue-600 text-3xl"></i>
+            </div>
+            <div>
+                <h2 class="text-lg font-medium opacity-90">บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด</h2>
+                <h1 class="text-3xl font-bold tracking-wide">ติดตามผลการดำเนินงาน 2026</h1>
+                <p class="text-sm opacity-75 mt-1"><i class="fa-solid fa-location-dot mr-1"></i> 51/3 หมู่ 1 ถ.อุดร-เชียงยืน ต.บ้านเลื่อม อ.เมือง อุดรธานี 41000</p>
+            </div>
+        </div>
+        <div class="bg-white/20 backdrop-blur-md px-6 py-3 rounded-xl border border-white/30 text-center shadow-inner">
+            <p class="text-sm uppercase tracking-wider font-semibold opacity-80 mb-1">ประจำเดือน</p>
+            <p class="text-2xl font-bold">เมษายน (April)</p>
+        </div>
+    </header>
+
+    <!-- Top Summary Widget -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex items-center justify-between border-l-4 border-l-blue-500">
+            <div>
+                <p class="text-slate-500 text-sm font-semibold">ยอดขายสะสม (YTD)</p>
+                <p class="text-2xl font-bold text-slate-800">47,114,779 <span class="text-sm font-normal text-slate-500">บาท</span></p>
+            </div>
+            <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-500 text-xl">
+                <i class="fa-solid fa-coins"></i>
+            </div>
+        </div>
+        <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex items-center justify-between border-l-4 border-l-green-500">
+            <div>
+                <p class="text-slate-500 text-sm font-semibold">กำไรสุทธิเฉลี่ย (YTD)</p>
+                <p class="text-2xl font-bold text-slate-800">3.72%</p>
+            </div>
+            <div class="w-12 h-12 rounded-full bg-green-50 flex items-center justify-center text-green-500 text-xl">
+                <i class="fa-solid fa-arrow-trend-up"></i>
+            </div>
+        </div>
+        <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex items-center justify-between border-l-4 border-l-indigo-500">
+            <div>
+                <p class="text-slate-500 text-sm font-semibold">ภาพรวม KPI (ผ่านเป้า)</p>
+                <p class="text-2xl font-bold text-slate-800">4 / 8 <span class="text-sm font-normal text-slate-500">หัวข้อ</span></p>
+            </div>
+            <div class="w-12 h-12 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-500 text-xl">
+                <i class="fa-solid fa-bullseye"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main KPIs Grid (8 Items) -->
+    <h3 class="text-xl font-bold text-slate-700 mb-4 border-b-2 border-slate-300 pb-2 inline-block">ดัชนีชี้วัด 8 หัวข้อหลัก (Index Menu)</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="kpi-container">
+        <!-- Cards will be generated by JavaScript -->
+    </div>
+
+    <script>
+        // Data extracted from the image (Jan - Apr only for trend, April for actual display)
+        const kpiData = [
+            {
+                id: 1,
+                title: "1. ยอดขาย",
+                icon: "fa-sack-dollar",
+                iconColor: "text-emerald-500",
+                iconBg: "bg-emerald-50",
+                target: 13000000,
+                actual: 10504419,
+                unit: "บาท",
+                condition: "more", // > target is good
+                history: [12925623, 9795908, 13888829, 10504419],
+                format: "currency"
+            },
+            {
+                id: 2,
+                title: "2. ข้อผิดพลาดจากการจัดส่ง",
+                icon: "fa-truck-ramp-box",
+                iconColor: "text-orange-500",
+                iconBg: "bg-orange-50",
+                target: 1.50,
+                actual: 0.96,
+                unit: "%",
+                condition: "less", // < target is good
+                history: [1.35, 0.89, 0.83, 0.96],
+                format: "percent"
+            },
+            {
+                id: 3,
+                title: "3. กำไรสุทธิก่อนหักภาษี",
+                icon: "fa-file-invoice-dollar",
+                iconColor: "text-blue-500",
+                iconBg: "bg-blue-50",
+                target: 1.00,
+                actual: 5.24,
+                unit: "%",
+                condition: "more",
+                history: [4.77, -1.36, 5.14, 5.24],
+                format: "percent"
+            },
+            {
+                id: 4,
+                title: "4. สินค้าคงคลังต่อยอดขาย",
+                icon: "fa-boxes-stacked",
+                iconColor: "text-purple-500",
+                iconBg: "bg-purple-50",
+                target: 1.40,
+                actual: 1.41,
+                unit: "เดือน",
+                condition: "less",
+                history: [1.16, 1.36, 1.16, 1.41],
+                format: "decimal"
+            },
+            {
+                id: 5,
+                title: "5. ส่งมอบลูกค้าภายใน 3 วัน",
+                icon: "fa-stopwatch",
+                iconColor: "text-cyan-500",
+                iconBg: "bg-cyan-50",
+                target: 95.00,
+                actual: 83.72,
+                unit: "%",
+                condition: "more",
+                history: [84.36, 83.45, 80.20, 83.72],
+                format: "percent"
+            },
+            {
+                id: 6,
+                title: "6. อุบัติเหตุขั้นหยุดงาน",
+                icon: "fa-triangle-exclamation",
+                iconColor: "text-red-500",
+                iconBg: "bg-red-50",
+                target: 0,
+                actual: 0,
+                unit: "ครั้ง",
+                condition: "equal", // == target is good
+                history: [0, 1, 0, 0],
+                format: "number"
+            },
+            {
+                id: 7,
+                title: "7. อัตราการมาทำงาน",
+                icon: "fa-users",
+                iconColor: "text-indigo-500",
+                iconBg: "bg-indigo-50",
+                target: 98.00,
+                actual: 99.35,
+                unit: "%",
+                condition: "more",
+                history: [97.44, 98.21, 99.08, 99.35],
+                format: "percent"
+            },
+            {
+                id: 8,
+                title: "8. พนักงานส่งไคเซ็น/เดือน",
+                icon: "fa-lightbulb",
+                iconColor: "text-yellow-500",
+                iconBg: "bg-yellow-50",
+                target: 5,
+                actual: 2,
+                unit: "หัวข้อ",
+                condition: "more",
+                history: [7, 3, 6, 2],
+                format: "number"
+            }
+        ];
+
+        const container = document.getElementById('kpi-container');
+
+        // Function to format numbers
+        function formatNumber(num, type) {
+            if (type === 'currency') return num.toLocaleString('th-TH');
+            if (type === 'percent') return num.toFixed(2);
+            if (type === 'decimal') return num.toFixed(2);
+            return num;
+        }
+
+        // Function to determine Pass/Fail status
+        function checkStatus(actual, target, condition) {
+            if (condition === 'more') return actual >= target;
+            if (condition === 'less') return actual <= target;
+            if (condition === 'equal') return actual === target;
+            return false;
+        }
+
+        // Generate Cards
+        kpiData.forEach((kpi, index) => {
+            const isPass = checkStatus(kpi.actual, kpi.target, kpi.condition);
+            
+            // Colors based on status
+            const statusColorText = isPass ? 'text-emerald-600' : 'text-rose-600';
+            const statusBgColor = isPass ? 'bg-emerald-100' : 'bg-rose-100';
+            const statusIcon = isPass ? 'fa-circle-check' : 'fa-circle-xmark';
+            const statusText = isPass ? 'ผ่านเป้า' : 'ไม่ผ่าน';
+            const statusBorder = isPass ? 'border-t-emerald-500' : 'border-t-rose-500';
+
+            const cardHTML = `
+                <div class="kpi-card bg-white rounded-xl border border-slate-200 p-5 flex flex-col h-full border-t-4 ${statusBorder} relative overflow-hidden group">
+                    <!-- Hover overlay effect -->
+                    <div class="absolute inset-0 bg-slate-50 opacity-0 group-hover:opacity-100 transition-opacity -z-10"></div>
+                    
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-10 h-10 rounded-lg ${kpi.iconBg} flex items-center justify-center ${kpi.iconColor}">
+                            <i class="fa-solid ${kpi.icon} text-xl"></i>
+                        </div>
+                        <div class="${statusBgColor} ${statusColorText} text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
+                            <i class="fa-solid ${statusIcon}"></i> ${statusText}
+                        </div>
+                    </div>
+                    
+                    <h4 class="text-slate-600 font-semibold mb-2 text-sm leading-tight flex-grow">${kpi.title}</h4>
+                    
+                    <div class="mb-4">
+                        <div class="flex items-end gap-1">
+                            <span class="text-2xl font-bold ${statusColorText}">${formatNumber(kpi.actual, kpi.format)}</span>
+                            <span class="text-sm text-slate-500 mb-1">${kpi.unit}</span>
+                        </div>
+                        <div class="text-xs text-slate-400 mt-1">
+                            เป้าหมาย: <span class="font-semibold text-slate-600">${formatNumber(kpi.target, kpi.format)} ${kpi.unit}</span>
+                        </div>
+                    </div>
+
+                    <!-- Sparkline Chart Container -->
+                    <div class="h-16 mt-auto relative">
+                        <canvas id="chart-${kpi.id}"></canvas>
+                    </div>
+                </div>
+            `;
+            
+            container.innerHTML += cardHTML;
+        });
+
+        // Initialize Charts after DOM is updated
+        kpiData.forEach((kpi) => {
+            const ctx = document.getElementById(`chart-${kpi.id}`).getContext('2d');
+            const isPass = checkStatus(kpi.actual, kpi.target, kpi.condition);
+            
+            // Graph colors based on overall April status
+            const lineColor = isPass ? 'rgba(16, 185, 129, 0.8)' : 'rgba(244, 63, 94, 0.8)'; // Emerald or Rose
+            const bgColor = isPass ? 'rgba(16, 185, 129, 0.1)' : 'rgba(244, 63, 94, 0.1)';
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.'],
+                    datasets: [{
+                        data: kpi.history,
+                        borderColor: lineColor,
+                        backgroundColor: bgColor,
+                        borderWidth: 2,
+                        pointRadius: 3,
+                        pointBackgroundColor: lineColor,
+                        fill: true,
+                        tension: 0.3 // Smooth curves
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.parsed.y + ' ' + kpi.unit;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { display: false }, // Hide axes for sparkline look
+                        y: { display: false, beginAtZero: false }
+                    },
+                    layout: {
+                        padding: 0
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

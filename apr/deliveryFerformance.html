@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard สรุปการส่งมอบสินค้า - บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด (Apr-26)</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Google Fonts (Prompt) -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Prompt', 'sans-serif'],
+                    },
+                    colors: {
+                        darkBg: '#050b14',
+                        cardBg: 'rgba(15, 23, 42, 0.6)',
+                        neonOrange: '#ff7b00',
+                        neonBlue: '#00e5ff',
+                        danger: '#ff3366',
+                        success: '#00e676'
+                    },
+                    boxShadow: {
+                        'glow-orange': '0 0 15px rgba(255, 123, 0, 0.4)',
+                        'glow-orange-strong': '0 0 25px rgba(255, 123, 0, 0.6)',
+                        'glow-blue': '0 0 15px rgba(0, 229, 255, 0.3)',
+                        'glow-red': '0 0 15px rgba(255, 51, 102, 0.4)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { 
+            font-family: 'Prompt', sans-serif; 
+            background: radial-gradient(circle at 50% 0%, #1e293b 0%, #050b14 60%, #000000 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+        .glass-card { 
+            background: rgba(15, 23, 42, 0.55); 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); 
+        }
+        .text-glow {
+            text-shadow: 0 0 10px rgba(255, 123, 0, 0.7);
+        }
+        .progress-segment:hover {
+            filter: brightness(1.2);
+            box-shadow: 0 0 10px currentColor;
+        }
+        
+        /* Custom Scrollbar for dark theme */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ff7b00; }
+    </style>
+</head>
+<body class="antialiased p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto space-y-6">
+        
+        <!-- Header Section -->
+        <header class="glass-card rounded-2xl p-6 shadow-glow-blue flex flex-col md:flex-row justify-between items-center relative overflow-hidden border-l-4 border-l-neonBlue">
+            <div class="absolute right-[-20px] top-[-20px] opacity-10">
+                <i class="fas fa-truck-fast text-[12rem] text-neonBlue"></i>
+            </div>
+            <div class="relative z-10">
+                <div class="flex items-center space-x-3 mb-1">
+                    <span class="px-3 py-1 bg-neonBlue/20 text-neonBlue text-xs font-bold rounded-full border border-neonBlue/30">Executive Summary</span>
+                    <p class="text-sm md:text-base text-slate-400 font-medium tracking-wide">บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด</p>
+                </div>
+                <h1 class="text-2xl md:text-4xl font-bold mt-1 text-white">รายงานสรุปผลการส่งมอบให้ลูกค้าภายใน 3 วัน</h1>
+                <p class="text-md md:text-lg text-neonOrange mt-2 text-glow"><i class="far fa-calendar-alt mr-2"></i>ประจำเดือน เมษายน 2026 (Apr-26)</p>
+            </div>
+            <div class="relative z-10 mt-4 md:mt-0 text-right">
+                <div class="bg-black/40 px-5 py-3 rounded-xl border border-neonOrange/40 shadow-glow-orange backdrop-blur-md">
+                    <span class="block text-sm text-slate-300 mb-1">เป้าหมาย (SLA) ภายใน 3 วัน</span>
+                    <span class="text-3xl font-black text-neonOrange text-glow">&ge; 95.00%</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- KPI Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- KPI 1 -->
+            <div class="glass-card rounded-xl p-6 border-b-2 border-b-slate-600 hover:-translate-y-1 transition-transform">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-sm text-slate-400 font-medium">จำนวนออเดอร์ทั้งหมด</p>
+                        <h3 class="text-4xl font-black text-white mt-2">522 <span class="text-base font-normal text-slate-500">บิล</span></h3>
+                    </div>
+                    <div class="bg-slate-800 p-3 rounded-xl text-slate-300 border border-slate-700">
+                        <i class="fas fa-file-invoice fa-lg"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- KPI 2 (SLA Target) -->
+            <div class="glass-card rounded-xl p-6 border-b-2 border-b-danger shadow-glow-red hover:-translate-y-1 transition-transform relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-t from-danger/10 to-transparent"></div>
+                <div class="flex justify-between items-start relative z-10">
+                    <div>
+                        <p class="text-sm text-slate-400 font-medium">ส่งมอบภายใน 3 วัน <span class="text-xs text-danger font-bold ml-1 px-2 py-0.5 bg-danger/20 rounded">(ต่ำกว่าเป้า)</span></p>
+                        <h3 class="text-4xl font-black text-danger mt-2">83.72%</h3>
+                        <p class="text-sm text-slate-400 mt-1">437 จาก 522 ออเดอร์</p>
+                    </div>
+                    <div class="bg-danger/20 p-3 rounded-xl text-danger border border-danger/30">
+                        <i class="fas fa-exclamation-triangle fa-lg"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KPI 3 (Fill Rate) -->
+            <div class="glass-card rounded-xl p-6 border-b-2 border-b-success hover:-translate-y-1 transition-transform">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-sm text-slate-400 font-medium">อัตราการเติมเต็มสินค้า (Fill Rate)</p>
+                        <h3 class="text-4xl font-black text-success mt-2">96.63%</h3>
+                        <p class="text-sm text-slate-400 mt-1">ส่ง 4,067 / สั่ง 4,209 รายการ</p>
+                    </div>
+                    <div class="bg-success/20 p-3 rounded-xl text-success border border-success/30">
+                        <i class="fas fa-boxes-packing fa-lg"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KPI 4 (Fastest) -->
+            <div class="glass-card rounded-xl p-6 border-b-2 border-b-neonBlue shadow-glow-blue hover:-translate-y-1 transition-transform relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-t from-neonBlue/10 to-transparent"></div>
+                <div class="flex justify-between items-start relative z-10">
+                    <div>
+                        <p class="text-sm text-slate-400 font-medium">ส่งมอบด่วนภายใน 1 วัน</p>
+                        <h3 class="text-4xl font-black text-neonBlue mt-2">35.63%</h3>
+                        <p class="text-sm text-slate-400 mt-1">186 จาก 522 ออเดอร์</p>
+                    </div>
+                    <div class="bg-neonBlue/20 p-3 rounded-xl text-neonBlue border border-neonBlue/30">
+                        <i class="fas fa-bolt fa-lg"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Chart 1: Bar Chart -->
+            <div class="glass-card rounded-xl p-6">
+                <h3 class="text-lg font-bold text-white mb-4 border-b border-white/10 pb-3 flex items-center">
+                    <i class="fas fa-chart-bar text-neonOrange mr-3"></i>ระยะเวลาที่ใช้ในการส่งมอบ (ยอดสะสม)
+                </h3>
+                <div class="relative h-72">
+                    <canvas id="deliveryTimeChart"></canvas>
+                </div>
+                <p class="text-xs text-slate-500 text-center mt-3">*ข้อมูลสะสม: 1 วัน (186 บิล), 2 วัน (346 บิล), 3 วัน (437 บิล), เกิน 3 วัน (85 บิล)</p>
+            </div>
+
+            <!-- Chart 2: Doughnut Chart -->
+            <div class="glass-card rounded-xl p-6 relative">
+                <h3 class="text-lg font-bold text-white mb-4 border-b border-white/10 pb-3 flex items-center">
+                    <i class="fas fa-crosshairs text-neonBlue mr-3"></i>สัดส่วนความสำเร็จตามเป้าหมาย (SLA &le; 3 วัน)
+                </h3>
+                <div class="relative h-72 flex justify-center">
+                    <canvas id="slaChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cumulative Details Section -->
+        <div class="glass-card rounded-xl p-6">
+            <h3 class="text-lg font-bold text-white mb-6 border-b border-white/10 pb-3 flex items-center">
+                <i class="fas fa-layer-group text-neonOrange mr-3"></i>รายงานสรุปรายละเอียดการส่งมอบ (เม.ย. 2026)
+            </h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <!-- 1 Day -->
+                <div class="bg-black/30 p-5 rounded-xl border border-white/5 relative overflow-hidden group hover:border-neonBlue/50 transition-colors">
+                    <div class="absolute right-0 top-0 opacity-5 text-7xl -mt-2 -mr-2 text-neonBlue group-hover:opacity-20 transition-opacity"><i class="fas fa-bolt"></i></div>
+                    <h4 class="text-slate-300 font-bold text-lg mb-1">ภายใน 1 วัน</h4>
+                    <div class="flex items-end justify-between mt-6">
+                        <span class="text-4xl font-black text-white">186 <span class="text-sm font-normal text-slate-500">บิล</span></span>
+                        <span class="text-lg font-bold text-neonBlue">35.63%</span>
+                    </div>
+                </div>
+                
+                <!-- 2 Days -->
+                <div class="bg-black/30 p-5 rounded-xl border border-white/5 relative overflow-hidden group hover:border-blue-400/50 transition-colors">
+                    <div class="absolute right-0 top-0 opacity-5 text-7xl -mt-2 -mr-2 text-blue-400 group-hover:opacity-20 transition-opacity"><i class="fas fa-truck-fast"></i></div>
+                    <h4 class="text-slate-300 font-bold text-lg mb-1">ภายใน 2 วัน (สะสม)</h4>
+                    <div class="flex items-end justify-between mt-6">
+                        <span class="text-4xl font-black text-white">346 <span class="text-sm font-normal text-slate-500">บิล</span></span>
+                        <span class="text-lg font-bold text-blue-400">66.28%</span>
+                    </div>
+                </div>
+                
+                <!-- 3 Days -->
+                <div class="bg-black/30 p-5 rounded-xl border border-neonOrange/30 shadow-[inset_0_0_20px_rgba(255,123,0,0.05)] relative overflow-hidden group hover:border-neonOrange transition-colors">
+                    <div class="absolute right-0 top-0 opacity-10 text-7xl -mt-2 -mr-2 text-neonOrange group-hover:opacity-30 transition-opacity"><i class="fas fa-box-open"></i></div>
+                    <h4 class="text-neonOrange font-bold text-lg mb-1">ภายใน 3 วัน (สะสม)</h4>
+                    <div class="flex items-end justify-between mt-6">
+                        <span class="text-4xl font-black text-neonOrange text-glow">437 <span class="text-sm font-normal text-neonOrange/70">บิล</span></span>
+                        <span class="text-lg font-bold text-neonOrange text-glow">83.72%</span>
+                    </div>
+                </div>
+                
+                <!-- > 3 Days -->
+                <div class="bg-black/30 p-5 rounded-xl border border-danger/30 relative overflow-hidden group hover:border-danger transition-colors">
+                    <div class="absolute right-0 top-0 opacity-5 text-7xl -mt-2 -mr-2 text-danger group-hover:opacity-20 transition-opacity"><i class="fas fa-calendar-times"></i></div>
+                    <h4 class="text-slate-300 font-bold text-lg mb-1">เกิน 3 วัน (ล่าช้า)</h4>
+                    <div class="flex items-end justify-between mt-6">
+                        <span class="text-4xl font-black text-white">85 <span class="text-sm font-normal text-slate-500">บิล</span></span>
+                        <span class="text-lg font-bold text-danger">16.28%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Funnel / Progress Bar -->
+            <div class="mt-8 bg-black/40 p-5 rounded-xl border border-white/10">
+                <div class="flex justify-between items-end mb-3">
+                    <h4 class="text-sm font-bold text-slate-300">สัดส่วนความหนาแน่นการส่งมอบจริง (จาก 522 ออเดอร์)</h4>
+                    <span class="text-xs text-slate-500"><i class="fas fa-info-circle mr-1"></i>รวม 100%</span>
+                </div>
+                
+                <!-- Calculated segments for visual accuracy: 35.63%, 30.65%, 17.43%, 16.28% -->
+                <div class="w-full bg-slate-800 rounded-full h-10 flex overflow-hidden shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)] border border-white/5">
+                    <div class="h-10 flex justify-center items-center text-xs text-black font-bold cursor-help progress-segment" style="width: 35.63%; background: linear-gradient(90deg, #00b4db, #0083b0); color: white;" title="ส่งภายใน 1 วัน: 186 ออเดอร์ (35.63%)">1 วัน (35.6%)</div>
+                    <div class="h-10 flex justify-center items-center text-xs text-white font-bold cursor-help progress-segment border-l border-white/20" style="width: 30.65%; background: linear-gradient(90deg, #3b82f6, #2563eb);" title="ส่งภายในวันที่ 2: 160 ออเดอร์ (30.65%)">2 วัน (30.7%)</div>
+                    <div class="h-10 flex justify-center items-center text-xs text-white font-bold cursor-help progress-segment border-l border-white/20 text-glow" style="width: 17.43%; background: linear-gradient(90deg, #ff9900, #ff5500);" title="ส่งภายในวันที่ 3: 91 ออเดอร์ (17.43%)">3 วัน (17.4%)</div>
+                    <div class="h-10 flex justify-center items-center text-xs text-white font-bold cursor-help progress-segment border-l border-white/20" style="width: 16.28%; background: linear-gradient(90deg, #ef4444, #b91c1c);" title="ล่าช้าเกิน 3 วัน: 85 ออเดอร์ (16.28%)">> 3 วัน (16.3%)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Strategy & Recommendation Section -->
+        <div class="glass-card rounded-xl p-6 border-t-4 border-neonOrange shadow-[0_-5px_20px_rgba(255,123,0,0.1)]">
+            <h3 class="text-xl font-bold text-white mb-6 flex items-center text-glow">
+                <i class="fas fa-lightbulb text-neonOrange mr-3 text-2xl"></i> ข้อเสนอแนะเชิงกลยุทธ์ประจำเดือน เม.ย. (Strategic Insights)
+            </h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <!-- Insight 1 -->
+                <div class="bg-slate-900/50 p-5 rounded-xl border border-slate-700 hover:border-slate-500 transition-colors">
+                    <div class="flex items-start">
+                        <div class="bg-success/10 p-3 rounded-lg text-success mr-4 mt-1 border border-success/20">
+                            <i class="fas fa-bolt fa-lg"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-200 text-md mb-1">จุดแข็ง: ความเร็วในวันแรกเพิ่มขึ้นชัดเจน</h4>
+                            <p class="text-sm text-slate-400">เดือนนี้ทำยอดจัดส่งด่วนภายใน 1 วันได้ถึง <span class="text-neonBlue font-bold">35.63%</span> ถือเป็น Quick Win ที่ดีมาก ควรดึงกระบวนการที่สำเร็จในกลุ่มนี้มาเป็น Best Practice เพื่อนำไปใช้กับสินค้ารายการอื่น</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Insight 2 -->
+                <div class="bg-slate-900/50 p-5 rounded-xl border border-slate-700 hover:border-slate-500 transition-colors">
+                    <div class="flex items-start">
+                        <div class="bg-danger/10 p-3 rounded-lg text-danger mr-4 mt-1 border border-danger/20">
+                            <i class="fas fa-chart-line fa-lg"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-200 text-md mb-1">SLA ยังคงต่ำกว่าเป้าหมาย (83.72% vs 95%)</h4>
+                            <p class="text-sm text-slate-400">แม้ตัวเลขรวมจะดีขึ้น แต่ยังห่างจากเป้า 95% <strong>กลยุทธ์:</strong> ให้พุ่งเป้าไปที่กลุ่มออเดอร์ที่ล่าช้า 85 บิล (16.28%) ตรวจสอบว่าค้างอยู่ที่แผนกใด (จัดของล่าช้า หรือ รถขนส่งไม่พอ) เพื่อแก้ปัญหาให้ตรงจุด</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Insight 3 -->
+                <div class="bg-slate-900/50 p-5 rounded-xl border border-slate-700 hover:border-slate-500 transition-colors">
+                    <div class="flex items-start">
+                        <div class="bg-warning/10 p-3 rounded-lg text-warning mr-4 mt-1 border border-warning/20">
+                            <i class="fas fa-boxes fa-lg" style="color: #f59e0b;"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-200 text-md mb-1">เฝ้าระวังอัตราการเติมเต็ม (Fill Rate)</h4>
+                            <p class="text-sm text-slate-400">Fill Rate ลดลงเล็กน้อยมาอยู่ที่ <span class="text-white font-bold">96.63%</span> (สินค้าขาดไป 142 ชิ้นจากที่สั่งทั้งหมด) <strong>กลยุทธ์:</strong> ตรวจสอบรายการที่ Shortage บ่อยในเดือนเมษายน และปรับสูตรการทำ Safety Stock ใหม่รับเทศกาลหรือวันหยุดยาว</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Insight 4 -->
+                <div class="bg-slate-900/50 p-5 rounded-xl border border-slate-700 hover:border-slate-500 transition-colors">
+                    <div class="flex items-start">
+                        <div class="bg-purple-500/10 p-3 rounded-lg text-purple-400 mr-4 mt-1 border border-purple-500/20">
+                            <i class="fas fa-truck-ramp-box fa-lg"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-200 text-md mb-1">การบริหารรอบรถและพื้นที่จัดส่ง</h4>
+                            <p class="text-sm text-slate-400">กลุ่มที่จัดส่งภายใน 3 วันได้พอดี มีสัดส่วน 17.43% ถือว่าปริ่มขอบเขต SLA <strong>กลยุทธ์:</strong> พิจารณาจัดกลุ่มเส้นทาง (Route Optimization) ใหม่ หรือเพิ่มรอบรถช่วงบ่ายเพื่อกวาดออเดอร์กลุ่มนี้ให้เสร็จภายในวันที่ 2</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="text-center text-slate-500 text-sm py-6 font-medium">
+            Generated Interactive Dashboard &copy; 2026 Pattanasin Thai Trading Co., Ltd.
+        </footer>
+
+    </div>
+
+    <!-- Chart Configuration Script -->
+    <script>
+        // Global defaults for Dark Theme
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.font.family = "'Prompt', sans-serif";
+
+        // Data for Bar Chart (Delivery Time Breakdown)
+        const barCtx = document.getElementById('deliveryTimeChart').getContext('2d');
+        
+        // Gradient for Bar Chart
+        const grad1 = barCtx.createLinearGradient(0, 0, 0, 400);
+        grad1.addColorStop(0, 'rgba(0, 229, 255, 0.8)'); // Neon Blue
+        grad1.addColorStop(1, 'rgba(0, 229, 255, 0.1)');
+        
+        const grad2 = barCtx.createLinearGradient(0, 0, 0, 400);
+        grad2.addColorStop(0, 'rgba(59, 130, 246, 0.8)'); // Blue
+        grad2.addColorStop(1, 'rgba(59, 130, 246, 0.1)');
+
+        const grad3 = barCtx.createLinearGradient(0, 0, 0, 400);
+        grad3.addColorStop(0, 'rgba(255, 123, 0, 0.9)'); // Neon Orange
+        grad3.addColorStop(1, 'rgba(255, 123, 0, 0.2)');
+
+        const grad4 = barCtx.createLinearGradient(0, 0, 0, 400);
+        grad4.addColorStop(0, 'rgba(255, 51, 102, 0.8)'); // Danger Red
+        grad4.addColorStop(1, 'rgba(255, 51, 102, 0.1)');
+
+        const deliveryTimeChart = new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: ['ภายใน 1 วัน', 'ภายใน 2 วัน', 'ภายใน 3 วัน', 'เกิน 3 วัน'],
+                datasets: [{
+                    label: 'จำนวนออเดอร์สะสม',
+                    data: [186, 346, 437, 85], // April Cumulative data
+                    backgroundColor: [grad1, grad2, grad3, grad4],
+                    borderColor: [
+                        '#00e5ff',
+                        '#3b82f6',
+                        '#ff7b00',
+                        '#ff3366'
+                    ],
+                    borderWidth: 2,
+                    borderRadius: 6,
+                    hoverBackgroundColor: [
+                        'rgba(0, 229, 255, 1)',
+                        'rgba(59, 130, 246, 1)',
+                        'rgba(255, 123, 0, 1)',
+                        'rgba(255, 51, 102, 1)'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        borderColor: 'rgba(255,255,255,0.1)',
+                        borderWidth: 1,
+                        padding: 12,
+                        callbacks: {
+                            label: function(context) {
+                                let value = context.parsed.y;
+                                let percentage = ((value / 522) * 100).toFixed(2);
+                                return ` ${value} บิล (${percentage}%)`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: { 
+                        beginAtZero: true, 
+                        grid: { color: 'rgba(255, 255, 255, 0.05)', drawBorder: false },
+                        ticks: { color: '#64748b' }
+                    },
+                    x: { 
+                        grid: { display: false, drawBorder: false },
+                        ticks: { color: '#94a3b8', font: { weight: '500' } }
+                    }
+                }
+            }
+        });
+
+        // Data for Doughnut Chart (SLA Achievement)
+        const donutCtx = document.getElementById('slaChart').getContext('2d');
+        const slaChart = new Chart(donutCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['ตามเป้าหมาย (≤ 3 วัน)', 'ล่าช้า (> 3 วัน)'],
+                datasets: [{
+                    data: [83.72, 16.28], // April Data
+                    backgroundColor: [
+                        '#ff7b00', // Neon Orange for achieved
+                        '#1e293b'  // Dark slate for delayed
+                    ],
+                    borderColor: ['#000', '#000'],
+                    borderWidth: 2,
+                    hoverOffset: 5,
+                    hoverBackgroundColor: ['#ffa600', '#334155']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '75%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { 
+                            padding: 20, 
+                            usePointStyle: true, 
+                            color: '#cbd5e1',
+                            font: { family: 'Prompt', size: 13 }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                        borderColor: '#ff7b00',
+                        borderWidth: 1,
+                        callbacks: {
+                            label: function(context) {
+                                return ' ' + context.label + ': ' + context.parsed + '%';
+                            }
+                        }
+                    }
+                }
+            },
+            plugins: [{
+                id: 'textCenter',
+                beforeDraw: function(chart) {
+                    var width = chart.width, height = chart.height, ctx = chart.ctx;
+                    ctx.restore();
+                    var fontSize = (height / 110).toFixed(2);
+                    
+                    // Shadow / Glow effect for text
+                    ctx.shadowColor = 'rgba(255, 123, 0, 0.5)';
+                    ctx.shadowBlur = 10;
+                    
+                    ctx.font = "900 " + fontSize + "em Prompt";
+                    ctx.textBaseline = "middle";
+                    ctx.fillStyle = "#ff7b00"; // Neon orange text
+                    var text = "83.7%", textX = Math.round((width - ctx.measureText(text).width) / 2), textY = height / 2.3;
+                    ctx.fillText(text, textX, textY);
+                    
+                    // Reset shadow for smaller text
+                    ctx.shadowBlur = 0;
+                    ctx.font = "600 " + (fontSize*0.35) + "em Prompt";
+                    ctx.fillStyle = "#ff3366"; // Danger red for warning
+                    var text2 = "ต่ำกว่าเป้า 95%", text2X = Math.round((width - ctx.measureText(text2).width) / 2), text2Y = height / 2.3 + 30;
+                    ctx.fillText(text2, text2X, text2Y);
+                    ctx.save();
+                }
+            }]
+        });
+    </script>
+<a href="executivekpis.html" style="position: fixed; bottom: 20px; right: 20px; background-color: #0d6efd; color: white; padding: 10px 20px; text-decoration: none; border-radius: 30px; font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); z-index: 9999;">
+    หน้าถัดไป (Executive KPIs) ➜
+
+</body>
+</html>

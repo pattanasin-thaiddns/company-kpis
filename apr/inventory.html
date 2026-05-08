@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายงานวิเคราะห์สินค้าคงคลัง - เมษายน | พัฒนาสิน ไทยเทรดดิ้ง</title>
+    
+    <!-- นำเข้า Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- นำเข้า React และ ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    
+    <!-- นำเข้า Babel สำหรับแปลงโค้ด JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- ฟอนต์ภาษาไทย (Sarabun) -->
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #040814; /* Deep Dark Blue */
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(249, 115, 22, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(30, 58, 138, 0.15) 0%, transparent 40%);
+            background-attachment: fixed;
+            color: #f1f5f9;
+        }
+        
+        /* Glassmorphism Classes */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.55);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+        }
+        
+        .glass-header {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(249, 115, 22, 0.05) 100%);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Glow Effects */
+        .glow-text-orange { text-shadow: 0 0 15px rgba(249, 115, 22, 0.7); }
+        .glow-text-green { text-shadow: 0 0 15px rgba(16, 185, 129, 0.7); }
+        .glow-text-blue { text-shadow: 0 0 15px rgba(56, 189, 248, 0.7); }
+        .glow-text-red { text-shadow: 0 0 15px rgba(239, 68, 68, 0.9); }
+
+        .glow-border-orange { 
+            box-shadow: inset 0 0 20px rgba(249, 115, 22, 0.1), 0 0 15px rgba(249, 115, 22, 0.2); 
+            border-color: rgba(249, 115, 22, 0.5);
+        }
+        .glow-border-green {
+            box-shadow: inset 0 0 20px rgba(16, 185, 129, 0.1), 0 0 15px rgba(16, 185, 129, 0.2);
+            border-color: rgba(16, 185, 129, 0.5);
+        }
+        .glow-border-red {
+            box-shadow: inset 0 0 25px rgba(239, 68, 68, 0.15), 0 0 20px rgba(239, 68, 68, 0.3);
+            border-color: rgba(239, 68, 68, 0.6);
+            animation: pulse-border 2s infinite;
+        }
+
+        @keyframes pulse-border {
+            0% { box-shadow: inset 0 0 25px rgba(239, 68, 68, 0.15), 0 0 20px rgba(239, 68, 68, 0.3); }
+            50% { box-shadow: inset 0 0 35px rgba(239, 68, 68, 0.25), 0 0 30px rgba(239, 68, 68, 0.5); }
+            100% { box-shadow: inset 0 0 25px rgba(239, 68, 68, 0.15), 0 0 20px rgba(239, 68, 68, 0.3); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.5); }
+        ::-webkit-scrollbar-thumb { background: rgba(249, 115, 22, 0.5); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(249, 115, 22, 0.8); }
+    </style>
+</head>
+<body class="text-slate-200">
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // --- ไอคอน ---
+        const IconBase = ({ children, size = 24, className = "", color = "currentColor" }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                {children}
+            </svg>
+        );
+
+        const TrendingUp = (props) => <IconBase {...props}><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></IconBase>;
+        const TrendingDown = (props) => <IconBase {...props}><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline><polyline points="17 18 23 18 23 12"></polyline></IconBase>;
+        const Package = (props) => <IconBase {...props}><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></IconBase>;
+        const DollarSign = (props) => <IconBase {...props}><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></IconBase>;
+        const CheckCircle = (props) => <IconBase {...props}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></IconBase>;
+        const AlertCircle = (props) => <IconBase {...props}><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></IconBase>;
+        const AlertTriangle = (props) => <IconBase {...props}><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></IconBase>;
+        const Building = (props) => <IconBase {...props}><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><path d="M9 22v-4h6v4"></path><path d="M8 6h.01"></path><path d="M16 6h.01"></path><path d="M12 6h.01"></path><path d="M12 10h.01"></path><path d="M12 14h.01"></path><path d="M16 10h.01"></path><path d="M16 14h.01"></path><path d="M8 10h.01"></path><path d="M8 14h.01"></path></IconBase>;
+        const Layers = (props) => <IconBase {...props}><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></IconBase>;
+
+        // --- Main Component ---
+        const Dashboard = () => {
+            // อัปเดตข้อมูลรวมเดือนเมษายนตามรูปภาพล่าสุด
+            const data = {
+                jan: { sales: 11910843.86, inventory: 13796185.96, ratio: 1.16 },
+                feb: { sales: 9151800.50, inventory: 12438918.28, ratio: 1.36 },
+                mar: { sales: 13060472.26, inventory: 15103255.31, ratio: 1.16 },
+                apr: { sales: 9984669.00, inventory: 14092964.01, ratio: 1.41 },
+                // YTD คำนวณแบบผลรวมสะสม
+                summary: { 
+                    sales: 11910843.86 + 9151800.50 + 13060472.26 + 9984669.00, 
+                    inventory: 13796185.96 + 12438918.28 + 15103255.31 + 14092964.01, 
+                    ratio: 1.26 // (Sum Inv / Sum Sales)
+                },
+                target: 1.40
+            };
+
+            const formatCurrency = (amount) => {
+                return new Intl.NumberFormat('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(amount);
+            };
+
+            // คำนวณการเติบโตของเดือนเมษายน เทียบกับ มีนาคม
+            const salesDiff = ((data.apr.sales - data.mar.sales) / data.mar.sales) * 100;
+            const invDiff = ((data.apr.inventory - data.mar.inventory) / data.mar.inventory) * 100;
+            const ratioDiff = data.apr.ratio - data.mar.ratio; // +0.25 (แย่ลง)
+
+            const isAlert = data.apr.ratio > data.target;
+
+            return (
+                <div className="min-h-screen p-4 md:p-8 max-w-7xl mx-auto relative z-10">
+                    
+                    {/* Header Section */}
+                    <div className="mb-8 glass-header p-6 rounded-2xl flex flex-col md:flex-row md:items-center justify-between">
+                        <div className="flex items-center">
+                            <div className="bg-orange-500/20 p-3 rounded-xl text-orange-400 mr-4 border border-orange-500/30 shadow-[0_0_15px_rgba(249,115,22,0.2)]">
+                                <Building size={32} />
+                            </div>
+                            <div>
+                                <h1 className="text-2xl md:text-3xl font-bold text-white tracking-wide">บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด</h1>
+                                <p className="text-slate-400 mt-1 text-lg">สรุปสินค้าคงคลังต่อยอดขาย ประจำเดือน <span className="font-bold text-orange-400 glow-text-orange">เมษายน</span> (ปี 2026)</p>
+                            </div>
+                        </div>
+                        <div className="mt-4 md:mt-0 flex flex-col items-end">
+                            <div className={`flex items-center bg-slate-900/60 py-2 px-5 rounded-xl border ${isAlert ? 'border-red-500/50 shadow-[0_0_15px_rgba(239,68,68,0.2)]' : 'border-slate-700 shadow-inner'}`}>
+                                <span className="text-sm font-medium text-slate-400 mr-3 uppercase tracking-wider">เป้าหมาย KPI:</span>
+                                <span className={`text-2xl font-bold ${isAlert ? 'text-red-400 glow-text-red' : 'text-emerald-400 glow-text-green'}`}>&lt; {data.target.toFixed(2)} เดือน</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* KPI Cards (Focus on April) */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        {/* KPI 1: Ratio (ALERT STATE) */}
+                        <div className={`glass-panel p-6 rounded-2xl border-l-4 relative overflow-hidden ${isAlert ? 'glow-border-red border-red-500' : 'border-emerald-500 glow-border-green'}`}>
+                            <div className="flex justify-between items-start">
+                                <div>
+                                    <p className="text-sm font-semibold text-slate-400 uppercase tracking-wider">ดัชนีคงคลังต่อยอดขาย (เม.ย.)</p>
+                                    <div className="flex items-end mt-2">
+                                        <h2 className={`text-5xl font-bold text-white ${isAlert ? 'glow-text-red text-red-100' : 'glow-text-green'}`}>{data.apr.ratio.toFixed(2)}</h2>
+                                        <span className="text-lg text-slate-400 ml-2 mb-1 font-light">เดือน</span>
+                                    </div>
+                                </div>
+                                <div className={`p-3 rounded-full border ${isAlert ? 'bg-red-500/20 text-red-400 border-red-500/50 shadow-[0_0_20px_rgba(239,68,68,0.5)]' : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'}`}>
+                                    {isAlert ? <AlertTriangle size={28} /> : <CheckCircle size={28} />}
+                                </div>
+                            </div>
+                            
+                            <div className="mt-5 flex items-center text-sm">
+                                {ratioDiff > 0 ? (
+                                    <span className="flex items-center text-red-400 font-medium bg-red-500/10 border border-red-500/30 px-2 py-1 rounded">
+                                        <TrendingUp size={16} className="mr-1" />
+                                        +{ratioDiff.toFixed(2)} แย่ลงจากเดือนก่อน
+                                    </span>
+                                ) : (
+                                    <span className="flex items-center text-emerald-400 font-medium bg-emerald-500/10 border border-emerald-500/20 px-2 py-1 rounded">
+                                        <TrendingDown size={16} className="mr-1" />
+                                        {Math.abs(ratioDiff).toFixed(2)} ดีขึ้นจากเดือนก่อน
+                                    </span>
+                                )}
+                            </div>
+                            {isAlert && (
+                                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 to-red-400"></div>
+                            )}
+                        </div>
+
+                        {/* KPI 2: Sales */}
+                        <div className="glass-panel p-6 rounded-2xl border-b-2 border-orange-500/50 hover:border-orange-500 transition-colors duration-300">
+                            <div className="flex justify-between items-start">
+                                <div>
+                                    <p className="text-sm font-semibold text-slate-400 uppercase tracking-wider">ยอดขาย (เม.ย.)</p>
+                                    <h2 className="text-3xl font-bold text-white mt-2 glow-text-orange">{formatCurrency(data.apr.sales)}</h2>
+                                </div>
+                                <div className="p-3 bg-orange-500/10 text-orange-400 rounded-full border border-orange-500/20">
+                                    <DollarSign size={24} />
+                                </div>
+                            </div>
+                            <div className="mt-5 flex items-center text-sm">
+                                <span className={`flex items-center font-medium px-2 py-1 rounded border ${salesDiff > 0 ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' : 'text-red-400 bg-red-500/10 border-red-500/30 shadow-[0_0_10px_rgba(239,68,68,0.2)]'}`}>
+                                    {salesDiff > 0 ? <TrendingUp size={16} className="mr-1" /> : <TrendingDown size={16} className="mr-1" />}
+                                    {Math.abs(salesDiff).toFixed(1)}% หดตัวลงจาก มี.ค.
+                                </span>
+                            </div>
+                        </div>
+
+                        {/* KPI 3: Inventory */}
+                        <div className="glass-panel p-6 rounded-2xl border-b-2 border-blue-500/50 hover:border-blue-400 transition-colors duration-300">
+                            <div className="flex justify-between items-start">
+                                <div>
+                                    <p className="text-sm font-semibold text-slate-400 uppercase tracking-wider">สินค้าคงคลัง (เม.ย.)</p>
+                                    <h2 className="text-3xl font-bold text-white mt-2 glow-text-blue">{formatCurrency(data.apr.inventory)}</h2>
+                                </div>
+                                <div className="p-3 bg-blue-500/10 text-blue-400 rounded-full border border-blue-500/20">
+                                    <Package size={24} />
+                                </div>
+                            </div>
+                            <div className="mt-5 flex items-center text-sm">
+                                <span className={`flex items-center font-medium px-2 py-1 rounded border ${invDiff < 0 ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' : 'text-orange-400 bg-orange-500/10 border-orange-500/20'}`}>
+                                    {invDiff < 0 ? <TrendingDown size={16} className="mr-1" /> : <TrendingUp size={16} className="mr-1" />}
+                                    {Math.abs(invDiff).toFixed(1)}% ลดสต๊อกลงได้จาก มี.ค.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Strategic Insight Section (Updated for April Alert) */}
+                    <div className="glass-panel border border-red-500/40 rounded-2xl p-6 mb-8 relative overflow-hidden flex flex-col lg:flex-row items-center gap-6">
+                        <div className="absolute -left-20 -bottom-20 w-48 h-48 bg-red-600/20 rounded-full blur-3xl pointer-events-none"></div>
+                        
+                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-600 to-orange-600 flex items-center justify-center shadow-[0_0_20px_rgba(239,68,68,0.4)] flex-shrink-0 animate-pulse">
+                            <AlertTriangle size={32} className="text-white" />
+                        </div>
+                        
+                        <div className="flex-1 relative z-10 text-center lg:text-left">
+                            <h3 className="text-xl font-bold text-red-400 mb-2 tracking-wide flex items-center justify-center lg:justify-start glow-text-red">
+                                แจ้งเตือนสถานะ KPI <span className="text-slate-300 font-normal ml-2 text-sm">(Alert: KPI Missed)</span>
+                            </h3>
+                            <p className="text-slate-300 leading-relaxed text-sm md:text-base">
+                                เดือนเมษายน <strong className="text-red-400">ดัชนีพุ่งทะลุเป้าหมายไปที่ 1.41</strong> สาเหตุหลักไม่ได้เกิดจากการสั่งของเพิ่ม (สต๊อกรวมลดลง ~1 ล้านบาท) แต่เกิดจาก <span className="underline decoration-red-500/50 decoration-2 text-white">ยอดขายที่หดตัวอย่างรุนแรงถึง 23.5%</span> (คาดว่าเป็นผลจากวันหยุดยาวเทศกาลสงกรานต์) ทำให้ยอดขายไม่สัมพันธ์กับฐานสต๊อก PVC ล็อตใหญ่ที่ตุนไว้ตั้งแต่เดือนมีนาคม
+                            </p>
+                        </div>
+                        
+                        <div className="bg-slate-900/80 p-4 rounded-xl border border-red-500/30 w-full lg:w-auto flex-shrink-0 text-center">
+                            <p className="text-xs text-slate-400 uppercase tracking-wider mb-1">ผลกระทบ (Impact)</p>
+                            <p className="text-red-400 font-bold text-2xl glow-text-red flex items-center justify-center">
+                                หลุดเป้าหมาย <br/> 1.40 เดือน
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Data Table Section */}
+                    <div className="glass-panel rounded-2xl overflow-hidden mb-8">
+                        <div className="bg-slate-900/60 p-5 border-b border-slate-700/50 flex justify-between items-center">
+                            <h3 className="text-lg font-bold text-slate-200">ตารางสรุปสินค้าคงคลัง <span className="text-orange-400 font-normal">| บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด ประจำปี 2026</span></h3>
+                        </div>
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-base text-left">
+                                <thead className="text-slate-400 bg-slate-900/80 border-b-2 border-slate-700/80 text-sm uppercase tracking-wider">
+                                    <tr>
+                                        <th className="px-6 py-5 font-bold text-center w-16">ลำดับ</th>
+                                        <th className="px-6 py-5 font-bold">รายการ</th>
+                                        <th className="px-4 py-5 font-bold text-right bg-slate-800/10">Jan-24</th>
+                                        <th className="px-4 py-5 font-bold text-right bg-slate-800/10">Feb-24</th>
+                                        <th className="px-4 py-5 font-bold text-right bg-slate-800/20">Mar-24</th>
+                                        <th className="px-4 py-5 font-bold text-right bg-slate-800/40 text-blue-300">Apr-24</th>
+                                        <th className="px-4 py-5 font-bold text-right text-orange-400 bg-orange-500/5">สรุป YTD</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-slate-800/50 text-sm md:text-base">
+                                    {/* Row 1: Sales */}
+                                    <tr className="hover:bg-slate-800/40 transition-colors">
+                                        <td className="px-6 py-4 text-center text-slate-500 font-bold">1</td>
+                                        <td className="px-6 py-4 font-medium text-slate-200 whitespace-nowrap">ยอดขาย</td>
+                                        <td className="px-4 py-4 text-right text-blue-400 font-medium">{formatCurrency(data.jan.sales)}</td>
+                                        <td className="px-4 py-4 text-right text-blue-400 font-medium">{formatCurrency(data.feb.sales)}</td>
+                                        <td className="px-4 py-4 text-right text-blue-400 font-medium bg-slate-800/10">{formatCurrency(data.mar.sales)}</td>
+                                        <td className="px-4 py-4 text-right text-orange-400 font-bold glow-text-orange bg-slate-800/30">{formatCurrency(data.apr.sales)}</td>
+                                        <td className="px-4 py-4 text-right font-bold text-white bg-orange-500/10 glow-text-orange border-l border-orange-500/10">{formatCurrency(data.summary.sales)}</td>
+                                    </tr>
+                                    {/* Row 2: Inventory */}
+                                    <tr className="hover:bg-slate-800/40 transition-colors">
+                                        <td className="px-6 py-4 text-center text-slate-500 font-bold">2</td>
+                                        <td className="px-6 py-4 font-medium text-slate-200 whitespace-nowrap">สินค้าคงคลัง (บาท)</td>
+                                        <td className="px-4 py-4 text-right text-slate-300 font-bold">{formatCurrency(data.jan.inventory)}</td>
+                                        <td className="px-4 py-4 text-right text-slate-300 font-bold">{formatCurrency(data.feb.inventory)}</td>
+                                        <td className="px-4 py-4 text-right text-slate-300 font-bold bg-slate-800/10">{formatCurrency(data.mar.inventory)}</td>
+                                        <td className="px-4 py-4 text-right text-white font-bold bg-slate-800/30">{formatCurrency(data.apr.inventory)}</td>
+                                        <td className="px-4 py-4 text-right font-bold text-white bg-orange-500/10 glow-text-orange border-l border-orange-500/10">{formatCurrency(data.summary.inventory)}</td>
+                                    </tr>
+                                    {/* Row 3: Ratio */}
+                                    <tr className="hover:bg-slate-800/60 transition-colors bg-slate-800/20 border-t border-slate-700">
+                                        <td className="px-6 py-5 text-center text-slate-500 font-bold">3</td>
+                                        <td className="px-6 py-5 font-bold text-slate-200 flex flex-col md:flex-row md:items-center whitespace-nowrap">
+                                            สินค้าคงคลังต่อยอดขาย (เดือน) 
+                                            <span className="mt-1 md:mt-0 md:ml-2 px-2 py-0.5 bg-orange-500/20 text-orange-400 rounded text-xs border border-orange-500/30 w-max">เป้า &lt; 1.40</span>
+                                        </td>
+                                        <td className="px-4 py-5 text-right font-bold text-emerald-400 text-lg">{data.jan.ratio.toFixed(2)}</td>
+                                        <td className="px-4 py-5 text-right font-bold text-emerald-400 text-lg">{data.feb.ratio.toFixed(2)}</td>
+                                        <td className="px-4 py-5 text-right font-bold text-emerald-400 text-lg bg-slate-800/10">{data.mar.ratio.toFixed(2)}</td>
+                                        <td className="px-4 py-5 text-right font-bold text-red-500 text-lg glow-text-red bg-red-900/10 border-b-2 border-red-500">{data.apr.ratio.toFixed(2)}</td>
+                                        <td className="px-4 py-5 text-right font-bold text-white text-xl bg-orange-500/20 border-l border-orange-500/30 glow-text-orange">{data.summary.ratio.toFixed(2)}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    {/* Detailed Analysis Section */}
+                    <div className="glass-panel border border-slate-700/50 rounded-2xl p-6 md:p-8 relative overflow-hidden">
+                        {/* Glow ambient background inside analysis */}
+                        <div className="absolute -top-24 -right-24 w-64 h-64 bg-red-600/10 rounded-full blur-3xl pointer-events-none"></div>
+                        
+                        <h3 className="text-xl md:text-2xl font-bold mb-6 flex items-center text-slate-100">
+                            <Layers className="mr-3 text-blue-400 flex-shrink-0" />
+                            บทวิเคราะห์เชิงลึกประจำเดือน <span className="text-orange-400 ml-2">เมษายน</span>
+                        </h3>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
+                            <div className="bg-slate-900/60 p-5 md:p-6 rounded-xl border border-emerald-500/20 hover:border-emerald-500/40 transition-colors">
+                                <h4 className="font-semibold text-emerald-400 mb-4 flex items-center text-sm md:text-base uppercase tracking-wide">
+                                    <CheckCircle size={18} className="mr-2 flex-shrink-0" /> จุดที่ยังทำได้ดี (Mitigating Factors)
+                                </h4>
+                                <ul className="space-y-4 text-slate-300 text-sm md:text-base leading-relaxed">
+                                    <li className="flex items-start">
+                                        <span className="text-emerald-500 mr-3 mt-1 flex-shrink-0">▪</span> 
+                                        <div className="flex-1">
+                                            <strong className="text-white">ความพยายามลดสต๊อก:</strong> แม้ยอดขายจะตก แต่ทีมงานสามารถเบรกการสั่งซื้อ และลดมูลค่าสต๊อกรวมลงได้จาก 15.1 ล้านบาท เหลือ 14.09 ล้านบาท (ลดลง 6.7%)
+                                        </div>
+                                    </li>
+                                    <li className="flex items-start">
+                                        <span className="text-emerald-500 mr-3 mt-1 flex-shrink-0">▪</span> 
+                                        <div className="flex-1">
+                                            <strong className="text-white">ภาพรวม YTD ยังปลอดภัย:</strong> เมื่อดูอัตราส่วนเฉลี่ย 4 เดือนแรก (สะสมมกราคม-เมษายน) ดัชนียังอยู่ที่ระดับ <strong className="text-emerald-400">1.26 เดือน</strong> ซึ่งยังต่ำกว่าเป้าหมาย 1.40 ในภาพรวมระยะยาว
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div className="bg-slate-900/60 p-5 md:p-6 rounded-xl border border-red-500/30 hover:border-red-500/50 transition-colors shadow-[0_0_15px_rgba(239,68,68,0.05)]">
+                                <h4 className="font-semibold text-red-400 mb-4 flex items-center text-sm md:text-base uppercase tracking-wide">
+                                    <AlertCircle size={18} className="mr-2 flex-shrink-0" /> ข้อเสนอแนะเร่งด่วน (Urgent Action Plan)
+                                </h4>
+                                <ul className="space-y-4 text-slate-300 text-sm md:text-base leading-relaxed">
+                                    <li className="flex items-start">
+                                        <span className="text-red-500 mr-3 mt-1 flex-shrink-0">▪</span> 
+                                        <div className="flex-1">
+                                            <strong className="text-white">เคลียร์สต๊อก PVC ยกยอด:</strong> สต๊อก PVC ที่ตุนไว้ตั้งแต่เดือน มี.ค. กลายเป็นภาระเมื่อยอดขาย เม.ย. สะดุด ต้องเร่งทำแคมเปญระบายออกให้เร็วที่สุดก่อนเข้าสู่ช่วงหน้าฝนที่ความต้องการอาจลดลง
+                                        </div>
+                                    </li>
+                                    <li className="flex items-start">
+                                        <span className="text-red-500 mr-3 mt-1 flex-shrink-0">▪</span> 
+                                        <div className="flex-1">
+                                            <strong className="text-white">ดันยอดขายพฤษภาคม:</strong> ตัวหาร (ยอดขาย) ที่หดตัวคือสาเหตุหลักที่ทำให้อัตราส่วนพัง เดือน พ.ค. ต้องกระตุ้นยอดขายให้กลับไปยืนเหนือระดับ 12 ล้านบาทให้ได้ เพื่อดึง Ratio กลับมาต่ำกว่า 1.40
+                                        </div>
+                                    </li>
+                                    <li className="flex items-start">
+                                        <span className="text-red-500 mr-3 mt-1 flex-shrink-0">▪</span> 
+                                        <div className="flex-1">
+                                            <strong className="text-white">ชะลอการสั่งซื้อ (Purchasing Freeze):</strong> ชะลอการสั่งสินค้ากลุ่มที่ไม่ใช่ Fast-moving จนกว่า Ratio ของเดือน พ.ค. จะกลับเข้าสู่เกณฑ์ปกติ
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<Dashboard />);
+    </script>
+<a href="deliveryFerformance.html" style="position: fixed; bottom: 20px; right: 20px; background-color: #0d6efd; color: white; padding: 10px 20px; text-decoration: none; border-radius: 30px; font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); z-index: 9999;">
+    หน้าถัดไป (Delivery Perf.) ➜
+</body>
+</html>

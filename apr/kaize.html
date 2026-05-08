@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaizen Dashboard - April 2026 (Dark Glassmorphism Theme)</title>
+    <!-- Tailwind CSS for Styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Kanit -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Kanit', 'sans-serif'] },
+                    colors: {
+                        deepblue: {
+                            900: '#060B19',
+                            800: '#0A1128',
+                            700: '#111D4A'
+                        },
+                        neonorange: '#FF6B35',
+                        neonglow: 'rgba(255, 107, 53, 0.4)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { 
+            font-family: 'Kanit', sans-serif; 
+            background-color: #060B19;
+            color: #e2e8f0;
+        }
+        
+        /* Glassmorphism Classes */
+        .glass-panel {
+            background: rgba(17, 29, 74, 0.3);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .glass-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(10, 17, 40, 0.4) 100%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-card:hover {
+            border-color: rgba(255, 107, 53, 0.5);
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.2), inset 0 0 10px rgba(255, 107, 53, 0.1);
+            transform: translateY(-5px);
+        }
+
+        /* Glowing Text & Icons */
+        .glow-text-orange {
+            text-shadow: 0 0 10px rgba(255, 107, 53, 0.6);
+        }
+        .glow-text-blue {
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.6);
+        }
+
+        /* Custom Scrollbar for Dark Theme */
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255, 107, 53, 0.6); }
+        
+        /* Modal Animation */
+        .modal-enter { animation: fadeIn 0.3s ease-out forwards; }
+        .modal-content-enter { animation: slideUp 0.4s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    </style>
+</head>
+<body class="h-screen overflow-hidden flex flex-col relative">
+
+    <!-- Background Ambient Glow Effects -->
+    <div class="fixed top-[-10%] left-[-10%] w-[40vw] h-[40vw] bg-blue-600 rounded-full mix-blend-screen filter blur-[150px] opacity-20 pointer-events-none z-0"></div>
+    <div class="fixed bottom-[-10%] right-[-10%] w-[35vw] h-[35vw] bg-[#FF6B35] rounded-full mix-blend-screen filter blur-[150px] opacity-20 pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="glass-panel border-b border-white/10 z-10 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <div class="bg-gradient-to-br from-neonorange to-orange-400 p-3 rounded-xl text-white text-2xl shadow-[0_0_15px_rgba(255,107,53,0.5)]">
+                    <i class="fa-solid fa-lightbulb"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold tracking-wide text-white glow-text-blue">KAIZEN DASHBOARD</h1>
+                    <p class="text-blue-200 text-sm opacity-80">บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด | ประจำเดือน: เมษายน 2026</p>
+                </div>
+            </div>
+            <div class="hidden md:block text-right">
+                <p class="text-sm text-gray-300">ระบบรายงานผลข้อเสนอแนะ</p>
+                <p class="font-semibold text-neonorange glow-text-orange"><i class="fa-regular fa-calendar-check mr-1"></i> เมษายน 2026</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-6 lg:p-8 z-10 relative">
+        <div class="max-w-7xl mx-auto space-y-8">
+            
+            <!-- KPI / Stat Cards (April Stats) -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                <div class="glass-card rounded-2xl p-5 border-l-4 border-l-blue-500 flex items-center justify-between cursor-default">
+                    <div>
+                        <p class="text-sm text-blue-200 font-medium mb-1">รวมข้อเสนอแนะ</p>
+                        <p class="text-4xl font-bold text-white">2 <span class="text-sm font-normal text-gray-400">เรื่อง</span></p>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-400 flex items-center justify-center text-xl shadow-[0_0_15px_rgba(59,130,246,0.3)]">
+                        <i class="fa-solid fa-folder-open"></i>
+                    </div>
+                </div>
+                <div class="glass-card rounded-2xl p-5 border-l-4 border-l-neonorange flex items-center justify-between cursor-default">
+                    <div>
+                        <p class="text-sm text-orange-200 font-medium mb-1">ยอดขาย</p>
+                        <p class="text-4xl font-bold text-white">1 <span class="text-sm font-normal text-gray-400">เรื่อง</span></p>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-orange-500/20 border border-orange-500/30 text-neonorange flex items-center justify-center text-xl shadow-[0_0_15px_rgba(255,107,53,0.3)]">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                </div>
+                <div class="glass-card rounded-2xl p-5 border-l-4 border-l-green-400 flex items-center justify-between cursor-default">
+                    <div>
+                        <p class="text-sm text-green-200 font-medium mb-1">เพิ่มคุณภาพ</p>
+                        <p class="text-4xl font-bold text-white">1 <span class="text-sm font-normal text-gray-400">เรื่อง</span></p>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-green-500/20 border border-green-500/30 text-green-400 flex items-center justify-center text-xl shadow-[0_0_15px_rgba(74,222,128,0.3)]">
+                        <i class="fa-solid fa-medal"></i>
+                    </div>
+                </div>
+                <div class="glass-card rounded-2xl p-5 border-l-4 border-l-purple-400 flex items-center justify-between cursor-default">
+                    <div>
+                        <p class="text-sm text-purple-200 font-medium mb-1">ลดต้นทุน/ลดเวลา</p>
+                        <p class="text-4xl font-bold text-white">1 <span class="text-sm font-normal text-gray-400">เรื่อง</span></p>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-400 flex items-center justify-center text-xl shadow-[0_0_15px_rgba(167,139,250,0.3)]">
+                        <i class="fa-solid fa-coins"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kaizen List Header -->
+            <div class="flex justify-between items-end pb-3 border-b border-white/10 mt-10">
+                <h2 class="text-2xl font-bold text-white glow-text-blue"><i class="fa-solid fa-list-check mr-2 text-blue-400"></i>รายการ Kaizen เดือนเมษายน 2026</h2>
+                <span class="text-sm text-gray-400 bg-black/30 px-3 py-1 rounded-full border border-white/5">คลิกที่การ์ดเพื่อดูรายละเอียด</span>
+            </div>
+
+            <!-- Cards Grid (Generated by JS) -->
+            <div id="kaizen-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                <!-- Cards will be injected here -->
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Modal Background -->
+    <div id="modal-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <!-- Modal Content (Dark Glassmorphism) -->
+        <div id="modal-content" class="glass-panel rounded-2xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-hidden flex flex-col hidden border border-white/10 relative">
+            
+            <!-- Modal Accent Line -->
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-neonorange to-purple-500"></div>
+
+            <!-- Modal Header -->
+            <div class="bg-black/20 border-b border-white/10 px-6 py-5 flex justify-between items-start md:items-center">
+                <div>
+                    <span id="m-id" class="px-3 py-1 bg-blue-500/20 text-blue-300 border border-blue-500/30 rounded-full text-xs font-bold mb-3 inline-block shadow-[0_0_10px_rgba(59,130,246,0.2)]"></span>
+                    <h3 id="m-topic" class="text-2xl font-bold text-white leading-tight"></h3>
+                </div>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-red-400 transition-colors w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center shrink-0 ml-4">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 overflow-y-auto custom-scrollbar flex-1 bg-gradient-to-b from-transparent to-black/30">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- Left Col: Details (Takes up 7 cols on large screens) -->
+                    <div class="lg:col-span-7 space-y-6">
+                        
+                        <!-- Author Info -->
+                        <div class="flex items-center space-x-4 bg-white/5 p-4 rounded-xl border border-white/10 backdrop-blur-sm">
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 border border-gray-600 text-gray-300 flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-solid fa-user-tie"></i>
+                            </div>
+                            <div>
+                                <p id="m-name" class="font-bold text-white text-lg"></p>
+                                <p id="m-position" class="text-sm text-gray-400"></p>
+                            </div>
+                        </div>
+
+                        <!-- Problem -->
+                        <div class="bg-red-900/10 p-5 rounded-xl border border-red-500/20">
+                            <h4 class="font-bold text-red-400 border-b border-red-500/20 pb-2 mb-3"><i class="fa-solid fa-triangle-exclamation mr-2"></i>ปัญหาที่พบ / สภาพปัจจุบัน</h4>
+                            <p id="m-problem" class="text-gray-300 text-sm leading-relaxed whitespace-pre-line"></p>
+                        </div>
+
+                        <!-- Objective -->
+                        <div class="bg-orange-900/10 p-5 rounded-xl border border-orange-500/20">
+                            <h4 class="font-bold text-orange-400 border-b border-orange-500/20 pb-2 mb-3"><i class="fa-solid fa-bullseye mr-2"></i>วัตถุประสงค์</h4>
+                            <p id="m-objective" class="text-gray-300 text-sm leading-relaxed whitespace-pre-line"></p>
+                        </div>
+
+                        <!-- Solution -->
+                        <div class="bg-green-900/10 p-5 rounded-xl border border-green-500/20">
+                            <h4 class="font-bold text-green-400 border-b border-green-500/20 pb-2 mb-3"><i class="fa-solid fa-lightbulb mr-2 glow-text-orange"></i>รายละเอียดการปรับปรุงพัฒนา</h4>
+                            <p id="m-solution" class="text-gray-300 text-sm leading-relaxed whitespace-pre-line"></p>
+                        </div>
+                    </div>
+
+                    <!-- Right Col: Images (Takes up 5 cols) -->
+                    <div class="lg:col-span-5 space-y-5">
+                        <h4 class="font-bold text-white border-b border-white/10 pb-2"><i class="fa-solid fa-images text-blue-400 mr-2"></i>ภาพประกอบการปรับปรุง</h4>
+                        
+                        <!-- Before Image Area -->
+                        <div class="rounded-xl overflow-hidden border border-white/10 bg-black/40">
+                            <div class="bg-red-500/20 text-red-300 border-b border-red-500/30 text-xs font-bold py-2 px-4 flex justify-between items-center backdrop-blur-md">
+                                <span><i class="fa-solid fa-circle-xmark mr-1"></i> ก่อนการปรับปรุง (Before)</span>
+                            </div>
+                            <!-- Placeholder -->
+                            <div id="ph-before" class="h-40 flex flex-col items-center justify-center text-gray-500 p-4 text-center">
+                                <i class="fa-regular fa-image text-3xl mb-2 opacity-50"></i>
+                                <span class="text-sm font-medium">ไม่มีรูปภาพประกอบ</span>
+                                <span id="m-loc-before" class="text-xs mt-1 text-gray-600"></span>
+                            </div>
+                            <!-- Image Container -->
+                            <div id="m-img-before-wrapper" class="hidden p-3 bg-black/20">
+                                <div id="m-img-before-grid" class="grid gap-2"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Tags -->
+                        <div class="mt-6 pt-5 border-t border-white/10">
+                            <span class="text-xs font-bold text-gray-400 block mb-3 uppercase tracking-wider">ประเภท Kaizen:</span>
+                            <div id="m-tags" class="flex flex-wrap gap-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal Footer -->
+            <div class="bg-black/40 border-t border-white/10 px-6 py-4 text-right backdrop-blur-md">
+                <button onclick="closeModal()" class="px-6 py-2 bg-white/10 text-white font-bold rounded-lg hover:bg-white/20 hover:text-neonorange transition-all border border-white/10">
+                    ปิดหน้าต่าง
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data and Logic -->
+    <script>
+        // ข้อมูล Kaizen สำหรับเดือน เมษายน 2026
+        const kaizenData = [
+            {
+                id: 'KZ-2604-18',
+                date: '18-Apr-2026',
+                name: 'นางสาวน้ำทิพย์ ทุมสิทธิ์',
+                position: 'หัวหน้าขายสาขาหนองคาย',
+                location: 'พัฒนาสิน หนองคาย',
+                tags: ['ยอดขาย', 'ลดต้นทุน (ระบายสต๊อค)'],
+                topic: 'จัดโปรส่งเสริมการขาย สินค้าที่บรรจุภัณฑ์ซีด กรอบ แตก',
+                problem: 'เนื่องจากปัจจุบันสินค้ามีสภาพที่สีซีด ถุงบรรจุภัณฑ์ชำรุดกรอบ แตก บางรายการสินค้าแข็งตัวและไม่ได้ขาย ซึ่งถ้าหากปล่อยไว้เป็นระยะเวลานาน อาจจะทำให้สินค้าหมดคุณภาพและถูกตัดทำลายไปโดยสูญเปล่า',
+                objective: '1. เพื่อระบายสินค้าที่ค้างสต๊อค สินค้าที่ไม่มีการเคลื่อนไหว\n2. เพิ่มยอดขายให้กับตัวสินค้า',
+                solution: '1. นำสินค้าที่สีซีด ถุงกรอบแตก ออกมาจัดเรียงให้สวยงามและทำป้ายโชว์โปรโมชั่นของสินค้าเพื่อดึงดูดลูกค้า\n2. สินค้าที่บรรจุภัณฑ์ชำรุด นำมากรอกเป็น ถุงละ 1 กก. ขายในราคาที่ถูกลง\n3. แนะนำลูกค้า โปรโมทโปรโมชั่นทุกช่องทาง ทั้งหน้าร้าน และออนไลน์',
+                // ตัวอย่างการใส่รูปภาพ 2 รูป (คุณสามารถเปลี่ยนเป็นชื่อไฟล์ในเครื่องได้เลย)
+                imgBefore: ['KZ-2604-18-01.jpg', 'KZ-2604-18-02.jpg'], 
+                imgAfter: ['https://images.unsplash.com/photo-1556740749-887f6717d7e4?w=400&q=80', 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&q=80'] 
+            },
+            {
+                id: 'KZ-2604-19',
+                date: '21-Apr-2026',
+                name: 'นางสาววิญารัตน์ พิบาลขัน',
+                position: 'ผู้จัดการฝ่ายบริหาร',
+                location: 'พื้นที่จัดเตรียมสินค้า / คลังสินค้า',
+                tags: ['เพิ่มคุณภาพ', 'ลดต้นทุน', 'ลดเวลางาน'],
+                topic: 'การเพิ่มจุดตรวจสอบคุณภาพ (QC) ท่อ PVC ก่อนนำขึ้นรถจัดส่งเพื่อลดปัญหาการเคลมสินค้า',
+                problem: 'จากข้อมูลการจัดส่งสินค้า พบว่ามีการร้องเรียนและขอเคลมท่อ PVC จากลูกค้า (เช่น กรณีร้านรัตนพานิชโนนสะอาด) เนื่องจากลูกค้าตรวจพบว่าท่อ PVC มีรอยตำหนิและเป็นรู โดยเฉลี่ยใน 1 มัด จะพบท่อที่ชำรุดเสียหายประมาณ 3-4 เส้น ซึ่งปัญหานี้ทำให้ต้องนำสินค้าใหม่ไปเปลี่ยนให้ลูกค้า รวมถึงทำให้ลูกค้าเสียความเชื่อมั่นในคุณภาพสินค้าของบริษัท',
+                objective: '1. เพื่อป้องกันการส่งมอบสินค้าชำรุดให้แก่ลูกค้า\n2. เพื่อลดต้นทุนแฝงจากการรับสินค้าตีกลับและการจัดส่งสินค้าทดแทน\n3. เพื่อสร้างความพึงพอใจและความเชื่อมั่นให้กับลูกค้า',
+                solution: '1. เพิ่มขั้นตอนการคัดกรองก่อนจัดส่ง กำหนดให้พนักงานคลังสินค้าและพนักงานจัดส่ง มีหน้าที่ตรวจสอบสภาพภายนอกของท่อ PVC ด้วยสายตา\n2. รายงานกลับไปยังต้นทาง ถ่ายรูปสินค้าที่สภาพไม่สมบูรณ์และจดบันทึกจำนวนที่เสียหาย เพื่อแจ้งให้ฝ่ายจัดซื้อหรือโรงงาน ทราบและปรับปรุงกระบวนการผลิต\n3. กำหนดมาตรฐานการมัดสินค้า ตรวจสอบกระบวนการมัดท่อว่ามีการรัดแน่นเกินไปจนทำให้ท่อเกิดความเสียหายระหว่างขนส่งหรือไม่ หากมี ควรเสริมวัสดุกันกระแทกหรือปรับวิธีการรัดให้เหมาะสม\n\n[ประโยชน์ที่ได้รับ]\n- คุณภาพ: ลูกค้าได้รับสินค้าสมบูรณ์ 100%\n- ลดต้นทุน: ประหยัดค่าน้ำมัน ค่าเสื่อมสภาพ เวลาวิ่งรถไปเปลี่ยนของ\n- ลดเวลา: ลดงานเอกสารเคลมและงานธุรการ',
+                imgBefore: ['KZ-2604-19-01.jpg', 'KZ-2604-19-02.jpg'],
+                imgAfter: []
+            }
+        ];
+
+        // Utility: Get color for tags (Dark Theme Adapted)
+        function getTagColor(tag) {
+            const lowerTag = tag.toLowerCase();
+            if(lowerTag.includes('ยอดขาย')) return 'bg-pink-500/20 text-pink-300 border-pink-500/30 shadow-[0_0_8px_rgba(236,72,153,0.3)]';
+            if(lowerTag.includes('คุณภาพ')) return 'bg-green-500/20 text-green-300 border-green-500/30 shadow-[0_0_8px_rgba(34,197,94,0.3)]';
+            if(lowerTag.includes('ต้นทุน')) return 'bg-purple-500/20 text-purple-300 border-purple-500/30 shadow-[0_0_8px_rgba(168,85,247,0.3)]';
+            if(lowerTag.includes('เวลา')) return 'bg-orange-500/20 text-orange-300 border-orange-500/30 shadow-[0_0_8px_rgba(249,115,22,0.3)]';
+            
+            return 'bg-gray-700/50 text-gray-300 border-gray-600';
+        }
+
+        // Render Cards
+        const gridContainer = document.getElementById('kaizen-grid');
+        
+        kaizenData.forEach((item, index) => {
+            const tagsHtml = item.tags.map(tag => 
+                `<span class="px-2 py-1 text-[10px] font-bold rounded-full border ${getTagColor(tag)} backdrop-blur-sm">${tag}</span>`
+            ).join('');
+
+            const card = document.createElement('div');
+            // Theme specific card styling
+            card.className = `glass-card rounded-2xl p-6 border-t-4 cursor-pointer group flex flex-col justify-between h-full ${index % 2 === 0 ? 'border-t-neonorange' : 'border-t-blue-500'}`;
+            card.onclick = () => openModal(index);
+            
+            card.innerHTML = `
+                <div>
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-xs font-bold text-blue-300 bg-blue-900/40 px-2 py-1 rounded border border-blue-500/20"><i class="fa-regular fa-hashtag mr-1"></i>${item.id}</span>
+                        <span class="text-xs text-gray-400 bg-black/30 px-2 py-1 rounded border border-white/5"><i class="fa-regular fa-calendar mr-1 text-neonorange"></i>${item.date}</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-3 group-hover:text-neonorange transition-colors line-clamp-2 leading-snug">${item.topic}</h3>
+                    <div class="flex flex-wrap gap-1.5 mb-5">
+                        ${tagsHtml}
+                    </div>
+                </div>
+                <div class="pt-4 border-t border-white/10 mt-auto">
+                    <div class="flex items-center text-sm text-gray-300 mb-2">
+                        <i class="fa-solid fa-user text-blue-400 w-5"></i>
+                        <span class="truncate">${item.name}</span>
+                    </div>
+                    <div class="flex items-center text-sm text-gray-400">
+                        <i class="fa-solid fa-location-dot text-red-400 w-5"></i>
+                        <span class="truncate">${item.location}</span>
+                    </div>
+                    <div class="mt-5 flex justify-end">
+                        <button class="text-neonorange text-sm font-bold group-hover:text-orange-300 flex items-center transition-all bg-orange-500/10 px-3 py-1.5 rounded-lg border border-transparent group-hover:border-orange-500/30 group-hover:shadow-[0_0_10px_rgba(255,107,53,0.2)]">
+                            ดูรายละเอียด <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            gridContainer.appendChild(card);
+        });
+
+        // Modal Logic
+        const backdrop = document.getElementById('modal-backdrop');
+        const modalContent = document.getElementById('modal-content');
+
+        function openModal(index) {
+            const data = kaizenData[index];
+            
+            document.getElementById('m-id').innerText = data.id;
+            document.getElementById('m-topic').innerText = data.topic;
+            document.getElementById('m-name').innerText = data.name;
+            document.getElementById('m-position').innerText = data.position;
+            document.getElementById('m-problem').innerText = data.problem;
+            document.getElementById('m-objective').innerText = data.objective;
+            document.getElementById('m-solution').innerText = data.solution;
+            document.getElementById('m-loc-before').innerText = `พิกัด: ${data.location}`;
+            
+            // --- รูปภาพ ก่อน-หลัง (รองรับหลายรูป) ---
+            function renderImages(imgData, gridId, wrapperId, phId) {
+                const grid = document.getElementById(gridId);
+                const wrapper = document.getElementById(wrapperId);
+                const ph = document.getElementById(phId);
+                grid.innerHTML = ''; 
+                
+                let urls = [];
+                if (Array.isArray(imgData)) {
+                    urls = imgData.filter(u => u && u.trim() !== '');
+                } else if (typeof imgData === 'string' && imgData.trim() !== '') {
+                    urls = [imgData];
+                }
+
+                if (urls.length > 0) {
+                    grid.className = urls.length === 1 ? 'grid grid-cols-1 gap-2' : 'grid grid-cols-2 gap-2';
+                    
+                    urls.forEach(url => {
+                        const imgContainer = document.createElement('div');
+                        imgContainer.className = 'overflow-hidden rounded border border-white/10 group/img relative';
+                        
+                        const img = document.createElement('img');
+                        img.src = url;
+                        img.className = 'w-full h-36 object-cover cursor-pointer group-hover/img:scale-110 transition-transform duration-500 opacity-90 group-hover/img:opacity-100';
+                        img.onclick = () => window.open(url, '_blank'); 
+                        
+                        const hoverOverlay = document.createElement('div');
+                        hoverOverlay.className = 'absolute inset-0 bg-black/40 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center pointer-events-none';
+                        hoverOverlay.innerHTML = '<i class="fa-solid fa-magnifying-glass-plus text-white text-2xl drop-shadow-md"></i>';
+
+                        imgContainer.appendChild(img);
+                        imgContainer.appendChild(hoverOverlay);
+                        grid.appendChild(imgContainer);
+                    });
+                    wrapper.classList.remove('hidden');
+                    ph.classList.add('hidden');
+                } else {
+                    wrapper.classList.add('hidden');
+                    ph.classList.remove('hidden');
+                }
+            }
+
+            renderImages(data.imgBefore, 'm-img-before-grid', 'm-img-before-wrapper', 'ph-before');
+
+            document.getElementById('m-tags').innerHTML = data.tags.map(tag => 
+                `<span class="px-3 py-1 text-xs font-bold rounded-full border ${getTagColor(tag)}">${tag}</span>`
+            ).join('');
+
+            backdrop.classList.remove('hidden');
+            backdrop.classList.add('modal-enter');
+            modalContent.classList.remove('hidden');
+            modalContent.classList.add('modal-content-enter');
+            
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            backdrop.classList.add('hidden');
+            backdrop.classList.remove('modal-enter');
+            modalContent.classList.add('hidden');
+            modalContent.classList.remove('modal-content-enter');
+            
+            document.body.style.overflow = 'auto';
+        }
+
+        backdrop.addEventListener('click', function(e) {
+            if (e.target === backdrop) closeModal();
+        });
+        
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !backdrop.classList.contains('hidden')) {
+                closeModal();
+            }
+        });
+    </script>
+<a href="index.html" style="position: fixed; bottom: 20px; right: 20px; background-color: #198754; color: white; padding: 10px 20px; text-decoration: none; border-radius: 30px; font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); z-index: 9999;">
+    ⟲ กลับหน้าหลัก
+
+</body>
+</html>
