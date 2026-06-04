@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard ติดตามผลการดำเนินงาน พ.ค. 2026 - บจก.พัฒนาสิน ไทยเทรดดิ้ง</title>
+    <!-- นำเข้า Google Fonts (Sarabun) เพื่อความสวยงามของภาษาไทย -->
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS Variables & Global Styles --- */
+        :root {
+            --primary-color: #0056b3; /* สีน้ำเงินหัวข้อ */
+            --bg-color: #f4f7f6; /* สีพื้นหลัง */
+            --card-bg: #ffffff; /* สีพื้นหลังการ์ด */
+            --text-dark: #333333;
+            --text-light: #777777;
+            
+            /* Status Colors */
+            --success-color: #28a745; /* สีเขียว (ผ่านเป้า) */
+            --warning-color: #ffc107; /* สีเหลือง (ควรระวัง/ใกล้เป้า) */
+            --danger-color: #dc3545;  /* สีแดง (หลุดเป้า) */
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            color: var(--text-dark);
+        }
+
+        /* --- Header & Navigation --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: linear-gradient(to right, var(--primary-color), #007bff);
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            color: white;
+        }
+
+        .header-title h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .header-title p {
+            margin: 5px 0 0 0;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .nav-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* --- Dashboard Grid Layout --- */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* --- KPI Card Styles --- */
+        .kpi-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+            border-top: 5px solid #ddd; /* Default border color */
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        /* Card Status Modifiers */
+        .kpi-card.success { border-top-color: var(--success-color); }
+        .kpi-card.warning { border-top-color: var(--warning-color); }
+        .kpi-card.danger { border-top-color: var(--danger-color); }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            padding: 12px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Icon background colors based on status */
+        .success .card-icon { background-color: #d4edda; color: var(--success-color); }
+        .warning .card-icon { background-color: #fff3cd; color: var(--warning-color); }
+        .danger .card-icon { background-color: #f8d7da; color: var(--danger-color); }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0;
+        }
+
+        .main-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* Value colors based on status */
+        .success .main-value { color: var(--success-color); }
+        .warning .main-value { color: #d39e00; }
+        .danger .main-value { color: var(--danger-color); }
+
+        .target-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        /* Progress Bar Style */
+        .progress-container {
+            background-color: #e9ecef;
+            border-radius: 10px;
+            height: 10px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 1s ease-in-out;
+        }
+        .success .progress-bar { background: linear-gradient(to right, #28a745, #5dd879); }
+        .warning .progress-bar { background: linear-gradient(to right, #ffc107, #ffdb4a); }
+        .danger .progress-bar { background: linear-gradient(to right, #dc3545, #ff6b6b); }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-top: 15px;
+        }
+        .success .status-badge { background-color: #d4edda; color: var(--success-color); }
+        .warning .status-badge { background-color: #fff3cd; color: #d39e00; }
+        .danger .status-badge { background-color: #f8d7da; color: var(--danger-color); }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <div class="header-title">
+            <h1>ติดตามผลการดำเนินงาน 2026</h1>
+            <p>บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด | ประจำเดือนพฤษภาคม</p>
+        </div>
+        <a href="../index.html" class="nav-btn">
+            <!-- SVG Icon for Back Arrow -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            กลับสู่หน้าหลัก (Dashboard)
+        </a>
+    </header>
+
+    <!-- Main Dashboard Grid -->
+    <main class="dashboard-grid">
+
+        <!-- KPI 1: ยอดขาย (Sales) -->
+        <div class="kpi-card danger">
+            <div class="card-header">
+                <div class="card-icon">฿</div>
+                <h3 class="card-title">1. ยอดขาย (พ.ค.)</h3>
+            </div>
+            <span class="main-value">10,366,787</span>
+            <div class="target-label">เป้าหมายรายเดือน: 14,000,000 บาท</div>
+            <!-- Progress shows approx percentage of monthly target achieved (10.3M / 14M = ~74%) -->
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 74%;"></div>
+            </div>
+            <span class="status-badge">ต่ำกว่าเป้าหมาย</span>
+        </div>
+
+        <!-- KPI 2: ข้อผิดพลาดจากการจัดส่ง (Delivery Errors) -->
+        <!-- Status: Danger (May actual 1.60% > Target 1.50%) -->
+        <div class="kpi-card danger">
+            <div class="card-header">
+                <!-- SVG Icon for Truck/Error -->
+                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg></div>
+                <h3 class="card-title">2. ข้อผิดพลาดการจัดส่ง (พ.ค.)</h3>
+            </div>
+            <span class="main-value">1.60%</span>
+            <div class="target-label">เป้าหมาย: น้อยกว่า 1.50%</div>
+            <div class="progress-container">
+                <!-- Width over 100% visually indicates exceeding limit -->
+                <div class="progress-bar" style="width: 100%;"></div> 
+            </div>
+            <span class="status-badge">เกินเป้าหมาย (ต้องปรับปรุง)</span>
+        </div>
+
+        <!-- KPI 3: กำไรสุทธิก่อนหักภาษี (Net Profit Margin) -->
+        <!-- Status: Success (May actual 1.99% > Target 1.00%) -->
+        <div class="kpi-card success">
+            <div class="card-header">
+                 <!-- SVG Icon for Chart/Profit -->
+                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg></div>
+                <h3 class="card-title">3. กำไรสุทธิ (พ.ค.)</h3>
+            </div>
+            <span class="main-value">1.99%</span>
+            <div class="target-label">เป้าหมาย: มากกว่า 1.00%</div>
+             <div class="progress-container">
+                <div class="progress-bar" style="width: 100%;"></div>
+            </div>
+            <span class="status-badge">ตามเป้าหมาย</span>
+        </div>
+
+        <!-- KPI 4: สินค้าคงคลังต่อยอดขาย (Inventory Turnover) -->
+        <!-- Status: Warning (May actual 1.40 is exactly at Target limit 1.40) -->
+        <div class="kpi-card warning">
+            <div class="card-header">
+                 <!-- SVG Icon for Box/Inventory -->
+                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg></div>
+                <h3 class="card-title">4. สินค้าคงคลัง (พ.ค.)</h3>
+            </div>
+            <span class="main-value">1.40 เดือน</span>
+            <div class="target-label">เป้าหมาย: น้อยกว่า 1.40 เดือน</div>
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 100%;"></div>
+            </div>
+            <span class="status-badge">เฝ้าระวัง (ชนเพดานเป้าหมาย)</span>
+        </div>
+
+        <!-- KPI 5: ส่งมอบลูกค้าภายใน 3 วัน (3-Day Delivery) -->
+        <!-- Status: Danger (May actual 84.80% < Target 95.00%) -->
+        <div class="kpi-card danger">
+            <div class="card-header">
+                 <!-- SVG Icon for Clock/Time -->
+                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></div>
+                <h3 class="card-title">5. ส่งมอบภายใน 3 วัน (พ.ค.)</h3>
+            </div>
+            <span class="main-value">84.80%</span>
+            <div class="target-label">เป้าหมาย: มากกว่า 95.00%</div>
+            <div class="progress-container">
+                <!-- Width represents approx distance to target -->
+                <div class="progress-bar" style="width: 89%;"></div>
+            </div>
+            <span class="status-badge">ต่ำกว่าเป้าหมายมาก</span>
+        </div>
+
+        <!-- KPI 6: อุบัติเหตุจากการทำงานถึงขั้นหยุดงาน (Lost Time Injury) -->
+        <!-- Status: Success (May actual 0 == Target 0) -->
+        <div class="kpi-card success">
+            <div class="card-header">
+                 <!-- SVG Icon for Alert/Safety -->
+                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div>
+                <h3 class="card-title">6. อุบัติเหตุถึงขั้นหยุดงาน (พ.ค.)</h3>
+            </div>
+            <span class="main-value">0 ครั้ง</span>
+            <div class="target-label">เป้าหมาย: ต้องเป็น 0 ครั้ง</div>
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 100%;"></div>
+            </div>
+            <span class="status-badge">ตามเป้าหมาย (ไม่มีอุบัติเหตุ)</span>
+        </div>
+
+        <!-- KPI 7: อัตราการมาทำงาน (Attendance Rate) -->
+        <!-- Status: Success (May actual 98.86% > Target 98.00%) -->
+        <div class="kpi-card success">
+            <div class="card-header">
+                 <!-- SVG Icon for Users/Attendance -->
+                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div>
+                <h3 class="card-title">7. อัตราการมาทำงาน (พ.ค.)</h3>
+            </div>
+            <span class="main-value">98.86%</span>
+            <div class="target-label">เป้าหมาย: มากกว่า 98.00%</div>
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 100%;"></div>
+            </div>
+            <span class="status-badge">ตามเป้าหมาย</span>
+        </div>
+
+        <!-- KPI 8: พนักงานส่งโคเซ็น (Kaizen Suggestions) -->
+        <!-- Status: Success (May actual 5 >= Target 5) -->
+        <!-- Note: Summary in image shows red arrow, but May specifically hit the target of 5 -->
+        <div class="kpi-card success">
+            <div class="card-header">
+                 <!-- SVG Icon for Idea/Kaizen -->
+                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="9" y1="18" x2="15" y2="18"></line><line x1="10" y1="22" x2="14" y2="22"></line><path d="M15.09 14c.18-.9.27-1.85.27-2.83 0-3.9-3.13-7.17-7-7.17s-7 3.27-7 7.17c0 .98.09 1.93.27 2.83"></path><path d="M15.09 14c0 1.3-.33 2.52-.92 3.59a.8.8 0 0 1-.7.41H7.53a.8.8 0 0 1-.7-.41C6.25 16.52 5.92 15.3 5.92 14"></path><line x1="12" y1="2" x2="12" y2="4"></line></svg></div>
+                <h3 class="card-title">8. หัวข้อไคเซ็น (พ.ค.)</h3>
+            </div>
+            <span class="main-value">5 หัวข้อ</span>
+            <div class="target-label">เป้าหมาย: มากกว่า 5 หัวข้อ</div>
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 100%;"></div>
+            </div>
+            <span class="status-badge">ตามเป้าหมาย</span>
+        </div>
+
+    </main>
+
+</body>
+</html>

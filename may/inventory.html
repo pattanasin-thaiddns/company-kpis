@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายงานสรุปผลการดำเนินงานสินค้าคงคลัง - พ.ค.</title>
+    <!-- เรียกใช้ Tailwind CSS ผ่าน CDN สำหรับการจัดรูปแบบ -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- เรียกใช้ Chart.js ผ่าน CDN สำหรับสร้างกราฟ -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- เรียกใช้ Google Fonts (Prompt) -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #f3f4f6; /* bg-gray-100 */
+        }
+    </style>
+</head>
+<body class="text-gray-800 p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto space-y-6">
+        
+        <!-- Header Section -->
+        <header class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-blue-600">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-900">รายงานสรุปผลการดำเนินงานด้านสินค้าคงคลัง</h1>
+            <p class="text-lg text-gray-600 mt-2">บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด | <span class="font-semibold text-blue-600">ประจำเดือน พฤษภาคม 2026</span></p>
+        </header>
+
+        <!-- KPI Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Card 1: Sales -->
+            <div class="bg-white rounded-xl shadow-sm p-6 relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-4 opacity-10">
+                    <svg class="w-16 h-16 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wider">ยอดขาย (พฤษภาคม)</h2>
+                <div class="mt-2 flex items-baseline">
+                    <span class="text-3xl font-bold text-gray-900">9.92</span>
+                    <span class="ml-2 text-sm font-medium text-gray-500">ล้านบาท</span>
+                </div>
+                <div class="mt-2 text-sm text-red-500 flex items-center">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path></svg>
+                    <span>ลดลง 0.57% จากเดือนก่อน</span>
+                </div>
+            </div>
+
+            <!-- Card 2: Inventory -->
+            <div class="bg-white rounded-xl shadow-sm p-6 relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-4 opacity-10">
+                    <svg class="w-16 h-16 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                </div>
+                <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wider">มูลค่าสินค้าคงคลัง (พฤษภาคม)</h2>
+                <div class="mt-2 flex items-baseline">
+                    <span class="text-3xl font-bold text-gray-900">13.91</span>
+                    <span class="ml-2 text-sm font-medium text-gray-500">ล้านบาท</span>
+                </div>
+                <div class="mt-2 text-sm text-green-500 flex items-center">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path></svg>
+                    <span>ลดลง 1.28% จากเดือนก่อน</span>
+                </div>
+            </div>
+
+            <!-- Card 3: Ratio -->
+            <div class="bg-white rounded-xl shadow-sm p-6 relative overflow-hidden border-b-4 border-yellow-400">
+                <div class="absolute top-0 right-0 p-4 opacity-10">
+                    <svg class="w-16 h-16 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                </div>
+                <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wider">สินค้าคงคลังต่อยอดขาย</h2>
+                <div class="mt-2 flex items-baseline">
+                    <span class="text-3xl font-bold text-gray-900">1.40</span>
+                    <span class="ml-2 text-sm font-medium text-gray-500">เดือน</span>
+                </div>
+                <div class="mt-2 text-sm text-yellow-600 font-medium">
+                    <span>⚠️ แตะระดับเกณฑ์เฝ้าระวัง (Target: <= 1.40)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW: Data Table Section -->
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden mb-6">
+            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
+                <h3 class="text-lg font-semibold text-gray-800">ตารางข้อมูลสรุปรายเดือน ปี 2026</h3>
+                <span class="text-sm text-gray-500">หน่วย: บาท</span>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm text-gray-600">
+                    <thead class="bg-gray-100 text-gray-700 uppercase">
+                        <tr>
+                            <th class="px-6 py-3 font-semibold text-center border-b">รายการ</th>
+                            <th class="px-6 py-3 font-semibold text-right border-b">ม.ค. (Jan-24)</th>
+                            <th class="px-6 py-3 font-semibold text-right border-b">ก.พ. (Feb-24)</th>
+                            <th class="px-6 py-3 font-semibold text-right border-b">มี.ค. (Mar-24)</th>
+                            <th class="px-6 py-3 font-semibold text-right border-b">เม.ย. (Apr-24)</th>
+                            <th class="px-6 py-3 font-semibold text-right border-b bg-blue-50">พ.ค. (May-24)</th>
+                            <th class="px-6 py-3 font-semibold text-right border-b bg-green-50">สรุป (YTD)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <!-- Sales Row -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-gray-900 border-r border-gray-100 bg-gray-50">ยอดขาย</td>
+                            <td class="px-6 py-4 text-right text-blue-600">11,910,843.86</td>
+                            <td class="px-6 py-4 text-right text-blue-600">9,151,800.50</td>
+                            <td class="px-6 py-4 text-right text-blue-600">13,060,472.26</td>
+                            <td class="px-6 py-4 text-right text-blue-600">9,984,669.00</td>
+                            <td class="px-6 py-4 text-right text-blue-700 font-semibold bg-blue-50">9,927,971.84</td>
+                            <td class="px-6 py-4 text-right font-bold text-gray-900 bg-green-50">54,035,757.46</td>
+                        </tr>
+                        <!-- Inventory Row -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-gray-900 border-r border-gray-100 bg-gray-50">สินค้าคงคลัง (บาท)</td>
+                            <td class="px-6 py-4 text-right font-medium">13,796,185.96</td>
+                            <td class="px-6 py-4 text-right font-medium">12,438,918.28</td>
+                            <td class="px-6 py-4 text-right font-medium">15,103,255.31</td>
+                            <td class="px-6 py-4 text-right font-medium">14,092,964.01</td>
+                            <td class="px-6 py-4 text-right font-bold bg-blue-50">13,911,609.90</td>
+                            <td class="px-6 py-4 text-right font-bold text-gray-900 bg-green-50">69,342,933.46</td>
+                        </tr>
+                        <!-- Target Ratio Row (NEW) -->
+                        <tr class="hover:bg-gray-50 transition-colors bg-gray-50">
+                             <td class="px-6 py-4 font-medium text-gray-500 border-r border-gray-200">เป้าหมาย Ratio (<= 1.40)</td>
+                             <td class="px-6 py-4 text-right text-gray-500">1.40</td>
+                             <td class="px-6 py-4 text-right text-gray-500">1.40</td>
+                             <td class="px-6 py-4 text-right text-gray-500">1.40</td>
+                             <td class="px-6 py-4 text-right text-gray-500">1.40</td>
+                             <td class="px-6 py-4 text-right text-gray-600 font-medium bg-blue-100">1.40</td>
+                             <td class="px-6 py-4 text-right text-gray-500 bg-green-100">-</td>
+                        </tr>
+                        <!-- Actual Ratio Row -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-bold text-gray-900 border-r border-gray-200 bg-yellow-50">อัตราส่วนสินค้าคงคลังต่อยอดขาย</td>
+                            <td class="px-6 py-4 text-right font-bold text-green-600">1.16</td>
+                            <td class="px-6 py-4 text-right font-bold text-green-600">1.36</td>
+                            <td class="px-6 py-4 text-right font-bold text-green-600">1.16</td>
+                            <td class="px-6 py-4 text-right font-bold text-red-600">1.41</td>
+                            <td class="px-6 py-4 text-right font-bold text-yellow-600 bg-yellow-100">1.40</td>
+                            <td class="px-6 py-4 text-right font-bold text-gray-900 bg-green-100">1.28</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="px-6 py-3 bg-gray-50 border-t border-gray-200 text-xs text-gray-500 flex items-center justify-end space-x-4">
+                <span class="flex items-center"><span class="w-3 h-3 rounded-full bg-green-500 mr-1"></span> ปกติ (<= 1.39)</span>
+                <span class="flex items-center"><span class="w-3 h-3 rounded-full bg-yellow-500 mr-1"></span> เฝ้าระวัง (= 1.40)</span>
+                <span class="flex items-center"><span class="w-3 h-3 rounded-full bg-red-500 mr-1"></span> เกินเป้าหมาย (> 1.40)</span>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Chart 1 -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">แนวโน้มยอดขายเทียบกับสินค้าคงคลัง</h3>
+                <div class="relative h-72 w-full">
+                    <canvas id="salesInventoryChart"></canvas>
+                </div>
+            </div>
+            <!-- Chart 2 -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">อัตราส่วนสินค้าคงคลังต่อยอดขาย (เดือน)</h3>
+                <div class="relative h-72 w-full">
+                    <canvas id="ratioChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analysis Section -->
+        <div class="bg-white rounded-xl shadow-sm p-6 md:p-8">
+            <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                <svg class="w-6 h-6 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                วิเคราะห์สถานการณ์และสาเหตุ
+            </h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h4 class="text-lg font-semibold text-gray-800 mb-3 text-red-600">วิเคราะห์สาเหตุ (ทำไมค่า Ratio ถึงสูงที่ 1.40)</h4>
+                    <ul class="space-y-4 text-gray-600">
+                        <li class="flex items-start">
+                            <span class="flex-shrink-0 h-6 w-6 rounded-full bg-red-100 text-red-600 flex items-center justify-center mr-3 mt-0.5">1</span>
+                            <p><strong>ยอดขายชะลอตัวต่อเนื่อง:</strong> ยอดขายในเดือนเมษายนและพฤษภาคม (เฉลี่ย 9.9 ล้านบาท) ลดลงอย่างมีนัยสำคัญเมื่อเทียบกับจุดสูงสุดในเดือนมีนาคม (13 ล้านบาท)</p>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="flex-shrink-0 h-6 w-6 rounded-full bg-red-100 text-red-600 flex items-center justify-center mr-3 mt-0.5">2</span>
+                            <p><strong>การระบายสต็อกไม่ทันยอดขายที่ลดลง:</strong> แม้มูลค่าสินค้าคงคลังจะเริ่มลดลง (จาก 15.1 ล้าน ในเดือน มี.ค. เหลือ 13.9 ล้าน ในเดือน พ.ค.) แต่เป็นการลดลงในสัดส่วนที่ช้ากว่าการตกของยอดขาย ทำให้ตัวหารน้อยลง ค่าสัดส่วนจึงพุ่งสูงขึ้น</p>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="flex-shrink-0 h-6 w-6 rounded-full bg-red-100 text-red-600 flex items-center justify-center mr-3 mt-0.5">3</span>
+                            <p><strong>ผลกระทบจากการสั่งซื้อล่วงหน้า:</strong> อาจมีการสั่งซื้อสินค้าเข้ามาเติมสต็อกในช่วงเดือนมีนาคม-ต้นเมษายน โดยอิงจากความคาดหวังว่ายอดขายจะดีต่อเนื่องจากเดือนมีนาคม ทำให้เกิดภาวะสินค้าล้นสต็อก (Overstock) ชั่วคราว</p>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-blue-50 rounded-lg p-6 border border-blue-100">
+                    <h4 class="text-lg font-semibold text-blue-800 mb-3">ข้อเสนอแนะเชิงกลยุทธ์ (Action Plan)</h4>
+                    <ul class="space-y-3 text-blue-900 list-disc list-inside">
+                        <li><strong>ชะลอการสั่งซื้อใหม่:</strong> ปรับลดโควต้าการสั่งซื้อในเดือนมิถุนายนลงชั่วคราว โดยเฉพาะกลุ่มสินค้าหมุนเวียนช้า เพื่อให้ยอดสต็อกรวมลดลงมาอยู่ในเกณฑ์ 1.20 - 1.30 เดือน</li>
+                        <li><strong>จัดแคมเปญกระตุ้นยอดขาย:</strong> ดึงยอดขายกลับมาในระดับ 11-12 ล้านบาท ด้วยการทำโปรโมชั่นระบายสินค้าคงคลังที่มีอยู่ออกไป (Clearance) เพื่อเปลี่ยนเป็นกระแสเงินสด</li>
+                        <li><strong>ปรับปรุงการพยากรณ์ (Forecasting):</strong> ไม่ควรประเมินการสั่งซื้อโดยดูจากเดือนที่ยอดขายพุ่งสูงผิดปกติ (Peak month) เพียงอย่างเดียว ควรใช้ค่าเฉลี่ยย้อนหลัง 3 เดือนประกอบการตัดสินใจ</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <footer class="text-center text-sm text-gray-500 py-4">
+            ข้อมูลอ้างอิงจากรายงานสินค้าคงคลัง บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด ประจำปี 2026
+        </footer>
+    </div>
+
+    <!-- Script สำหรับสร้างกราฟ -->
+    <script>
+        // ข้อมูลดิบจากตาราง
+        const labels = ['ม.ค. 24', 'ก.พ. 24', 'มี.ค. 24', 'เม.ย. 24', 'พ.ค. 24'];
+        const salesData = [11910843.86, 9151800.50, 13060472.26, 9984669.00, 9927971.84];
+        const inventoryData = [13796185.96, 12438918.28, 15103255.31, 14092964.01, 13911609.90];
+        const ratioData = [1.16, 1.36, 1.16, 1.41, 1.40];
+        const targetRatio = [1.40, 1.40, 1.40, 1.40, 1.40]; // เส้นเป้าหมาย/เกณฑ์
+
+        // ตั้งค่าฟอนต์เริ่มต้นสำหรับ Chart.js
+        Chart.defaults.font.family = "'Prompt', sans-serif";
+
+        // กราฟที่ 1: ยอดขาย vs สินค้าคงคลัง
+        const ctxSalesInv = document.getElementById('salesInventoryChart').getContext('2d');
+        new Chart(ctxSalesInv, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'ยอดขาย',
+                        data: salesData,
+                        backgroundColor: 'rgba(59, 130, 246, 0.7)', // Blue
+                        borderColor: 'rgb(59, 130, 246)',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    },
+                    {
+                        label: 'สินค้าคงคลัง',
+                        data: inventoryData,
+                        backgroundColor: 'rgba(167, 139, 250, 0.7)', // Purple
+                        borderColor: 'rgb(139, 92, 246)',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) { label += ': '; }
+                                if (context.parsed.y !== null) {
+                                    label += new Intl.NumberFormat('th-TH', { style: 'currency', currency: 'THB' }).format(context.parsed.y);
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return (value / 1000000) + 'M'; // แสดงเป็นหน่วยล้าน
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // กราฟที่ 2: อัตราส่วนสินค้าคงคลังต่อยอดขาย
+        const ctxRatio = document.getElementById('ratioChart').getContext('2d');
+        new Chart(ctxRatio, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'อัตราส่วนจริง',
+                        data: ratioData,
+                        borderColor: 'rgb(245, 158, 11)', // Amber/Yellow
+                        backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                        pointBackgroundColor: function(context) {
+                            var index = context.dataIndex;
+                            var value = context.dataset.data[index];
+                            return value > 1.40 ? 'red' : (value == 1.40 ? 'orange' : 'green');
+                        },
+                        pointRadius: 6,
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.3
+                    },
+                    {
+                        label: 'เกณฑ์ที่ตั้งไว้ (1.40)',
+                        data: targetRatio,
+                        borderColor: 'rgba(239, 68, 68, 0.5)', // Red dashed
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        pointRadius: 0,
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.parsed.y + ' เดือน';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        min: 1.0,
+                        max: 1.6,
+                        ticks: {
+                            stepSize: 0.1
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+<a href="deliveryFerformance.html" style="position: fixed; bottom: 20px; right: 20px; background-color: #0d6efd; color: white; padding: 10px 20px; text-decoration: none; border-radius: 30px; font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); z-index: 9999;">
+    หน้าถัดไป (Delivery Perf.) ➜
+</body>
+</html>
