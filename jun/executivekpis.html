@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สรุปรายงานประจำเดือนมิถุนายน 2026</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Prompt & Sarabun for Thai Language -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js for Beautiful Visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f8fafc;
+        }
+        h1, h2, h3, h4, h5, h6, .font-title {
+            font-family: 'Prompt', sans-serif;
+        }
+        /* Custom print styling to ensure the dashboard looks great when printed */
+        @media print {
+            body {
+                background-color: #ffffff;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-card {
+                box-shadow: none !important;
+                border: 1px solid #e2e8f0 !important;
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 antialiased">
+
+    <!-- Top Navigation Bar / Header -->
+    <header class="bg-gradient-to-r from-blue-800 to-indigo-900 text-white shadow-md no-print">
+        <div class="max-w-7xl mx-auto px-4 py-5 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <!-- Dashboard Logo/Icon -->
+                <div class="bg-white/10 p-2.5 rounded-lg">
+                    <svg class="w-8 h-8 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold tracking-wide">ระบบจัดการข้อมูลและรายงานบุคลากร</h1>
+                    <p class="text-blue-200 text-xs sm:text-sm">Human Resources & Safety Dashboard</p>
+                </div>
+            </div>
+            <!-- Quick Actions -->
+            <div class="flex items-center gap-3">
+                <span class="bg-blue-700/50 text-blue-100 text-xs px-3 py-1.5 rounded-full border border-blue-500/30 font-medium">
+                    
+                </span>
+                <button onclick="window.print()" class="bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white font-medium text-sm px-4 py-2 rounded-lg shadow-sm transition-all duration-150 flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                    </svg>
+                    พิมพ์ / บันทึก PDF
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+        
+        <!-- Document Title Card (Visible on print too) -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 sm:p-8 mb-8 print-card">
+            <div class="border-b border-slate-100 pb-5 mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <span class="text-blue-600 font-bold uppercase tracking-wider text-xs sm:text-sm block mb-1">Monthly Executive Summary</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 font-title">รายงานสรุปประจำเดือนมิถุนายน 2026</h2>
+                </div>
+                <div class="text-left md:text-right">
+                    <p class="text-sm text-slate-500">ข้อมูล ณ วันที่: <span class="font-medium text-slate-700">30 มิถุนายน 2026</span></p>
+                    <p class="text-xs text-slate-400"></p>
+                </div>
+            </div>
+
+            <!-- Target Controls (Interactivity for local usage) -->
+            <div class="bg-slate-50 rounded-xl p-4 flex flex-wrap gap-4 items-center justify-between no-print mb-6">
+                <div class="flex items-center space-x-2">
+                    <span class="w-3.5 h-3.5 rounded-full bg-blue-600 animate-pulse"></span>
+                    <span class="text-sm font-medium text-slate-700">เป้าหมายอัตราการมาทำงานขั้นต่ำ:</span>
+                    <span class="text-sm font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200" id="target-value-display">97.00%</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <label for="targetRange" class="text-xs text-slate-500">ปรับเป้าหมายเปรียบเทียบ:</label>
+                    <input type="range" id="targetRange" min="95" max="99.5" step="0.1" value="97.0" 
+                           class="w-32 h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                           oninput="updateTarget(this.value)">
+                </div>
+            </div>
+
+        </div>
+
+        <!-- KPI GRID SECTION -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            
+            <!-- Card 1: Attendance June -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 flex flex-col justify-between transition-all duration-200 hover:shadow-md hover:border-slate-200 print-card">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="bg-amber-50 p-3 rounded-xl border border-amber-100">
+                        <!-- Attendance Calendar Icon -->
+                        <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <span class="bg-amber-100 text-amber-800 text-xs px-2.5 py-1 rounded-full font-semibold flex items-center gap-1">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path>
+                        </svg>
+                        ต่ำกว่าเป้าหมาย
+                    </span>
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-slate-500 font-title mb-1">อัตราการมาทำงานเดือน มิ.ย.</h3>
+                    <div class="flex items-baseline space-x-2">
+                        <span class="text-4xl font-extrabold text-slate-900 tracking-tight" id="june-att-val">96.62%</span>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-slate-50 text-xs text-slate-500 flex flex-col gap-1">
+                    <div class="flex justify-between">
+                        <span>เป้าหมายมาตรฐาน:</span>
+                        <span class="font-semibold text-slate-700" id="kpi-target-label">97.00%</span>
+                    </div>
+                    <div class="flex justify-between items-center text-amber-700 font-medium">
+                        <span>ส่วนต่างปัจจุบัน:</span>
+                        <span id="target-diff">-0.38%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Average YTD Attendance 2026 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 flex flex-col justify-between transition-all duration-200 hover:shadow-md hover:border-slate-200 print-card">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100">
+                        <!-- Chart Line Icon -->
+                        <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                        </svg>
+                    </div>
+                    <span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full font-semibold flex items-center gap-1">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        ผ่านเกณฑ์สะสม
+                    </span>
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-slate-500 font-title mb-1">อัตราการมาทำงานเฉลี่ยปี 2026</h3>
+                    <div class="flex items-baseline space-x-2">
+                        <span class="text-4xl font-extrabold text-slate-900 tracking-tight">98.23%</span>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-slate-50 text-xs text-slate-500 flex flex-col gap-1">
+                    <div class="flex justify-between">
+                        <span>เป้าหมายเฉลี่ยสะสม:</span>
+                        <span class="font-semibold text-slate-700">97.00%</span>
+                    </div>
+                    <div class="flex justify-between text-emerald-700 font-medium">
+                        <span>ดีกว่าเป้าหมาย:</span>
+                        <span>+1.23%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Workplace Accident -->
+            <div class="bg-gradient-to-br from-teal-500 to-emerald-600 rounded-2xl shadow-sm p-6 flex flex-col justify-between text-white print-card">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="bg-white/10 p-3 rounded-xl border border-white/15">
+                        <!-- Shield Icon -->
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                        </svg>
+                    </div>
+                    <span class="bg-white/25 text-white text-xs px-2.5 py-1 rounded-full font-semibold">
+                        ยอดเยี่ยม (Zero Accident)
+                    </span>
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-emerald-100 font-title mb-1">อุบัติเหตุจากการทำงานเดือน มิ.ย.</h3>
+                    <div class="flex items-baseline space-x-2">
+                        <span class="text-5xl font-extrabold tracking-tight">0</span>
+                        <span class="text-lg font-medium text-emerald-100">ครั้ง</span>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-white/10 text-xs text-emerald-50 flex justify-between items-center">
+                    <span>ความปลอดภัยในการทำงาน:</span>
+                    <span class="font-bold bg-white/20 px-2 py-0.5 rounded">100% SAFE</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- DETAILED ANALYSIS GRID -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- Left Panel: Sick Leave Details (7 Columns) -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 lg:col-span-7 flex flex-col print-card">
+                <div class="border-b border-slate-100 pb-4 mb-5 flex justify-between items-center">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800 font-title flex items-center gap-2">
+                            <span class="w-2.5 h-5 bg-amber-500 rounded-sm inline-block"></span>
+                            วิเคราะห์สาเหตุการหยุดงาน (ลาป่วย)
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-1">รายละเอียดรายบุคคลที่มีการลางานในเดือนมิถุนายน</p>
+                    </div>
+                    <span class="bg-red-50 text-red-700 text-xs px-2.5 py-1 rounded font-semibold border border-red-100">
+                        ลาป่วยสะสมรวม 14 วัน 1.5 ชม.
+                    </span>
+                </div>
+
+                <div class="space-y-6 flex-grow">
+                    <!-- Pa Duean -->
+                    <div class="group">
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-9 h-9 bg-slate-100 rounded-full flex items-center justify-center font-semibold text-slate-700 text-sm group-hover:bg-amber-100 group-hover:text-amber-800 transition-colors">
+                                    ปด
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-sm">ดวงเดือน</h4>
+                                    <p class="text-xs text-slate-400">แม่บ้าน</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <span class="font-bold text-slate-800 text-base">7 วัน</span>
+                                <span class="text-xs text-slate-400 block">คิดเป็น 48.3% ของวันลาป่วยทั้งหมด</span>
+                            </div>
+                        </div>
+                        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                            <div class="bg-amber-500 h-2 rounded-full transition-all duration-500" style="width: 48.3%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Yai -->
+                    <div class="group">
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-9 h-9 bg-slate-100 rounded-full flex items-center justify-center font-semibold text-slate-700 text-sm group-hover:bg-amber-100 group-hover:text-amber-800 transition-colors">
+                                    ใย
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-sm">ใย</h4>
+                                    <p class="text-xs text-slate-400">พนักงานขับรถ</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <span class="font-bold text-slate-800 text-base">5 วัน</span>
+                                <span class="text-xs text-slate-400 block">คิดเป็น 34.5% ของวันลาป่วยทั้งหมด</span>
+                            </div>
+                        </div>
+                        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                            <div class="bg-amber-400 h-2 rounded-full transition-all duration-500" style="width: 34.5%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Nam -->
+                    <div class="group">
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-9 h-9 bg-slate-100 rounded-full flex items-center justify-center font-semibold text-slate-700 text-sm group-hover:bg-amber-100 group-hover:text-amber-800 transition-colors">
+                                    น้ำ
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-sm">หนึ่งฤทัย</h4>
+                                    <p class="text-xs text-slate-400">พนักงานขายปลีก</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <span class="font-bold text-slate-800 text-base">2 วัน 1.5 ชั่วโมง</span>
+                                <span class="text-xs text-slate-400 block">คิดเป็น 17.2% ของวันลาป่วยทั้งหมด</span>
+                            </div>
+                        </div>
+                        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                            <div class="bg-orange-400 h-2 rounded-full transition-all duration-500" style="width: 17.2%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HR Note -->
+                <div class="mt-6 bg-amber-50 border border-amber-200/50 rounded-xl p-4">
+                    <div class="flex gap-2.5">
+                        <svg class="w-5 h-5 text-amber-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                        </svg>
+                        <div>
+                            <h5 class="font-semibold text-amber-800 text-xs sm:text-sm">ข้อสังเกตจากฝ่ายบุคคล (HR Comment)</h5>
+                            <p class="text-amber-700 text-xs mt-1 leading-relaxed">
+                                สาเหตุหลักที่ทำให้อัตราการมาทำงานเดือนมิถุนายน <span class="font-semibold">ต่ำกว่าเป้าหมายที่ตั้งไว้</span> 
+                                เกิดจากการลาป่วยของพนักงานหลัก 3 ท่าน ได้แก่ ป้าเดือน (7 วัน), ใย (5 วัน) และ น้ำ (2 วัน 1.5 ชั่วโมง) 
+                                ซึ่งทางฝ่ายบุคคลจะติดตามอาการป่วยและสุขภาพของพนักงานต่อไป เพื่อหาแนวทางสนับสนุนไม่ให้กระทบต่ออัตราการมาทำงานในระยะยาว
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Chart & Safety Target (5 Columns) -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 lg:col-span-5 flex flex-col justify-between print-card">
+                <div>
+                    <h3 class="text-lg font-bold text-slate-800 font-title flex items-center gap-2 mb-4">
+                        <span class="w-2.5 h-5 bg-blue-600 rounded-sm inline-block"></span>
+                        สัดส่วนการลางานเปรียบเทียบ
+                    </h3>
+                    <div class="w-full h-56 flex items-center justify-center relative">
+                        <canvas id="leaveChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-5 border-t border-slate-100">
+                    <div class="flex items-center gap-3 bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                        <div class="bg-emerald-500 text-white rounded-full p-2">
+                            <!-- Safety Star/Badge Icon -->
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-emerald-900 text-sm">สถิติอุบัติเหตุเป็นศูนย์ (Zero Accident)</h4>
+                            <p class="text-emerald-700 text-xs mt-0.5">
+                                ปฏิบัติงานครบตามเป้าหมายความปลอดภัย 0 ครั้ง ไม่เกิดการสูญเสียวันทำงาน
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- PRINT FOOTER SECTION (Only displays on actual printing) -->
+        <div class="hidden print:block mt-20 pt-8 border-t border-slate-200">
+            <div class="grid grid-cols-3 text-center text-sm">
+                <div>
+                    <p class="text-slate-400 mb-12">จัดทำโดย</p>
+                    <div class="w-48 border-b border-slate-400 mx-auto"></div>
+                    <p class="mt-2 text-slate-700 font-medium">เจ้าหน้าที่ฝ่ายบุคคล</p>
+                </div>
+                <div>
+                    <p class="text-slate-400 mb-12">ตรวจสอบโดย</p>
+                    <div class="w-48 border-b border-slate-400 mx-auto"></div>
+                    <p class="mt-2 text-slate-700 font-medium">ผู้จัดการฝ่ายบุคคล</p>
+                </div>
+                <div>
+                    <p class="text-slate-400 mb-12">อนุมัติโดย</p>
+                    <div class="w-48 border-b border-slate-400 mx-auto"></div>
+                    <p class="mt-2 text-slate-700 font-medium">ผู้จัดการทั่วไป / ผู้อำนวยการ</p>
+                </div>
+            </div>
+            <p class="text-center text-slate-400 text-xs mt-12">
+                เอกสารนี้เป็นความลับเฉพาะภายในบริษัทเท่านั้น สรุปรายงานประจำเดือนมิถุนายน 2026
+            </p>
+        </div>
+
+    </main>
+
+    <!-- Interactive JS Core -->
+    <script>
+        // Global variables for target
+        let targetValue = 97.00;
+        const actualJuneValue = 96.62;
+
+        // Initialize Chart.js
+        let ctx = document.getElementById('leaveChart').getContext('2d');
+        let leaveChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['ป้าเดือน (7 วัน)', 'ใย (5 วัน)', 'น้ำ (2 วัน 1.5 ชม.)'],
+                datasets: [{
+                    label: 'จำนวนวันที่ลาป่วย (วัน)',
+                    data: [7, 5, 2.18], // 2 วัน 1.5 ชม. คิดเป็น ~2.18 วัน (อิงฐาน 8 ชั่วโมงทำงานต่อวัน: 1.5/8 = 0.18)
+                    backgroundColor: [
+                        'rgba(245, 158, 11, 0.85)', // Amber
+                        'rgba(251, 191, 36, 0.85)', // Yellow
+                        'rgba(251, 146, 60, 0.85)'  // Orange
+                    ],
+                    borderColor: [
+                        '#ffffff',
+                        '#ffffff',
+                        '#ffffff'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: {
+                                family: 'Sarabun',
+                                size: 12
+                            },
+                            boxWidth: 15
+                        }
+                    },
+                    tooltip: {
+                        titleFont: { family: 'Sarabun' },
+                        bodyFont: { family: 'Sarabun' }
+                    }
+                },
+                cutout: '65%'
+            }
+        });
+
+        // Interactive Target Update Function
+        function updateTarget(value) {
+            targetValue = parseFloat(value);
+            
+            // Update Text Displays
+            document.getElementById('target-value-display').innerText = targetValue.toFixed(2) + '%';
+            document.getElementById('kpi-target-label').innerText = targetValue.toFixed(2) + '%';
+
+            // Calculate Difference
+            const diff = actualJuneValue - targetValue;
+            const diffElement = document.getElementById('target-diff');
+            
+            if (diff >= 0) {
+                diffElement.innerText = '+' + diff.toFixed(2) + '%';
+                diffElement.className = 'text-emerald-700 font-medium';
+            } else {
+                diffElement.innerText = diff.toFixed(2) + '%';
+                diffElement.className = 'text-amber-700 font-medium';
+            }
+        }
+    </script>
+<a href="kaize.html" style="position: fixed; bottom: 20px; right: 20px; background-color: #0d6efd; color: white; padding: 10px 20px; text-decoration: none; border-radius: 30px; font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); z-index: 9999;">
+    หน้าถัดไป (Kaizen) ➜
+</body>
+</html>

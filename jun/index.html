@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - ติดตามผลการดำเนินงาน มิ.ย. 2026</title>
+    
+    <!-- นำเข้า Tailwind CSS สำหรับการจัดรูปแบบที่สวยงามและรวดเร็ว -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- นำเข้า FontAwesome สำหรับไอคอน -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- นำเข้า Font 'Prompt' จาก Google Fonts เพื่อให้อ่านภาษาไทยได้สวยงาม -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #f0f4f8; /* พื้นหลังสีเทาอมฟ้าอ่อนสบายตา */
+        }
+        
+        /* Effect ตอนเอาเมาส์ชี้การ์ด */
+        .kpi-card {
+            transition: all 0.3s ease;
+        }
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-12 bg-gradient-to-br from-slate-50 to-blue-50">
+
+    <!-- Header Section -->
+    <header class="bg-white shadow-md border-b-4 border-blue-600 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-4">
+                <!-- วิธีใส่รูป: เปลี่ยน "path/to/your/logo.png" เป็นที่อยู่ไฟล์รูปภาพของคุณ -->
+                <img src="icon logo.png"โลโก้บริษัท พัฒนาสิน ไทยเทรดดิ้ง" class="h-12 object-contain">
+                
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800 tracking-tight">ติดตามผลการดำเนินงาน 2026</h1>
+                    <p class="text-sm text-gray-500 font-medium">บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด | <span class="text-blue-600 font-bold"><i class="fas fa-calendar-alt mr-1"></i> ประจำเดือน มิถุนายน (June)</span></p>
+                </div>
+            </div>
+            
+            <!-- ปุ่มกลับสู่หน้าหลัก -->
+            <a href="../index.html" class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-5 py-2.5 rounded-lg shadow transition-colors text-sm font-medium">
+                <i class="fas fa-home"></i> กลับสู่หน้าหลัก (Dashboard)
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+        
+        <div class="mb-6 flex justify-between items-end">
+            <div>
+                <h2 class="text-xl font-bold text-gray-800">สรุปดัชนีชี้วัดผลงาน (KPIs) 8 หัวข้อ</h2>
+            </div>
+            <div class="flex gap-4 text-sm font-medium">
+                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-green-500"></span> ผ่านเป้าหมาย</span>
+                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-red-500"></span> ต่ำกว่าเป้าหมาย</span>
+            </div>
+        </div>
+
+        <!-- Grid Cards (4 คอลัมน์สำหรับจอใหญ่, 2 สำหรับแท็บเล็ต, 1 สำหรับมือถือ) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+            <!-- 1. ยอดขาย (ไม่ผ่านเป้า - แดง) -->
+            <div class="kpi-card bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col relative">
+                <div class="h-1.5 w-full bg-red-500 absolute top-0 left-0"></div>
+                <div class="p-5 flex-grow">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="text-gray-600 font-semibold text-sm w-3/4 leading-tight">1. ยอดขาย</h3>
+                        <div class="w-10 h-10 rounded-full bg-red-50 text-red-500 flex items-center justify-center text-lg">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <span class="text-2xl font-bold text-red-600">8,170,439</span> <span class="text-xs text-gray-400">บาท</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs bg-gray-50 p-2 rounded-md">
+                        <span class="text-gray-500">เป้าหมาย: <span class="font-medium text-gray-700">> 13M</span></span>
+                        <span class="text-red-600 font-bold bg-red-100 px-2 py-0.5 rounded-full"><i class="fas fa-arrow-down mr-1"></i>ต่ำกว่าเป้า</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. ข้อผิดพลาดจากการจัดส่ง (ผ่านเป้า - เขียว) -->
+            <div class="kpi-card bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col relative">
+                <div class="h-1.5 w-full bg-green-500 absolute top-0 left-0"></div>
+                <div class="p-5 flex-grow">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="text-gray-600 font-semibold text-sm w-3/4 leading-tight">2. ข้อผิดพลาดจากการจัดส่ง</h3>
+                        <div class="w-10 h-10 rounded-full bg-green-50 text-green-500 flex items-center justify-center text-lg">
+                            <i class="fas fa-truck-fast"></i>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <span class="text-2xl font-bold text-green-600">0.66%</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs bg-gray-50 p-2 rounded-md">
+                        <span class="text-gray-500">เป้าหมาย: <span class="font-medium text-gray-700">< 1.50%</span></span>
+                        <span class="text-green-600 font-bold bg-green-100 px-2 py-0.5 rounded-full"><i class="fas fa-check mr-1"></i>ผ่าน</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. กำไรสุทธิก่อนหักภาษี (ไม่ผ่านเป้า - แดง) -->
+            <div class="kpi-card bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col relative">
+                <div class="h-1.5 w-full bg-red-500 absolute top-0 left-0"></div>
+                <div class="p-5 flex-grow">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="text-gray-600 font-semibold text-sm w-3/4 leading-tight">3. กำไรสุทธิก่อนหักภาษี</h3>
+                        <div class="w-10 h-10 rounded-full bg-red-50 text-red-500 flex items-center justify-center text-lg">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <span class="text-2xl font-bold text-red-600">-5.85%</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs bg-gray-50 p-2 rounded-md">
+                        <span class="text-gray-500">เป้าหมาย: <span class="font-medium text-gray-700">> 1.00%</span></span>
+                        <span class="text-red-600 font-bold bg-red-100 px-2 py-0.5 rounded-full"><i class="fas fa-arrow-down mr-1"></i>ต่ำกว่าเป้า</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. สินค้าคงคลังต่อยอดขาย (ไม่ผ่านเป้า - แดง) -->
+            <div class="kpi-card bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col relative">
+                <div class="h-1.5 w-full bg-red-500 absolute top-0 left-0"></div>
+                <div class="p-5 flex-grow">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="text-gray-600 font-semibold text-sm w-3/4 leading-tight">4. สินค้าคงคลังต่อยอดขาย</h3>
+                        <div class="w-10 h-10 rounded-full bg-red-50 text-red-500 flex items-center justify-center text-lg">
+                            <i class="fas fa-boxes-stacked"></i>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <span class="text-2xl font-bold text-red-600">1.75</span> <span class="text-xs text-gray-400">เดือน</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs bg-gray-50 p-2 rounded-md">
+                        <span class="text-gray-500">เป้าหมาย: <span class="font-medium text-gray-700">< 1.40</span></span>
+                        <span class="text-red-600 font-bold bg-red-100 px-2 py-0.5 rounded-full"><i class="fas fa-arrow-up mr-1"></i>เกินเป้า (ไม่ดี)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. ส่งมอบลูกค้าภายใน 3 วัน (ไม่ผ่านเป้า - แดง) -->
+            <div class="kpi-card bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col relative">
+                <div class="h-1.5 w-full bg-red-500 absolute top-0 left-0"></div>
+                <div class="p-5 flex-grow">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="text-gray-600 font-semibold text-sm w-3/4 leading-tight">5. ส่งมอบลูกค้าภายใน 3 วัน</h3>
+                        <div class="w-10 h-10 rounded-full bg-red-50 text-red-500 flex items-center justify-center text-lg">
+                            <i class="fas fa-stopwatch"></i>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <span class="text-2xl font-bold text-red-600">83.41%</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs bg-gray-50 p-2 rounded-md">
+                        <span class="text-gray-500">เป้าหมาย: <span class="font-medium text-gray-700">> 95.00%</span></span>
+                        <span class="text-red-600 font-bold bg-red-100 px-2 py-0.5 rounded-full"><i class="fas fa-arrow-down mr-1"></i>ต่ำกว่าเป้า</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. อุบัติเหตุถึงขั้นหยุดงาน (ผ่านเป้า - เขียว) -->
+            <div class="kpi-card bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col relative">
+                <div class="h-1.5 w-full bg-green-500 absolute top-0 left-0"></div>
+                <div class="p-5 flex-grow">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="text-gray-600 font-semibold text-sm w-3/4 leading-tight">6. อุบัติเหตุถึงขั้นหยุดงาน</h3>
+                        <div class="w-10 h-10 rounded-full bg-green-50 text-green-500 flex items-center justify-center text-lg">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <span class="text-2xl font-bold text-green-600">0</span> <span class="text-xs text-gray-400">ครั้ง</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs bg-gray-50 p-2 rounded-md">
+                        <span class="text-gray-500">เป้าหมาย: <span class="font-medium text-gray-700">0</span></span>
+                        <span class="text-green-600 font-bold bg-green-100 px-2 py-0.5 rounded-full"><i class="fas fa-check mr-1"></i>ผ่าน</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. อัตราการมาทำงาน (ไม่ผ่านเป้า - แดง) -->
+            <div class="kpi-card bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col relative">
+                <div class="h-1.5 w-full bg-red-500 absolute top-0 left-0"></div>
+                <div class="p-5 flex-grow">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="text-gray-600 font-semibold text-sm w-3/4 leading-tight">7. อัตราการมาทำงาน</h3>
+                        <div class="w-10 h-10 rounded-full bg-red-50 text-red-500 flex items-center justify-center text-lg">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <span class="text-2xl font-bold text-red-600">96.62%</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs bg-gray-50 p-2 rounded-md">
+                        <span class="text-gray-500">เป้าหมาย: <span class="font-medium text-gray-700">> 98.00%</span></span>
+                        <span class="text-red-600 font-bold bg-red-100 px-2 py-0.5 rounded-full"><i class="fas fa-arrow-down mr-1"></i>ต่ำกว่าเป้า</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. พนักงานส่งไคเซ็นแต่ละเดือน (ไม่ผ่านเป้า - แดง) -->
+            <div class="kpi-card bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col relative">
+                <div class="h-1.5 w-full bg-red-500 absolute top-0 left-0"></div>
+                <div class="p-5 flex-grow">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="text-gray-600 font-semibold text-sm w-3/4 leading-tight">8. พนักงานส่งไคเซ็น</h3>
+                        <div class="w-10 h-10 rounded-full bg-red-50 text-red-500 flex items-center justify-center text-lg">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <span class="text-2xl font-bold text-red-600">1</span> <span class="text-xs text-gray-400">หัวข้อ</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs bg-gray-50 p-2 rounded-md">
+                        <span class="text-gray-500">เป้าหมาย: <span class="font-medium text-gray-700">> 5</span></span>
+                        <span class="text-red-600 font-bold bg-red-100 px-2 py-0.5 rounded-full"><i class="fas fa-arrow-down mr-1"></i>ต่ำกว่าเป้า</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>
