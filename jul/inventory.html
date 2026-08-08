@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard สรุปผลการดำเนินงานด้านสินค้าคงคลัง - กรกฎาคม 2026</title>
+    <!-- Tailwind CSS สำหรับ Styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js สำหรับสร้างกราฟ -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome สำหรับ Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #f3f4f6; /* สีพื้นหลังโทนเทาอ่อน */
+            color: #1f2937;
+        }
+        .dashboard-card {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease-in-out;
+        }
+        .dashboard-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .highlight-jun {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+        }
+        .highlight-jun .text-gray-500 {
+            color: #e0e7ff;
+        }
+        .highlight-jun .text-gray-900 {
+            color: white;
+        }
+        
+        /* Custom scrollbar for tables */
+        .table-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        .table-container::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+            border-radius: 4px;
+        }
+        .table-container::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        .table-container::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <header class="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-800 tracking-tight">รายงานสรุปผลการดำเนินงานด้านสินค้าคงคลัง</h1>
+                <p class="text-lg text-gray-500 mt-1">บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด /ประจำเดือนกรกฎาคม 2026</p>
+            </div>
+            <div class="mt-4 md:mt-0 flex items-center bg-white py-2 px-4 rounded-lg shadow-sm border border-gray-200">
+                <i class="fas fa-bullseye text-blue-500 mr-2 text-xl"></i>
+                <div>
+                    <p class="text-xs text-gray-500 uppercase font-semibold">เป้าหมายหลัก (Target)</p>
+                    <p class="font-bold text-gray-800">สินค้าคงคลังต่อยอดขาย <span class="text-blue-600 font-extrabold">&lt; 1.40 เดือน</span></p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Key Metrics Row -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            
+            <!-- Current Month (July) Performance -->
+            <div class="dashboard-card p-6 border-l-4 border-red-500">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500 uppercase">สัดส่วนคงคลังต่อยอดขาย (ก.ค. 26)</p>
+                        <h3 class="text-3xl font-bold text-red-600 mt-2">2.16 <span class="text-lg text-gray-500 font-normal">เดือน</span></h3>
+                        <p class="text-xs text-red-500 mt-2 font-medium bg-red-50 inline-block px-2 py-1 rounded">
+                            <i class="fas fa-arrow-up mr-1"></i> ไม่ผ่านเกณฑ์เป้าหมาย
+                        </p>
+                    </div>
+                    <div class="p-3 bg-red-100 rounded-full text-red-500">
+                        <i class="fas fa-exclamation-triangle text-xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Focus Month (June) - Highlighted -->
+            <div class="dashboard-card highlight-jun p-6 border-l-4 border-blue-300 relative overflow-hidden">
+                <!-- Decorative element -->
+                <div class="absolute -right-6 -top-6 opacity-20">
+                    <i class="fas fa-star text-9xl"></i>
+                </div>
+                <div class="flex justify-between items-start relative z-10">
+                    <div>
+                        <p class="text-sm font-medium text-blue-100 uppercase">สัดส่วนคงคลังต่อยอดขาย (มิ.ย. 26)</p>
+                        <h3 class="text-3xl font-bold text-white mt-2">1.75 <span class="text-lg text-blue-200 font-normal">เดือน</span></h3>
+                        <p class="text-xs text-yellow-300 mt-2 font-medium bg-blue-800 bg-opacity-50 inline-block px-2 py-1 rounded">
+                            <i class="fas fa-search mr-1"></i> จุดเริ่มต้นแนวโน้มสูงขึ้น
+                        </p>
+                    </div>
+                    <div class="p-3 bg-blue-500 bg-opacity-40 rounded-full text-white shadow-inner">
+                        <i class="fas fa-chart-line text-xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- YTD Average -->
+            <div class="dashboard-card p-6 border-l-4 border-green-500">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500 uppercase">สัดส่วนเฉลี่ยสะสม (ม.ค. - ก.ค. 26)</p>
+                        <h3 class="text-3xl font-bold text-gray-800 mt-2">1.42 <span class="text-lg text-gray-500 font-normal">เดือน</span></h3>
+                        <p class="text-xs text-yellow-600 mt-2 font-medium bg-yellow-50 inline-block px-2 py-1 rounded">
+                            <i class="fas fa-exclamation-circle mr-1"></i> ปริ่มเกณฑ์เป้าหมาย (1.40)
+                        </p>
+                    </div>
+                    <div class="p-3 bg-green-100 rounded-full text-green-500">
+                        <i class="fas fa-balance-scale text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Total Inventory Value -->
+            <div class="dashboard-card p-6 border-l-4 border-purple-500">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500 uppercase">มูลค่าคงคลังล่าสุด (ก.ค. 26)</p>
+                        <h3 class="text-3xl font-bold text-gray-800 mt-2">14.08 <span class="text-lg text-gray-500 font-normal">ล้านบาท</span></h3>
+                        <p class="text-xs text-purple-600 mt-2 font-medium bg-purple-50 inline-block px-2 py-1 rounded">
+                            <i class="fas fa-box-open mr-1"></i> เทียบกับยอดขาย 6.53 ลบ.
+                        </p>
+                    </div>
+                    <div class="p-3 bg-purple-100 rounded-full text-purple-500">
+                        <i class="fas fa-coins text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Main Chart: Inventory to Sales Ratio Trend -->
+            <div class="dashboard-card p-6 lg:col-span-2">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-bold text-gray-800">แนวโน้มสัดส่วนสินค้าคงคลังต่อยอดขาย (เดือน)</h2>
+                    <div class="flex items-center text-sm">
+                        <span class="inline-block w-3 h-3 bg-red-500 rounded-full mr-1"></span> <span class="mr-3">สูงกว่าเป้า</span>
+                        <span class="inline-block w-3 h-3 bg-green-500 rounded-full mr-1"></span> <span>ตามเป้า</span>
+                    </div>
+                </div>
+                <div class="relative h-72 w-full">
+                    <canvas id="ratioChart"></canvas>
+                </div>
+                <!-- Analytical Insight under chart -->
+                <div class="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-100">
+                    <p class="text-sm text-gray-700 leading-relaxed">
+                        <i class="fas fa-info-circle text-blue-500 mr-1"></i>
+                        <span class="font-semibold">ข้อสังเกต:</span> สัดส่วนเพิ่มขึ้นอย่างมีนัยสำคัญเริ่มตั้งแต่ 
+                        <span class="bg-blue-100 text-blue-800 px-1 rounded font-medium">เดือนมิถุนายน (1.75)</span> 
+                        และพุ่งสูงสุดใน <span class="bg-red-100 text-red-800 px-1 rounded font-medium">เดือนกรกฎาคม (2.16)</span> 
+                        สวนทางกับช่วงไตรมาสแรก (ม.ค.-มี.ค.) ที่บริหารจัดการได้ตามเป้าหมาย (สีเขียว)
+                    </p>
+                </div>
+            </div>
+
+            <!-- Secondary Chart: Sales vs Inventory Value -->
+            <div class="dashboard-card p-6">
+                <h2 class="text-lg font-bold text-gray-800 mb-4">เปรียบเทียบยอดขาย และ มูลค่าคงคลัง</h2>
+                <div class="relative h-64 w-full">
+                    <canvas id="valueChart"></canvas>
+                </div>
+                <div class="mt-4 p-3 bg-yellow-50 rounded-lg border border-yellow-100 text-sm">
+                    <p class="text-gray-700">
+                        <span class="font-semibold text-yellow-700">ปัญหาหลัก:</span> ยอดขายในเดือน มิ.ย. และ ก.ค. ลดลงต่อเนื่อง 
+                        ในขณะที่มูลค่าสินค้าคงคลังยังคงรักษาระดับสูง (ประมาณ 13-14 ล้านบาท) ไม่ได้ลดลงตามสัดส่วนยอดขาย
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analysis and Action Section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <!-- Cause Analysis -->
+            <div class="dashboard-card p-6">
+                <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center border-b pb-2">
+                    <i class="fas fa-search-dollar text-indigo-500 mr-2"></i> วิเคราะห์สาเหตุยอดคงคลังสะสม (มิ.ย. - ก.ค.)
+                </h2>
+                <ul class="space-y-4 mt-4">
+                    <li class="flex items-start">
+                        <div class="flex-shrink-0 mt-1">
+                            <span class="flex items-center justify-center h-6 w-6 rounded-full bg-red-100 text-red-500 font-bold text-xs">1</span>
+                        </div>
+                        <div class="ml-3">
+                            <h4 class="text-md font-semibold text-gray-800">ยอดขายลดลงฉับพลัน</h4>
+                            <p class="text-sm text-gray-600 mt-1">ยอดขายเดือน ก.ค. (6.53 ลบ.) ต่ำที่สุดในรอบปี ลดลงจากเดือน พ.ค. เกือบ 35% ทำให้การระบายสินค้าช้ากว่าแผน</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="flex-shrink-0 mt-1">
+                            <span class="flex items-center justify-center h-6 w-6 rounded-full bg-red-100 text-red-500 font-bold text-xs">2</span>
+                        </div>
+                        <div class="ml-3">
+                            <h4 class="text-md font-semibold text-gray-800">การนำเข้า/สั่งซื้อล่วงหน้าไม่สอดคล้อง (Overstocking)</h4>
+                            <p class="text-sm text-gray-600 mt-1">มูลค่าคงคลังในเดือน ก.ค. ปรับตัวสูงขึ้น (14.08 ลบ.) เมื่อเทียบกับ มิ.ย. (13.31 ลบ.) แสดงให้เห็นว่ามีการรับสินค้าเข้า ในขณะที่ยอดขายกำลังตก</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="flex-shrink-0 mt-1">
+                            <span class="flex items-center justify-center h-6 w-6 rounded-full bg-red-100 text-red-500 font-bold text-xs">3</span>
+                        </div>
+                        <div class="ml-3">
+                            <h4 class="text-md font-semibold text-gray-800">ผลกระทบต่อเนื่องจากเดือนมิถุนายน</h4>
+                            <p class="text-sm text-gray-600 mt-1">สัญญาณเริ่มต้นใน <strong class="text-blue-600">เดือนมิถุนายน</strong> ที่ยอดขายเริ่มตก (เหลือ 7.6 ลบ.) แต่สต็อกไม่ได้รับการปรับลดทันที ทำให้กลายเป็นปัญหาพอกพูนในเดือนกรกฎาคม</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Action Plan -->
+            <div class="dashboard-card p-6 bg-gradient-to-br from-indigo-50 to-white">
+                <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center border-b pb-2">
+                    <i class="fas fa-clipboard-list text-green-500 mr-2"></i> ข้อเสนอแนะและแนวทางแก้ไข
+                </h2>
+                <div class="space-y-3 mt-4">
+                    <div class="bg-white p-3 rounded border border-gray-200 shadow-sm flex items-start gap-3">
+                        <i class="fas fa-tags text-orange-400 mt-1"></i>
+                        <div>
+                            <p class="font-semibold text-gray-800 text-sm">จัดโปรโมชั่นระบายสต็อกเร่งด่วน</p>
+                            <p class="text-xs text-gray-500">มุ่งเน้นสินค้าคงคลังที่ค้างนานเกิน 3 เดือน หรือสินค้าที่มีปริมาณมากเกินความจำเป็น</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-3 rounded border border-gray-200 shadow-sm flex items-start gap-3">
+                        <i class="fas fa-hand-paper text-red-400 mt-1"></i>
+                        <div>
+                            <p class="font-semibold text-gray-800 text-sm">ชะลอการสั่งซื้อสินค้าใหม่ (Purchase Freeze)</p>
+                            <p class="text-xs text-gray-500">ในกลุ่มสินค้าที่ไม่จำเป็น หรือปรับแผนการรับมอบสินค้าให้ช้าลงเพื่อรอยอดขายฟื้นตัว</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-3 rounded border border-gray-200 shadow-sm flex items-start gap-3">
+                        <i class="fas fa-chart-pie text-blue-400 mt-1"></i>
+                        <div>
+                            <p class="font-semibold text-gray-800 text-sm">ทบทวนพยากรณ์ยอดขาย (Sales Forecast)</p>
+                            <p class="text-xs text-gray-500">ปรับตัวเลขคาดการณ์ช่วง Q3 ให้สอดคล้องกับสถานการณ์จริงเดือน มิ.ย.-ก.ค. เพื่อตั้งเป้าหมายสต็อกใหม่</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Data Table -->
+        <div class="dashboard-card overflow-hidden mb-8">
+            <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-white">
+                <h2 class="text-lg font-bold text-gray-800">
+                    <i class="fas fa-table text-indigo-500 mr-2"></i> สรุปข้อมูลเชิงลึกรายเดือน ประจำปี 2026
+                </h2>
+                <span class="bg-indigo-100 text-indigo-800 border border-indigo-200 px-3 py-1 rounded-full text-xs font-semibold flex items-center shadow-sm">
+                    <i class="fas fa-crosshairs mr-1"></i> โฟกัสข้อมูลเดือน ก.ค.
+                </span>
+            </div>
+            <div class="table-container overflow-x-auto p-6 bg-white">
+                <table class="min-w-full text-sm">
+                    <thead>
+                        <tr class="border-b-2 border-gray-200">
+                            <th scope="col" class="px-4 py-4 text-left font-semibold text-gray-600 tracking-wider">รายการ</th>
+                            <th scope="col" class="px-3 py-4 text-right font-semibold text-gray-500 tracking-wider">Jan-26</th>
+                            <th scope="col" class="px-3 py-4 text-right font-semibold text-gray-500 tracking-wider">Feb-26</th>
+                            <th scope="col" class="px-3 py-4 text-right font-semibold text-gray-500 tracking-wider">Mar-26</th>
+                            <th scope="col" class="px-3 py-4 text-right font-semibold text-gray-500 tracking-wider">Apr-26</th>
+                            <th scope="col" class="px-3 py-4 text-right font-semibold text-gray-500 tracking-wider">May-26</th>
+                            <th scope="col" class="px-3 py-4 text-right font-semibold text-gray-500 tracking-wider">Jun-26</th>
+                            <!-- Highlight July column header -->
+                            <th scope="col" class="px-4 py-4 text-right font-bold text-indigo-700 bg-indigo-50 border-t-2 border-l-2 border-r-2 border-indigo-200 rounded-t-lg shadow-inner">Jul-26</th>
+                            <th scope="col" class="px-4 py-4 text-right font-bold text-gray-700 bg-gray-50 tracking-wider rounded-tr-lg">สรุป (YTD)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        <!-- Row 1: Sales -->
+                        <tr class="hover:bg-gray-50 transition-colors duration-150">
+                            <td class="px-4 py-5 whitespace-nowrap font-medium text-gray-700">
+                                <div class="flex items-center"><i class="fas fa-chart-line text-green-500 mr-2 w-4"></i> ยอดขาย (บาท)</div>
+                            </td>
+                            <td class="px-3 py-5 whitespace-nowrap text-gray-600 text-right">11,910,843.86</td>
+                            <td class="px-3 py-5 whitespace-nowrap text-gray-600 text-right">9,151,800.50</td>
+                            <td class="px-3 py-5 whitespace-nowrap text-gray-600 text-right">13,060,472.26</td>
+                            <td class="px-3 py-5 whitespace-nowrap text-gray-600 text-right">9,984,669.00</td>
+                            <td class="px-3 py-5 whitespace-nowrap text-gray-600 text-right">9,927,971.84</td>
+                            <td class="px-3 py-5 whitespace-nowrap text-gray-600 text-right">7,611,282.51</td>
+                            <!-- Highlight July data -->
+                            <td class="px-4 py-5 whitespace-nowrap text-indigo-900 font-bold bg-indigo-50 border-l-2 border-r-2 border-indigo-200 text-right shadow-inner">6,533,230.32</td>
+                            <td class="px-4 py-5 whitespace-nowrap text-gray-800 font-semibold text-right bg-gray-50">68,180,270.29</td>
+                        </tr>
+                        <!-- Row 2: Inventory Value -->
+                        <tr class="hover:bg-gray-50 transition-colors duration-150">
+                            <td class="px-4 py-5 whitespace-nowrap font-medium text-gray-700">
+                                <div class="flex items-center"><i class="fas fa-boxes text-orange-400 mr-2 w-4"></i> สินค้าคงคลัง (บาท)</div>
+                            </td>
+                            <td class="px-3 py-5 whitespace-nowrap text-gray-600 text-right">13,796,185.96</td>
+                            <td class="px-3 py-5 whitespace-nowrap text-gray-600 text-right">12,438,918.28</td>
+                            <td class="px-3 py-5 whitespace-nowrap text-gray-600 text-right">15,103,255.31</td>
+                            <td class="px-3 py-5 whitespace-nowrap text-gray-600 text-right">14,092,964.01</td>
+                            <td class="px-3 py-5 whitespace-nowrap text-gray-600 text-right">13,911,609.90</td>
+                            <td class="px-3 py-5 whitespace-nowrap text-gray-600 text-right">13,318,931.14</td>
+                            <!-- Highlight July data -->
+                            <td class="px-4 py-5 whitespace-nowrap text-indigo-900 font-bold bg-indigo-50 border-l-2 border-r-2 border-indigo-200 text-right shadow-inner">14,087,015.44</td>
+                            <td class="px-4 py-5 whitespace-nowrap text-gray-800 font-semibold text-right bg-gray-50">96,748,880.04</td>
+                        </tr>
+                        <!-- Row 3: Ratio -->
+                        <tr class="bg-slate-50 border-t-2 border-gray-200">
+                            <td class="px-4 py-5 whitespace-nowrap">
+                                <div class="font-bold text-gray-800">สัดส่วนคงคลังต่อยอดขาย</div>
+                                <div class="text-xs text-gray-500 mt-1">เป้าหมาย <span class="bg-white border border-gray-300 text-gray-700 px-1.5 py-0.5 rounded shadow-sm font-medium">&lt; 1.40</span> เดือน</div>
+                            </td>
+                            <td class="px-3 py-5 whitespace-nowrap text-right"><span class="inline-flex items-center justify-center px-2.5 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 border border-green-200">1.16</span></td>
+                            <td class="px-3 py-5 whitespace-nowrap text-right"><span class="inline-flex items-center justify-center px-2.5 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 border border-green-200">1.36</span></td>
+                            <td class="px-3 py-5 whitespace-nowrap text-right"><span class="inline-flex items-center justify-center px-2.5 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 border border-green-200">1.16</span></td>
+                            <td class="px-3 py-5 whitespace-nowrap text-right"><span class="inline-flex items-center justify-center px-2.5 py-1 rounded-full text-xs font-bold bg-red-50 text-red-600 border border-red-200">1.41</span></td>
+                            <td class="px-3 py-5 whitespace-nowrap text-right"><span class="inline-flex items-center justify-center px-2.5 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 border border-green-200">1.40</span></td>
+                            <td class="px-3 py-5 whitespace-nowrap text-right"><span class="inline-flex items-center justify-center px-2.5 py-1 rounded-full text-xs font-bold bg-red-100 text-red-600 border border-red-200">1.75</span></td>
+                            <!-- Highlight July data -->
+                            <td class="px-4 py-5 whitespace-nowrap bg-indigo-50 border-l-2 border-r-2 border-b-2 border-indigo-200 rounded-b-lg text-right shadow-inner">
+                                <span class="inline-flex items-center justify-center px-3 py-1.5 rounded-full text-sm font-extrabold bg-red-500 text-white shadow-md transform hover:scale-105 transition-transform cursor-default">
+                                    <i class="fas fa-exclamation-triangle mr-1 text-xs"></i> 2.16
+                                </span>
+                            </td>
+                            <td class="px-4 py-5 whitespace-nowrap text-right bg-gray-50 rounded-br-lg"><span class="inline-flex items-center justify-center px-2.5 py-1 rounded-full text-sm font-bold bg-yellow-100 text-yellow-800 border border-yellow-300">1.42</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="mt-8 text-center text-sm text-gray-500 pb-8">
+            <p>สร้างรายงานอัตโนมัติ | อ้างอิงข้อมูล: image_7f5c23.png</p>
+        </footer>
+    </div>
+
+    <script>
+        // Data arrays from the image
+        const labels = ['Jan-26', 'Feb-26', 'Mar-26', 'Apr-26', 'May-26', 'Jun-26', 'Jul-26'];
+        const salesData = [11.91, 9.15, 13.06, 9.98, 9.92, 7.61, 6.53]; // Converted to millions for display
+        const inventoryData = [13.79, 12.43, 15.10, 14.09, 13.91, 13.31, 14.08]; // Converted to millions
+        const ratioData = [1.16, 1.36, 1.16, 1.41, 1.40, 1.75, 2.16];
+        const targetRatio = 1.40;
+
+        // Function to determine point color based on target
+        const getRatioPointColors = () => {
+            return ratioData.map((val, index) => {
+                if (index === 5) return 'rgb(37, 99, 235)'; // Blue for June to highlight
+                return val > targetRatio ? 'rgb(239, 68, 68)' : 'rgb(34, 197, 94)'; // Red if over, Green if under
+            });
+        };
+
+        const getRatioPointSizes = () => {
+            return ratioData.map((val, index) => {
+                return (index === 5 || index === 6) ? 8 : 5; // Larger points for Jun and Jul
+            });
+        };
+
+        // --- Chart 1: Ratio Trend ---
+        const ctxRatio = document.getElementById('ratioChart').getContext('2d');
+        new Chart(ctxRatio, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'สัดส่วนจริง',
+                        data: ratioData,
+                        borderColor: 'rgba(75, 85, 99, 0.5)', // Gray line
+                        backgroundColor: 'transparent',
+                        borderWidth: 2,
+                        pointBackgroundColor: getRatioPointColors(),
+                        pointBorderColor: 'white',
+                        pointBorderWidth: 2,
+                        pointRadius: getRatioPointSizes(),
+                        pointHoverRadius: 8,
+                        tension: 0.3, // slight curve
+                        fill: false
+                    },
+                    {
+                        label: 'เป้าหมาย (1.40)',
+                        data: Array(7).fill(targetRatio),
+                        borderColor: 'rgba(234, 179, 8, 0.8)', // Yellow dashed line
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        pointRadius: 0,
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: { font: { family: 'Kanit' } }
+                    },
+                    tooltip: {
+                        titleFont: { family: 'Kanit' },
+                        bodyFont: { family: 'Kanit' },
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.parsed.y + ' เดือน';
+                            }
+                        }
+                    },
+                    // Custom plugin to draw highlight box for June
+                    beforeDraw: (chart) => {
+                        // Complex custom drawing omitted for simplicity, using standard charts, 
+                        // highlighting is done via point colors and CSS instead.
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 1.0,
+                        max: 2.5,
+                        grid: { color: 'rgba(0,0,0,0.05)' },
+                        ticks: { font: { family: 'Kanit' } },
+                        title: {
+                            display: true,
+                            text: 'จำนวนเดือน',
+                            font: { family: 'Kanit' }
+                        }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { 
+                            font: { 
+                                family: 'Kanit',
+                                weight: (context) => context.tick.value === 5 ? 'bold' : 'normal' // Bold Jun
+                            },
+                            color: (context) => context.tick.value === 5 ? '#2563eb' : '#6b7280' // Blue Jun
+                        }
+                    }
+                }
+            }
+        });
+
+        // --- Chart 2: Sales vs Inventory Bar Chart ---
+        const ctxValue = document.getElementById('valueChart').getContext('2d');
+        new Chart(ctxValue, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'ยอดขาย (ล้านบาท)',
+                        data: salesData,
+                        backgroundColor: 'rgba(59, 130, 246, 0.7)', // Blue
+                        borderColor: 'rgb(59, 130, 246)',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    },
+                    {
+                        label: 'สินค้าคงคลัง (ล้านบาท)',
+                        data: inventoryData,
+                        backgroundColor: 'rgba(107, 114, 128, 0.4)', // Gray
+                        borderColor: 'rgb(107, 114, 128)',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: { font: { family: 'Kanit' }, boxWidth: 12 }
+                    },
+                    tooltip: {
+                        titleFont: { family: 'Kanit' },
+                        bodyFont: { family: 'Kanit' }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(0,0,0,0.05)' },
+                        ticks: { font: { family: 'Kanit' } }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { 
+                            font: { family: 'Kanit' },
+                            color: (context) => context.tick.value === 5 ? '#2563eb' : '#6b7280' // Highlight Jun
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+<a href="deliveryFerformance.html" style="position: fixed; bottom: 20px; right: 20px; background-color: #0d6efd; color: white; padding: 10px 20px; text-decoration: none; border-radius: 30px; font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); z-index: 9999;">
+    หน้าถัดไป (Delivery Perf.) ➜
+</body>
+</html>

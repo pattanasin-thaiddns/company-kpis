@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard สรุปรายงานกำไรสุทธิก่อนหักภาษี - บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #f0fdfa; /* Light teal background */
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(to right, #0d9488, #2563eb);
+        }
+        .table-row-hover:hover {
+            background-color: #f1f5f9;
+        }
+        
+        /* Smooth scrolling */
+        html { scroll-behavior: smooth; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        /* Print Styles - สำหรับการพิมพ์รายงาน */
+        @media print {
+            @page { size: landscape; margin: 10mm; }
+            body { 
+                background-color: white !important; 
+                -webkit-print-color-adjust: exact; /* บังคับให้พิมพ์สีพื้นหลัง */
+                print-color-adjust: exact; 
+            }
+            header { position: static !important; } /* ยกเลิก sticky ตอนพิมพ์ */
+            .no-print { display: none !important; } /* ซ่อนปุ่มต่างๆ ตอนพิมพ์ */
+            .glass-card { 
+                break-inside: avoid; /* ป้องกันกล่องข้อมูลถูกตัดครึ่งหน้ากระดาษ */
+                box-shadow: none !important;
+                border: 1px solid #e2e8f0 !important;
+            }
+            /* บังคับให้แสดงกราฟ 2 คอลัมน์เหมือนบนหน้าจอคอมพิวเตอร์ตอนพิมพ์ */
+            .print-grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen">
+
+    <header class="bg-gradient-to-r from-teal-600 to-blue-600 text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 sm:py-6 flex flex-col sm:flex-row justify-between items-center">
+            <div class="flex items-center gap-4 mb-4 sm:mb-0">
+                <div class="bg-white p-2 rounded-full text-teal-600 text-2xl w-12 h-12 flex items-center justify-center shadow-inner">
+                    <i class="fa-solid fa-chart-line"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-bold tracking-tight">บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด</h1>
+                    <p class="text-teal-100 text-sm sm:text-base">รายงานสรุปกำไรสุทธิก่อนหักภาษี ประจำเดือน กรกฎาคม 2026</p>
+                </div>
+            </div>
+            <div class="flex gap-3 flex-wrap justify-center sm:justify-end no-print">
+                <a href="financial-dashoardNK.html" class="bg-indigo-500 hover:bg-indigo-400 transition px-4 py-2 rounded-full text-sm font-medium shadow-md flex items-center gap-2">
+                    <i class="fa-solid fa-building"></i> กำไรสุทธิก่อนหักภาษี พัฒนาสิน (สาขาหนองคาย)
+                </a>
+                <button onclick="document.getElementById('monthly-comparison').scrollIntoView()" class="bg-white/20 hover:bg-white/30 transition px-4 py-2 rounded-full text-sm font-medium border border-white/30 backdrop-blur-sm flex items-center gap-2">
+                    <i class="fa-solid fa-table"></i> ตารางเปรียบเทียบ
+                </button>
+                <button onclick="window.print()" class="bg-teal-500 hover:bg-teal-400 transition px-4 py-2 rounded-full text-sm font-medium shadow-md flex items-center gap-2">
+                    <i class="fa-solid fa-print"></i> พิมพ์รายงาน
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        
+        <!-- Summary Cards Section for July -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-6 text-slate-700 flex items-center gap-2 border-l-4 border-teal-500 pl-3">
+                <i class="fa-solid fa-calendar-day text-teal-500"></i> สรุปผลประกอบการ เดือนกรกฎาคม 2026
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                <!-- Revenue Card -->
+                <div class="glass-card p-6 border-t-4 border-t-blue-500 relative overflow-hidden group">
+                    <div class="absolute -right-4 -top-4 text-blue-100 opacity-20 text-7xl group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-money-bill-wave"></i>
+                    </div>
+                    <p class="text-sm text-slate-500 font-medium mb-1">รายได้รวม</p>
+                    <h3 class="text-2xl lg:text-3xl font-bold text-slate-800">6,077,220</h3>
+                    <p class="text-xs text-slate-400 mt-2">บาท</p>
+                </div>
+
+                <!-- Cost Card -->
+                <div class="glass-card p-6 border-t-4 border-t-orange-500 relative overflow-hidden group">
+                    <div class="absolute -right-4 -top-4 text-orange-100 opacity-20 text-7xl group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-dolly"></i>
+                    </div>
+                    <p class="text-sm text-slate-500 font-medium mb-1">ต้นทุนขายรวม</p>
+                    <h3 class="text-2xl lg:text-3xl font-bold text-slate-800">5,228,881</h3>
+                    <p class="text-xs text-slate-400 mt-2">บาท</p>
+                </div>
+
+                <!-- Expenses Card -->
+                <div class="glass-card p-6 border-t-4 border-t-purple-500 relative overflow-hidden group">
+                    <div class="absolute -right-4 -top-4 text-purple-100 opacity-20 text-7xl group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-file-invoice-dollar"></i>
+                    </div>
+                    <p class="text-sm text-slate-500 font-medium mb-1">รวมค่าใช้จ่ายดำเนินงาน</p>
+                    <h3 class="text-2xl lg:text-3xl font-bold text-slate-800">1,302,741</h3>
+                    <p class="text-xs text-slate-400 mt-2">บาท (พนักงาน + สาธารณูปโภค + อื่นๆ)</p>
+                </div>
+
+                <!-- Net Profit/Loss Card -->
+                <div class="glass-card p-6 border-t-4 border-t-red-500 relative overflow-hidden group bg-red-50/50">
+                    <div class="absolute -right-4 -top-4 text-red-200 opacity-30 text-7xl group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-arrow-trend-down"></i>
+                    </div>
+                    <p class="text-sm text-slate-500 font-medium mb-1">ขาดทุนก่อนหักภาษี</p>
+                    <h3 class="text-2xl lg:text-3xl font-bold text-red-600">-454,402</h3>
+                    <div class="mt-2 flex items-center gap-2">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                            Margin -7.47%
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
+            <!-- Expenses Decrease -->
+            <div class="glass-card p-0 overflow-hidden border border-emerald-100">
+                <div class="bg-emerald-500 text-white p-4 flex items-center gap-3">
+                    <div class="bg-white/20 p-2 rounded-full">
+                        <i class="fa-solid fa-arrow-down text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold">1. ค่าใช้จ่ายที่ลดลง (เทียบกับเดือน มิ.ย.)</h3>
+                </div>
+                <div class="p-6">
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">1</span>
+                            <div>
+                                <p class="text-slate-800 font-medium">ค่าไฟฟ้าลดลง</p>
+                                <p class="text-slate-600 text-sm mt-1">จำนวน <span class="font-bold text-emerald-600">3,108</span> บาท</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">2</span>
+                            <div>
+                                <p class="text-slate-800 font-medium">ค่าล่วงเวลาลดลง</p>
+                                <p class="text-slate-600 text-sm mt-1">จำนวน <span class="font-bold text-emerald-600">5,634</span> บาท</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Expenses Increase -->
+            <div class="glass-card p-0 overflow-hidden border border-rose-100">
+                <div class="bg-rose-500 text-white p-4 flex items-center gap-3">
+                    <div class="bg-white/20 p-2 rounded-full">
+                        <i class="fa-solid fa-arrow-up text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold">2. ค่าใช้จ่ายที่เพิ่มขึ้น</h3>
+                </div>
+                <div class="p-6">
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center font-bold">1</span>
+                            <div>
+                                <p class="text-slate-800 font-medium">ภาษีป้ายปี 2569</p>
+                                <p class="text-slate-600 text-sm mt-1">ยอด <span class="font-bold text-rose-600">2,200</span> บาท</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center font-bold">2</span>
+                            <div>
+                                <p class="text-slate-800 font-medium">ค่าแบบฟอร์มพนักงาน</p>
+                                <p class="text-slate-600 text-sm mt-1">ยอด <span class="font-bold text-rose-600">10,548</span> บาท <br><span class="text-xs text-slate-400">(เนื่องจากมีการสั่งซื้อเสื้อพนักงานและปักโลโก้ใหม่)</span></p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="monthly-comparison" class="mb-10 scroll-mt-24">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b pb-4">
+                <h2 class="text-2xl font-bold text-slate-700 flex items-center gap-2 border-l-4 border-blue-500 pl-3">
+                    <i class="fa-solid fa-chart-bar text-blue-500"></i> 3. สรุปตัวเลขเปรียบเทียบ (มกราคม - กรกฎาคม 2026)
+                </h2>
+                <div class="mt-4 sm:mt-0 bg-blue-100 text-blue-800 px-4 py-2 rounded-lg font-semibold text-sm">
+                    งบกำไรขาดทุนสะสม (YTD)
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 print-grid-2">
+                <div class="glass-card p-4">
+                    <h3 class="text-center font-semibold text-slate-600 mb-2">แนวโน้มรายได้และกำไรขั้นต้น (ม.ค. - ก.ค.)</h3>
+                    <div class="relative h-64 w-full">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+                <div class="glass-card p-4">
+                    <h3 class="text-center font-semibold text-slate-600 mb-2">กำไร (ขาดทุน) ก่อนหักภาษี และ Margin (ม.ค. - ก.ค.)</h3>
+                    <div class="relative h-64 w-full">
+                        <canvas id="profitChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Table -->
+            <div class="glass-card overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left text-slate-600">
+                        <thead class="text-xs text-slate-700 uppercase bg-slate-100 border-b">
+                            <tr>
+                                <th scope="col" class="px-4 py-4 font-bold text-center w-12">ลำดับ</th>
+                                <th scope="col" class="px-4 py-4 font-bold min-w-[200px]">รายการ</th>
+                                <th scope="col" class="px-3 py-4 font-bold text-right min-w-[100px]">Jan-26</th>
+                                <th scope="col" class="px-3 py-4 font-bold text-right min-w-[100px]">Feb-26</th>
+                                <th scope="col" class="px-3 py-4 font-bold text-right min-w-[100px]">Mar-26</th>
+                                <th scope="col" class="px-3 py-4 font-bold text-right min-w-[100px]">Apr-26</th>
+                                <th scope="col" class="px-3 py-4 font-bold text-right min-w-[100px]">May-26</th>
+                                <th scope="col" class="px-3 py-4 font-bold text-right min-w-[100px]">Jun-26</th>
+                                <th scope="col" class="px-3 py-4 font-bold text-right min-w-[100px] bg-teal-50">Jul-26</th>
+                                <th scope="col" class="px-4 py-4 font-bold text-right min-w-[120px] bg-slate-200 text-slate-800">รวมสะสม (YTD)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-white border-b table-row-hover">
+                                <td class="px-4 py-3 text-center">1</td>
+                                <th scope="row" class="px-4 py-3 font-medium text-slate-900 whitespace-nowrap">รายได้รวม</th>
+                                <td class="px-3 py-3 text-right">11,054,152</td>
+                                <td class="px-3 py-3 text-right">8,480,892</td>
+                                <td class="px-3 py-3 text-right">12,179,846</td>
+                                <td class="px-3 py-3 text-right">9,294,438</td>
+                                <td class="px-3 py-3 text-right">9,213,289</td>
+                                <td class="px-3 py-3 text-right">7,086,479</td>
+                                <td class="px-3 py-3 text-right font-semibold bg-teal-50/50">6,077,220</td>
+                                <td class="px-4 py-3 text-right font-bold bg-slate-100">63,386,316</td>
+                            </tr>
+                            <tr class="bg-white border-b table-row-hover">
+                                <td class="px-4 py-3 text-center">2</td>
+                                <th scope="row" class="px-4 py-3 font-medium text-slate-900 whitespace-nowrap pl-8 text-slate-500">หัก ต้นทุนขายรวม</th>
+                                <td class="px-3 py-3 text-right">9,250,000</td>
+                                <td class="px-3 py-3 text-right">7,317,938</td>
+                                <td class="px-3 py-3 text-right">10,257,681</td>
+                                <td class="px-3 py-3 text-right">7,467,084</td>
+                                <td class="px-3 py-3 text-right">7,726,240</td>
+                                <td class="px-3 py-3 text-right">6,085,787</td>
+                                <td class="px-3 py-3 text-right font-semibold bg-teal-50/50">5,228,881</td>
+                                <td class="px-4 py-3 text-right font-bold bg-slate-100">53,333,611</td>
+                            </tr>
+                            <tr class="bg-slate-50 border-b font-medium text-slate-800 table-row-hover">
+                                <td class="px-4 py-3 text-center">3</td>
+                                <th scope="row" class="px-4 py-3 font-semibold whitespace-nowrap">กำไรขั้นต้น</th>
+                                <td class="px-3 py-3 text-right text-blue-600">1,804,152</td>
+                                <td class="px-3 py-3 text-right text-blue-600">1,162,954</td>
+                                <td class="px-3 py-3 text-right text-blue-600">1,922,165</td>
+                                <td class="px-3 py-3 text-right text-blue-600">1,827,353</td>
+                                <td class="px-3 py-3 text-right text-blue-600">1,487,049</td>
+                                <td class="px-3 py-3 text-right text-blue-600">1,000,692</td>
+                                <td class="px-3 py-3 text-right font-bold text-blue-600 bg-teal-100/50">848,339</td>
+                                <td class="px-4 py-3 text-right font-bold text-blue-700 bg-slate-200/70">10,052,704</td>
+                            </tr>
+                            <tr class="bg-white border-b table-row-hover">
+                                <td class="px-4 py-3 text-center">4</td>
+                                <th scope="row" class="px-4 py-3 font-medium text-slate-900 whitespace-nowrap pl-8 text-slate-500">รวมค่าใช้จ่าย (พนักงาน+สาธารณูปโภค+อื่นๆ)</th>
+                                <td class="px-3 py-3 text-right">1,305,202</td>
+                                <td class="px-3 py-3 text-right">1,279,114</td>
+                                <td class="px-3 py-3 text-right">1,296,151</td>
+                                <td class="px-3 py-3 text-right">1,341,063</td>
+                                <td class="px-3 py-3 text-right">1,303,425</td>
+                                <td class="px-3 py-3 text-right">1,415,902</td>
+                                <td class="px-3 py-3 text-right font-semibold bg-teal-50/50">1,302,741</td>
+                                <td class="px-4 py-3 text-right font-bold bg-slate-100">9,243,598</td>
+                            </tr>
+                            <tr class="bg-slate-100 border-b font-bold text-slate-800">
+                                <td class="px-4 py-4 text-center">5</td>
+                                <th scope="row" class="px-4 py-4 text-base whitespace-nowrap">กำไร (ขาดทุน) ก่อนหักภาษี</th>
+                                <td class="px-3 py-4 text-right text-emerald-600">498,950</td>
+                                <td class="px-3 py-4 text-right text-red-500">-116,160</td>
+                                <td class="px-3 py-4 text-right text-emerald-600">626,014</td>
+                                <td class="px-3 py-4 text-right text-emerald-600">486,290</td>
+                                <td class="px-3 py-4 text-right text-emerald-600">183,624</td>
+                                <td class="px-3 py-4 text-right text-red-500">-415,210</td>
+                                <td class="px-3 py-4 text-right text-red-600 bg-red-50">(-454,402)</td>
+                                <td class="px-4 py-4 text-right text-emerald-700 bg-slate-200">809,106</td>
+                            </tr>
+                            <tr class="bg-yellow-50 border-b font-bold">
+                                <td class="px-4 py-3 text-center">6</td>
+                                <th scope="row" class="px-4 py-3 whitespace-nowrap">% อัตรากำไร (Margin)</th>
+                                <td class="px-3 py-3 text-right text-emerald-600">4.51%</td>
+                                <td class="px-3 py-3 text-right text-red-500">-1.37%</td>
+                                <td class="px-3 py-3 text-right text-emerald-600">5.14%</td>
+                                <td class="px-3 py-3 text-right text-emerald-600">5.23%</td>
+                                <td class="px-3 py-3 text-right text-emerald-600">1.99%</td>
+                                <td class="px-3 py-3 text-right text-red-500">-5.86%</td>
+                                <td class="px-3 py-3 text-right text-red-600 bg-red-100/50">-7.47%</td>
+                                <td class="px-4 py-3 text-right text-emerald-700 bg-yellow-100">1.28%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <p class="text-xs text-slate-400 mt-2 text-right">*ข้อมูลอ้างอิงจากงบกำไรขาดทุนสะสม ม.ค. - ก.ค. 2026</p>
+        </div>
+
+    </main>
+
+    <footer class="bg-slate-800 text-slate-300 py-6 text-center text-sm border-t-4 border-teal-500">
+        <div class="container mx-auto px-4">
+            <p>&copy; 2026 บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด. เอกสารใช้งานภายในเท่านั้น (Internal Use Only)</p>
+            <p class="mt-1 text-slate-500">สร้างจากข้อมูลรายงานทางการเงินประจำเดือน กรกฎาคม 2026</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Common Chart Options
+            const commonOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: { family: "'Kanit', sans-serif" }
+                        }
+                    },
+                    tooltip: {
+                        titleFont: { family: "'Kanit', sans-serif" },
+                        bodyFont: { family: "'Kanit', sans-serif" },
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) { label += ': '; }
+                                if (context.parsed.y !== null) {
+                                    if(label.includes('Margin')) {
+                                        label += context.parsed.y + '%';
+                                    } else {
+                                        label += new Intl.NumberFormat('th-TH').format(context.parsed.y) + ' บาท';
+                                    }
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        ticks: {
+                            font: { family: "'Kanit', sans-serif" },
+                            callback: function(value, index, values) {
+                                if (value >= 1000000 || value <= -1000000) {
+                                    return value / 1000000 + 'M';
+                                } else if (value >= 1000 || value <= -1000) {
+                                    return value / 1000 + 'k';
+                                }
+                                return value;
+                            }
+                        }
+                    },
+                    x: {
+                        ticks: { font: { family: "'Kanit', sans-serif" } }
+                    }
+                }
+            };
+
+            const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
+            
+            // Data from table
+            const revenueData = [11054152, 8480892, 12179846, 9294438, 9213289, 7086479, 6077220];
+            const grossProfitData = [1804152, 1162954, 1922165, 1827353, 1487049, 1000692, 848339];
+            
+            const netProfitData = [498950, -116160, 626014, 486290, 183624, -415210, -454402];
+            const marginData = [4.51, -1.37, 5.14, 5.23, 1.99, -5.86, -7.47];
+
+            // 1. Revenue & Gross Profit Chart (Bar + Line)
+            const ctxRev = document.getElementById('revenueChart').getContext('2d');
+            new Chart(ctxRev, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'รายได้รวม',
+                            data: revenueData,
+                            backgroundColor: 'rgba(59, 130, 246, 0.6)', // Blue
+                            borderColor: 'rgb(59, 130, 246)',
+                            borderWidth: 1,
+                            borderRadius: 4
+                        },
+                        {
+                            label: 'กำไรขั้นต้น',
+                            data: grossProfitData,
+                            type: 'line',
+                            backgroundColor: 'rgb(16, 185, 129)', // Emerald
+                            borderColor: 'rgb(16, 185, 129)',
+                            borderWidth: 2,
+                            tension: 0.3,
+                            pointBackgroundColor: 'rgb(16, 185, 129)'
+                        }
+                    ]
+                },
+                options: commonOptions
+            });
+
+            // 2. Net Profit & Margin Chart (Bar with dual Y-axis)
+            const ctxProfit = document.getElementById('profitChart').getContext('2d');
+            
+            // Custom options for dual axis
+            const profitOptions = JSON.parse(JSON.stringify(commonOptions)); // Deep copy
+            profitOptions.scales = {
+                y: {
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    title: { display: true, text: 'กำไร (บาท)', font: { family: "'Kanit', sans-serif" } },
+                    ticks: {
+                        callback: function(value) {
+                             if (value >= 1000 || value <= -1000) { return value / 1000 + 'k'; }
+                             return value;
+                        }
+                    }
+                },
+                y1: {
+                    type: 'linear',
+                    display: true,
+                    position: 'right',
+                    title: { display: true, text: 'Margin (%)', font: { family: "'Kanit', sans-serif" } },
+                    grid: { drawOnChartArea: false }, // only want the grid lines for one axis
+                    ticks: {
+                        callback: function(value) { return value + '%'; }
+                    }
+                },
+                x: { ticks: { font: { family: "'Kanit', sans-serif" } } }
+            };
+
+            // Setup colors based on positive/negative
+            const profitBgColors = netProfitData.map(val => val < 0 ? 'rgba(239, 68, 68, 0.7)' : 'rgba(16, 185, 129, 0.7)');
+            const profitBorderColors = netProfitData.map(val => val < 0 ? 'rgb(239, 68, 68)' : 'rgb(16, 185, 129)');
+
+            new Chart(ctxProfit, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'กำไรก่อนหักภาษี',
+                            data: netProfitData,
+                            backgroundColor: profitBgColors,
+                            borderColor: profitBorderColors,
+                            borderWidth: 1,
+                            borderRadius: 4,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Margin %',
+                            data: marginData,
+                            type: 'line',
+                            backgroundColor: 'rgb(245, 158, 11)', // Amber
+                            borderColor: 'rgb(245, 158, 11)',
+                            borderWidth: 2,
+                            tension: 0.3,
+                            yAxisID: 'y1',
+                            pointBackgroundColor: 'white',
+                            pointBorderColor: 'rgb(245, 158, 11)',
+                            pointRadius: 4
+                        }
+                    ]
+                },
+                options: profitOptions
+            });
+        });
+    </script>
+<a href="inventory.html" style="position: fixed; bottom: 20px; right: 20px; background-color: #0d6efd; color: white; padding: 10px 20px; text-decoration: none; border-radius: 30px; font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); z-index: 9999;">
+    หน้าถัดไป (inventory) ➜
+</body>
+</html>

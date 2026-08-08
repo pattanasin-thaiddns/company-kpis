@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard สรุปการส่งมอบสินค้า - บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด</title>
+    <!-- โหลด Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- โหลด Chart.js สำหรับทำกราฟ -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- โหลด Font Awesome สำหรับไอคอน -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- ตั้งค่า Font แบบ Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f3f4f6; /* bg-gray-100 */
+        }
+        /* Custom scrollbar สำหรับเนื้อหาที่ยาว */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased h-screen flex overflow-hidden">
+
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col h-full overflow-y-auto w-full">
+        
+        <!-- Header -->
+        <header class="bg-white shadow-sm px-8 py-5 flex flex-col md:flex-row md:items-center justify-between z-10 gap-4">
+            <div class="flex items-center gap-6">
+                <!-- ย้ายชื่อบริษัทมาไว้ที่ Header -->
+                <div class="border-r-2 border-gray-200 pr-6 hidden sm:block">
+                    <h1 class="text-xl font-bold text-slate-800 leading-snug">
+                        บจก. พัฒนาสิน<br>
+                        <span class="text-blue-600 text-sm">ไทยเทรดดิ้ง</span>
+                    </h1>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">สรุปการส่งมอบสินค้าให้ลูกค้าภายใน 3 วัน</h2>
+                    <p class="text-gray-500 text-sm mt-1">ประจำเดือน <span class="font-semibold text-gray-700">กรกฎาคม 2026 (Jul-26)</span></p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full border border-blue-200">
+                    เป้าหมาย: 95.00%
+                </span>
+                <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-sm transition-colors text-sm font-medium flex items-center">
+                    <i class="fas fa-download mr-2"></i> Export Report
+                </button>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="p-8 space-y-6">
+
+            <!-- Top KPI Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- KPI 1: ออเดอร์ทั้งหมด (ส่งมอบแล้ว) -->
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">ออเดอร์ทั้งหมดที่นำมาคำนวณ</p>
+                            <p class="text-3xl font-bold text-gray-800 mt-2">399 <span class="text-sm font-normal text-gray-500">รายการ</span></p>
+                        </div>
+                        <div class="w-12 h-12 bg-indigo-50 rounded-full flex items-center justify-center text-indigo-500">
+                            <i class="fas fa-clipboard-list text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KPI 2: ทันภายใน 1 วัน -->
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">ส่งทันภายใน 1 วัน (สะสม)</p>
+                            <p class="text-3xl font-bold text-gray-800 mt-2">139 <span class="text-sm font-normal text-gray-500">รายการ</span></p>
+                        </div>
+                        <div class="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-500">
+                            <i class="fas fa-truck-fast text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center">
+                        <span class="text-emerald-600 font-semibold text-sm">34.84%</span>
+                        <span class="text-xs text-gray-400 ml-2">จากทั้งหมด</span>
+                    </div>
+                </div>
+
+                <!-- KPI 3: ทันภายใน 2 วัน -->
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">ส่งทันภายใน 2 วัน (สะสม)</p>
+                            <p class="text-3xl font-bold text-gray-800 mt-2">243 <span class="text-sm font-normal text-gray-500">รายการ</span></p>
+                        </div>
+                        <div class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-blue-500">
+                            <i class="fas fa-truck text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center">
+                        <span class="text-blue-600 font-semibold text-sm">60.90%</span>
+                        <span class="text-xs text-gray-400 ml-2">จากทั้งหมด</span>
+                    </div>
+                </div>
+
+                <!-- KPI 4: ทันภายใน 3 วัน (MAIN KPI) -->
+                <div class="bg-white rounded-xl shadow-lg p-6 border-2 border-red-200 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-red-100 text-red-600 text-xs font-bold px-2 py-1 rounded-bl-lg">
+                        ต่ำกว่าเป้าหมาย
+                    </div>
+                    <div class="flex items-center justify-between relative z-10">
+                        <div>
+                            <p class="text-sm font-semibold text-red-600">ส่งทันภายใน 3 วัน (ตัวชี้วัดหลัก)</p>
+                            <p class="text-4xl font-bold text-gray-900 mt-2">314 <span class="text-sm font-normal text-gray-500">รายการ</span></p>
+                        </div>
+                        <div class="w-14 h-14 bg-red-50 rounded-full flex items-center justify-center text-red-500">
+                            <i class="fas fa-box-open text-2xl"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex justify-between items-end mb-1">
+                            <span class="text-red-600 font-bold text-lg">78.70%</span>
+                            <span class="text-xs text-gray-500 font-medium">เป้า: 95.00%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-red-500 h-2.5 rounded-full" style="width: 78.70%"></div>
+                        </div>
+                        <p class="text-xs text-red-500 mt-2 font-medium"><i class="fas fa-arrow-down mr-1"></i> ต่ำกว่าเป้าหมาย 16.3%</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <!-- Left Column: Charts -->
+                <div class="lg:col-span-2 space-y-6">
+                    
+                    <!-- Chart 1: Bar Chart แสดงสัดส่วนการส่งมอบ (สะสม) -->
+                    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">สัดส่วนระยะเวลาการส่งมอบ (แบบสะสม)</h3>
+                        <div class="relative h-72 w-full">
+                            <canvas id="deliveryCumulativeChart"></canvas>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-4 text-center">
+                            *ข้อมูลแบบสะสม: ส่งภายใน 2 วัน รวมออเดอร์ของ 1 วันด้วย, ส่งภายใน 3 วัน รวมออเดอร์ของ 1 และ 2 วันด้วย
+                        </p>
+                    </div>
+
+                    <!-- Data Table -->
+                    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">ตารางรายงานระยะเวลาที่ใช้ในการส่งมอบ (Jul-26)</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 rounded-tl-lg">ระยะเวลาที่ใช้</th>
+                                        <th scope="col" class="px-6 py-3 text-right">จำนวน (ออเดอร์)</th>
+                                        <th scope="col" class="px-6 py-3 text-right rounded-tr-lg">เปอร์เซ็นต์ (%)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="bg-white border-b hover:bg-gray-50">
+                                        <td class="px-6 py-4 font-medium text-gray-900 flex items-center">
+                                            <span class="w-3 h-3 rounded-full bg-emerald-400 mr-2"></span> ส่งภายใน 1 วัน (สะสม)
+                                        </td>
+                                        <td class="px-6 py-4 text-right font-semibold">139</td>
+                                        <td class="px-6 py-4 text-right">34.84%</td>
+                                    </tr>
+                                    <tr class="bg-white border-b hover:bg-gray-50">
+                                        <td class="px-6 py-4 font-medium text-gray-900 flex items-center">
+                                            <span class="w-3 h-3 rounded-full bg-blue-400 mr-2"></span> ส่งภายใน 2 วัน (สะสม)
+                                        </td>
+                                        <td class="px-6 py-4 text-right font-semibold">243</td>
+                                        <td class="px-6 py-4 text-right">60.90%</td>
+                                    </tr>
+                                    <tr class="bg-red-50 border-b border-red-100">
+                                        <td class="px-6 py-4 font-bold text-red-700 flex items-center">
+                                            <span class="w-3 h-3 rounded-full bg-yellow-400 mr-2"></span> ส่งภายใน 3 วัน (สะสม - KPI หลัก)
+                                        </td>
+                                        <td class="px-6 py-4 text-right font-bold text-red-700">314</td>
+                                        <td class="px-6 py-4 text-right font-bold text-red-700">78.70%</td>
+                                    </tr>
+                                    <tr class="bg-white border-b hover:bg-gray-50 text-gray-500">
+                                        <td class="px-6 py-4 font-medium flex items-center">
+                                            <span class="w-3 h-3 rounded-full bg-red-400 mr-2"></span> ใช้เวลาเกิน 3 วัน (ล่าช้า)
+                                        </td>
+                                        <td class="px-6 py-4 text-right font-semibold">85</td>
+                                        <td class="px-6 py-4 text-right">21.30%</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr class="font-bold text-gray-900 bg-gray-100">
+                                        <td class="px-6 py-4 rounded-bl-lg">รวมทั้งหมด</td>
+                                        <td class="px-6 py-4 text-right">399</td>
+                                        <td class="px-6 py-4 text-right rounded-br-lg">100.00%</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Context & Recommendations -->
+                <div class="space-y-6">
+                    
+                    <!-- Chart 2: Donut Chart สรุปภาพรวม -->
+                    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">สถานะการส่งมอบตามกำหนด (3 วัน)</h3>
+                        <div class="relative h-64 w-full flex justify-center items-center">
+                            <canvas id="onTimeDonutChart"></canvas>
+                            <!-- Text in center of donut -->
+                            <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none mt-2">
+                                <span class="text-3xl font-bold text-gray-800">78.7%</span>
+                                <span class="text-xs text-gray-500">ส่งทันเวลา</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Customer Responsiveness Context -->
+                    <div class="bg-blue-50 rounded-xl shadow-sm p-6 border border-blue-100">
+                        <h3 class="text-md font-bold text-blue-900 mb-3 flex items-center">
+                            <i class="fas fa-info-circle mr-2"></i> ข้อมูลประกอบเพิ่มเติม
+                        </h3>
+                        <p class="text-sm text-blue-800 font-semibold mb-2">ความสามารถในการตอบสนองความต้องการลูกค้า (เดือน ก.ค. 26)</p>
+                        <div class="space-y-2 mt-3">
+                            <div class="flex justify-between items-center bg-white px-3 py-2 rounded shadow-sm">
+                                <span class="text-sm text-gray-600">จำนวนที่สั่ง (ชิ้น/ออเดอร์)</span>
+                                <span class="font-bold text-gray-800">2,846</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-white px-3 py-2 rounded shadow-sm">
+                                <span class="text-sm text-gray-600">จำนวนที่ส่งได้ (ชิ้น/ออเดอร์)</span>
+                                <span class="font-bold text-gray-800">2,820</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-blue-600 text-white px-3 py-2 rounded shadow-sm mt-2">
+                                <span class="text-sm font-medium">อัตราการเติมเต็ม (Fill Rate)</span>
+                                <span class="font-bold text-lg">99.09%</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-blue-700 mt-3 leading-relaxed">
+                            <span class="font-bold">*ข้อสังเกต:</span> แม้ว่าบริษัทจะมีความสามารถในการจัดเตรียมสินค้าตามออเดอร์ได้สูงมากถึง 99.09% แต่ปัญหาหลักคอขวด (Bottleneck) กลับอยู่ที่ <span class="underline font-bold">กระบวนการจัดส่ง/กระจายสินค้า</span> ที่ทำให้ไม่สามารถไปถึงมือลูกค้าภายใน 3 วันตามเป้าหมาย (ทำได้เพียง 78.70%)
+                        </p>
+                    </div>
+
+                    <!-- Strategic Recommendations -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="bg-slate-800 px-6 py-4">
+                            <h3 class="text-lg font-bold text-white flex items-center">
+                                <i class="fas fa-lightbulb text-yellow-400 mr-2"></i> ข้อเสนอแนะเชิงกลยุทธ์
+                            </h3>
+                        </div>
+                        <div class="p-6 space-y-4">
+                            
+                            <div class="flex">
+                                <div class="flex-shrink-0 mt-1">
+                                    <div class="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center text-red-600 font-bold text-sm">1</div>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="text-sm font-bold text-gray-900">วิเคราะห์สาเหตุความล่าช้า (Root Cause Analysis) ของ 85 ออเดอร์</h4>
+                                    <p class="text-xs text-gray-600 mt-1 leading-relaxed">ต้องเจาะลึกข้อมูล 21.3% (85 รายการ) ที่ส่งเกิน 3 วัน ว่าติดปัญหาที่จุดใด เช่น รอรวมเที่ยวรถ, ขนส่งภายนอกล่าช้า, หรือเส้นทางจัดส่งไกล/อยู่นอกพื้นที่หลัก</p>
+                                </div>
+                            </div>
+                            
+                            <hr class="border-gray-100">
+
+                            <div class="flex">
+                                <div class="flex-shrink-0 mt-1">
+                                    <div class="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-sm">2</div>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="text-sm font-bold text-gray-900">ปรับปรุงกระบวนการจัดสายรถ (Routing)</h4>
+                                    <p class="text-xs text-gray-600 mt-1 leading-relaxed">พิจารณาแยกกลุ่มสินค้าหรือพื้นที่ที่ใช้เวลาส่งนานกว่า 2 วัน เพื่อหาวิธีจัดส่งแบบพิเศษ หรือเพิ่มรอบการส่งให้ถี่ขึ้น เพื่อดันตัวเลขจากที่ตกค้างในวันที่ 3 ให้เร็วยิ่งขึ้น</p>
+                                </div>
+                            </div>
+
+                            <hr class="border-gray-100">
+
+                            <div class="flex">
+                                <div class="flex-shrink-0 mt-1">
+                                    <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 font-bold text-sm">3</div>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="text-sm font-bold text-gray-900">ทบทวนประสิทธิภาพ 3PL / ขนส่ง</h4>
+                                    <p class="text-xs text-gray-600 mt-1 leading-relaxed">เนื่องจากสินค้ามีพร้อมส่งเกือบ 100% หากการจัดส่งใช้ Outsource ควรมีการตั้ง SLA กับทางขนส่งใหม่ และประเมินเพื่อหาเจ้าที่ทำเวลาได้ดีกว่า</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // ตั้งค่า Font ของ Chart.js ให้ตรงกับเว็บ
+            Chart.defaults.font.family = "'Sarabun', sans-serif";
+            
+            // --- Chart 1: Bar Chart สัดส่วนการส่งมอบแบบสะสม ---
+            const ctxBar = document.getElementById('deliveryCumulativeChart').getContext('2d');
+            
+            // ข้อมูลแบบสะสม (ตามโจทย์: วันที่ 2 รวม 1 ด้วย, วันที่ 3 รวม 1,2 ด้วย)
+            const labelsBar = ['ส่งภายใน 1 วัน', 'ส่งภายใน 2 วัน', 'ส่งภายใน 3 วัน (เป้าหมาย)'];
+            const dataBarCount = [139, 243, 314];
+            const dataBarPercent = [34.84, 60.90, 78.70];
+
+            new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: labelsBar,
+                    datasets: [
+                        {
+                            label: 'จำนวนออเดอร์ (สะสม)',
+                            data: dataBarCount,
+                            backgroundColor: [
+                                'rgba(16, 185, 129, 0.7)', // Emerald
+                                'rgba(59, 130, 246, 0.7)', // Blue
+                                'rgba(239, 68, 68, 0.8)'   // Red (Highlight target)
+                            ],
+                            borderColor: [
+                                'rgb(16, 185, 129)',
+                                'rgb(59, 130, 246)',
+                                'rgb(239, 68, 68)'
+                            ],
+                            borderWidth: 1,
+                            borderRadius: 6,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: '% สะสม',
+                            data: dataBarPercent,
+                            type: 'line',
+                            borderColor: 'rgb(245, 158, 11)', // Amber
+                            backgroundColor: 'rgba(245, 158, 11, 0.2)',
+                            borderWidth: 3,
+                            pointBackgroundColor: 'rgb(245, 158, 11)',
+                            pointRadius: 5,
+                            pointHoverRadius: 7,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                usePointStyle: true,
+                                boxWidth: 8
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y + (context.datasetIndex === 1 ? '%' : ' ออเดอร์');
+                                    }
+                                    return label;
+                                }
+                            }
+                        },
+                        annotation: {
+                            // จำลองเส้นเป้าหมาย 95% (ต้องใช้ plugin chartjs-plugin-annotation หากต้องการของจริง, ที่นี่จะจำลองด้วยแกน)
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'จำนวนออเดอร์',
+                                font: { size: 12 }
+                            },
+                            suggestedMax: 400
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'เปอร์เซ็นต์ (%)',
+                                font: { size: 12 }
+                            },
+                            grid: {
+                                drawOnChartArea: false // only want the grid lines for one axis to show up
+                            },
+                            suggestedMax: 100,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // --- Chart 2: Donut Chart สถานะเป้าหมาย 3 วัน ---
+            const ctxDonut = document.getElementById('onTimeDonutChart').getContext('2d');
+            
+            // ข้อมูลสำหรับ Donut: ส่งทัน 3 วัน (314) vs ส่งช้ากว่า 3 วัน (85)
+            const donutData = [314, 85];
+            
+            new Chart(ctxDonut, {
+                type: 'doughnut',
+                data: {
+                    labels: ['ส่งทันภายใน 3 วัน', 'ใช้เวลาเกิน 3 วัน (ล่าช้า)'],
+                    datasets: [{
+                        data: donutData,
+                        backgroundColor: [
+                            'rgba(16, 185, 129, 0.8)', // ทัน (สีเขียว)
+                            'rgba(239, 68, 68, 0.8)'   // ช้า (สีแดง)
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '75%', // ทำให้รูตรงกลางใหญ่ขึ้น เพื่อใส่ข้อความ
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true,
+                                boxWidth: 8
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const value = context.parsed;
+                                    const total = 399;
+                                    const percentage = ((value / total) * 100).toFixed(2) + '%';
+                                    return ` ${context.label}: ${value} รายการ (${percentage})`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+<a href="executivekpis.html" style="position: fixed; bottom: 20px; right: 20px; background-color: #0d6efd; color: white; padding: 10px 20px; text-decoration: none; border-radius: 30px; font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); z-index: 9999;">
+    หน้าถัดไป (Executive KPIs) ➜
+</body>
+</html>
