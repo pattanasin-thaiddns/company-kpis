@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard รายงานสรุปผลข้อผิดพลาดจากการจัดส่ง - Aug 2026</title>
+    <!-- นำเข้า Tailwind CSS สำหรับการจัดรูปแบบ (สีสันสดใสและ Responsive) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- นำเข้า Chart.js สำหรับทำกราฟ -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- นำเข้า Font Kanit จาก Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #f0f4f8; /* สีพื้นหลังสว่างสบายตา */
+        }
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <!-- Header Section -->
+        <header class="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl p-6 mb-8 text-white card-shadow flex justify-between items-center flex-wrap gap-4">
+            <div>
+                <h1 class="text-2xl md:text-3xl font-semibold">รายงานสรุปผลข้อผิดพลาดจากการจัดส่ง</h1>
+                <p class="text-blue-100 mt-1 text-lg">บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด | ประจำเดือน: สิงหาคม 2026</p>
+            </div>
+            <div class="bg-white/20 px-4 py-2 rounded-lg backdrop-blur-sm">
+                <p class="text-sm">เป้าหมายข้อผิดพลาด</p>
+                <p class="text-2xl font-bold">&lt; 1.50%</p>
+            </div>
+        </header>
+
+        <!-- KPI Cards Section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- Card 1 -->
+            <div class="bg-white rounded-xl p-6 border-t-4 border-blue-500 card-shadow hover:scale-105 transition-transform">
+                <div class="text-gray-500 text-sm mb-1">จำนวนออเดอร์ทั้งหมด (ส.ค.)</div>
+                <div class="text-3xl font-bold text-gray-800">339 <span class="text-sm font-normal text-gray-500">ออเดอร์</span></div>
+            </div>
+            <!-- Card 2 -->
+            <div class="bg-white rounded-xl p-6 border-t-4 border-red-500 card-shadow hover:scale-105 transition-transform">
+                <div class="text-gray-500 text-sm mb-1">ข้อผิดพลาดจากจัดส่ง (KPI)</div>
+                <div class="text-3xl font-bold text-red-600">3 <span class="text-sm font-normal text-gray-500">ครั้ง</span></div>
+                <div class="text-xs text-gray-400 mt-1">หมวด 3 และ 10</div>
+            </div>
+            <!-- Card 3 -->
+            <div class="bg-white rounded-xl p-6 border-t-4 border-green-500 card-shadow hover:scale-105 transition-transform">
+                <div class="text-gray-500 text-sm mb-1">อัตราข้อผิดพลาดจริง</div>
+                <div class="flex items-baseline gap-2">
+                    <div class="text-3xl font-bold text-green-600">0.88%</div>
+                    <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full font-medium">ผ่านเกณฑ์</span>
+                </div>
+            </div>
+            <!-- Card 4 -->
+            <div class="bg-white rounded-xl p-6 border-t-4 border-orange-400 card-shadow hover:scale-105 transition-transform">
+                <div class="text-gray-500 text-sm mb-1">ลูกค้ายกเลิก/คืน (ไม่นับ KPI)</div>
+                <div class="text-3xl font-bold text-orange-500">5 <span class="text-sm font-normal text-gray-500">รายการ</span></div>
+                <div class="text-xs text-gray-400 mt-1">หมวด 11 (ลูกค้าสั่งผิด)</div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Pie Chart -->
+            <div class="bg-white rounded-xl p-6 card-shadow lg:col-span-1">
+                <h2 class="text-lg font-semibold text-gray-700 mb-4">สัดส่วนประเภทข้อผิดพลาด (ส.ค.)</h2>
+                <div class="relative h-64 w-full">
+                    <canvas id="errorTypeChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Line Chart -->
+            <div class="bg-white rounded-xl p-6 card-shadow lg:col-span-2">
+                <h2 class="text-lg font-semibold text-gray-700 mb-4">แนวโน้มอัตราข้อผิดพลาด (ม.ค. - ส.ค. 2026)</h2>
+                <div class="relative h-64 w-full">
+                    <canvas id="trendChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detail Table Section -->
+        <div class="bg-white rounded-xl p-6 card-shadow overflow-hidden">
+            <h2 class="text-lg font-semibold text-gray-700 mb-4">รายละเอียดบันทึกปัญหา เดือนสิงหาคม 2026</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left">
+                    <thead class="text-xs text-white uppercase bg-gray-700 rounded-t-lg">
+                        <tr>
+                            <th class="px-4 py-3 rounded-tl-lg">วันที่</th>
+                            <th class="px-4 py-3">รถขนส่ง</th>
+                            <th class="px-4 py-3">ลูกค้า</th>
+                            <th class="px-4 py-3">รายละเอียดปัญหา</th>
+                            <th class="px-4 py-3 text-center">หมวด</th>
+                            <th class="px-4 py-3 text-center">ประเภท</th>
+                            <th class="px-4 py-3 rounded-tr-lg">ผู้รับผิดชอบ</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <!-- รายการข้อผิดพลาดบริษัท (Highlight สีแดงอ่อน) -->
+                        <tr class="bg-red-50 hover:bg-red-100 transition-colors">
+                            <td class="px-4 py-3">3-Aug-2026</td>
+                            <td class="px-4 py-3">ออมสิน</td>
+                            <td class="px-4 py-3">โชคสุวรรณ</td>
+                            <td class="px-4 py-3">จัดของผิด คืนข้องอบาง 2 1/2" =20 ตัว</td>
+                            <td class="px-4 py-3 text-center font-bold text-red-600">10</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-red-200 text-red-800 text-xs px-2 py-1 rounded">ผิดพลาดจากบริษัท</span></td>
+                            <td class="px-4 py-3">ปอนด์-บอม</td>
+                        </tr>
+                        <tr class="bg-red-50 hover:bg-red-100 transition-colors">
+                            <td class="px-4 py-3">11-Aug-2026</td>
+                            <td class="px-4 py-3">ออมสิน</td>
+                            <td class="px-4 py-3">โชคสัมฤทธิ์</td>
+                            <td class="px-4 py-3">ขึ้นของเกิน ท่อ 4"x5 เพชร =3 เส้น ร้านสัมพันธ์รับ</td>
+                            <td class="px-4 py-3 text-center font-bold text-red-600">3</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-red-200 text-red-800 text-xs px-2 py-1 rounded">ผิดพลาดจากบริษัท</span></td>
+                            <td class="px-4 py-3">แร่-ปอนด์-บอม</td>
+                        </tr>
+                        <tr class="bg-red-50 hover:bg-red-100 transition-colors">
+                            <td class="px-4 py-3">25-Aug-2026</td>
+                            <td class="px-4 py-3">พี่หมาน</td>
+                            <td class="px-4 py-3">โชคทรัพย์</td>
+                            <td class="px-4 py-3">ไม่ได้ขึ้นอุปกรณ์ให้ลูกค้า 3 รายการ</td>
+                            <td class="px-4 py-3 text-center font-bold text-red-600">10</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-red-200 text-red-800 text-xs px-2 py-1 rounded">ผิดพลาดจากบริษัท</span></td>
+                            <td class="px-4 py-3">โต้ง-โจ</td>
+                        </tr>
+                        
+                        <!-- รายการลูกค้ายกเลิก/คืน (สีปกติ) -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-4 py-3">6-Aug-2026</td>
+                            <td class="px-4 py-3">พี่หมาน</td>
+                            <td class="px-4 py-3">สายทองวัสดุ</td>
+                            <td class="px-4 py-3">ลูกค้ายกเลิก ท่อ 3/4" x8.5 เพชร ต้องการเป็นท่อสี เทา แทน</td>
+                            <td class="px-4 py-3 text-center text-gray-600">11</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded">ลูกค้าเปลี่ยนใจ/สั่งผิด</span></td>
+                            <td class="px-4 py-3">ตั๊กกี้</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-4 py-3">17-Aug-2026</td>
+                            <td class="px-4 py-3">พี่หมาน</td>
+                            <td class="px-4 py-3">บุญเจริญ</td>
+                            <td class="px-4 py-3">ลูกค้าคืนกิ๊บจับพีวีซี 1/2"=200 ตัว ,3/4"=100 ตัว สั่งผิดเปลี่ยนเป็นก้ามปูแทน</td>
+                            <td class="px-4 py-3 text-center text-gray-600">11</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded">ลูกค้าเปลี่ยนใจ/สั่งผิด</span></td>
+                            <td class="px-4 py-3">ตั๊กกี้</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-4 py-3">17-Aug-2026</td>
+                            <td class="px-4 py-3">พี่หมาน</td>
+                            <td class="px-4 py-3">วิชาญ</td>
+                            <td class="px-4 py-3">ลูกค้าคืนสายยางใส 11/4" =2ม้วน เนื่องจากสั่งผิด เปลี่ยนเป็น 1" แทน</td>
+                            <td class="px-4 py-3 text-center text-gray-600">11</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded">ลูกค้าเปลี่ยนใจ/สั่งผิด</span></td>
+                            <td class="px-4 py-3">ตั๊กกี้</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-4 py-3">25-Aug-2026</td>
+                            <td class="px-4 py-3">พี่หมาน</td>
+                            <td class="px-4 py-3">ภัทรก่อสร้าง</td>
+                            <td class="px-4 py-3">ลูกค้าคืน ข้องอบาง 4" = 1ลัง(30ตัว) เนื่องจากสั่งผิด ของเปลี่ยนเป็น ข้องอบาง 45-4" แทน</td>
+                            <td class="px-4 py-3 text-center text-gray-600">11</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded">ลูกค้าเปลี่ยนใจ/สั่งผิด</span></td>
+                            <td class="px-4 py-3">ตั๊กกี้</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-4 py-3">31-Aug-2026</td>
+                            <td class="px-4 py-3">พี่หมาน</td>
+                            <td class="px-4 py-3">แม่อ๊อฟ</td>
+                            <td class="px-4 py-3">คืนข้องอ 2" =10 ตัว เนื่องจากสั่งผิด ต้องการเป็นขนาด 4"</td>
+                            <td class="px-4 py-3 text-center text-gray-600">11</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded">ลูกค้าเปลี่ยนใจ/สั่งผิด</span></td>
+                            <td class="px-4 py-3">ตั๊กกี้(น้ำทิพย์)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. กราฟโดนัท (Pie Chart) สำหรับสัดส่วนข้อผิดพลาดในเดือน ส.ค. ---
+        const ctxPie = document.getElementById('errorTypeChart').getContext('2d');
+        new Chart(ctxPie, {
+            type: 'doughnut',
+            data: {
+                labels: ['หมวด 10: จัดสินค้าไม่ครบ/จัดไม่ตรง', 'หมวด 3: ขึ้นท่อเกิน'],
+                datasets: [{
+                    data: [2, 1], // หมวด 10 มี 2 ครั้ง, หมวด 3 มี 1 ครั้ง
+                    backgroundColor: [
+                        '#ef4444', // Red 500
+                        '#f59e0b'  // Amber 500
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { font: { family: 'Kanit' } }
+                    }
+                },
+                cutout: '60%'
+            }
+        });
+
+        // --- 2. กราฟเส้น (Line Chart) แสดงแนวโน้มรายเดือน ม.ค. - ส.ค. ---
+        const ctxLine = document.getElementById('trendChart').getContext('2d');
+        new Chart(ctxLine, {
+            type: 'bar', // ใช้กราฟผสม (Bar + Line)
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+                datasets: [
+                    {
+                        type: 'line',
+                        label: 'เป้าหมาย (1.50%)',
+                        data: [1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5],
+                        borderColor: '#ef4444', // สีแดง
+                        borderWidth: 2,
+                        borderDash: [5, 5], // เส้นประ
+                        pointRadius: 0,
+                        fill: false
+                    },
+                    {
+                        type: 'bar',
+                        label: 'อัตราข้อผิดพลาดจริง (%)',
+                        data: [1.35, 0.89, 0.83, 0.96, 1.60, 0.66, 0.50, 0.88],
+                        backgroundColor: function(context) {
+                            const value = context.dataset.data[context.dataIndex];
+                            return value > 1.5 ? '#ef4444' : '#3b82f6'; // ถ้าเกินเป้าเป็นสีแดง ไม่เกินเป็นสีน้ำเงิน
+                        },
+                        borderRadius: 4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 2.0,
+                        title: { display: true, text: 'เปอร์เซ็นต์ (%)', font: { family: 'Kanit' } },
+                        ticks: { font: { family: 'Kanit' } }
+                    },
+                    x: {
+                        ticks: { font: { family: 'Kanit' } }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: { font: { family: 'Kanit' } }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.parsed.y + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+<a href="financial-dashoard.html" style="position: fixed; bottom: 20px; right: 20px; background-color: #0d6efd; color: white; padding: 10px 20px; text-decoration: none; border-radius: 30px; font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); z-index: 9999;">
+    หน้าถัดไป (Financial) ➜
+</body>
+</html>

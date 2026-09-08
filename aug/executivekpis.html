@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สรุปรายงานประจำเดือนสิงหาคม - บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js for visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f3f4f6; /* Gray-100 */
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased min-h-screen pb-10">
+
+    <header class="bg-blue-800 text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <div class="bg-white p-2 rounded-full h-12 w-12 flex items-center justify-center text-blue-800 font-bold text-xl shadow-inner">
+                    <i class="fa-solid fa-building"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold tracking-tight">บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด</h1>
+                    <p class="text-blue-200 text-sm">ระบบสรุปรายงานการปฏิบัติงาน</p>
+                </div>
+            </div>
+            <div class="text-right hidden md:block">
+                <p class="text-lg font-semibold"><i class="fa-regular fa-calendar-alt mr-2"></i>สรุปรายงานประจำเดือน</p>
+                <p class="text-xl font-bold text-yellow-300">สิงหาคม 2569</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 mt-8">
+        <!-- Mobile Header (Visible only on small screens) -->
+        <div class="md:hidden bg-white rounded-lg shadow p-4 mb-6 text-center border-l-4 border-blue-500">
+             <p class="text-md font-semibold text-gray-600">สรุปรายงานประจำเดือน</p>
+             <p class="text-2xl font-bold text-blue-800">สิงหาคม 2569</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Attendance Card 1 -->
+            <div class="bg-white rounded-xl shadow-md p-6 card-hover border-t-4 border-green-500 flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500 font-medium mb-1">อัตราการมาทำงานเดือน ส.ค.</p>
+                    <h2 class="text-3xl font-bold text-gray-800">98.83<span class="text-lg text-gray-500">%</span></h2>
+                </div>
+                <div class="bg-green-100 text-green-600 p-4 rounded-full h-16 w-16 flex items-center justify-center text-2xl">
+                    <i class="fa-solid fa-user-check"></i>
+                </div>
+            </div>
+
+            <!-- Attendance Card 2 -->
+            <div class="bg-white rounded-xl shadow-md p-6 card-hover border-t-4 border-blue-500 flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500 font-medium mb-1">อัตราการมาทำงานเฉลี่ยปี 2026</p>
+                    <h2 class="text-3xl font-bold text-gray-800">98.43<span class="text-lg text-gray-500">%</span></h2>
+                </div>
+                <div class="bg-blue-100 text-blue-600 p-4 rounded-full h-16 w-16 flex items-center justify-center text-2xl">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+            </div>
+
+            <!-- Accident Card -->
+            <div class="bg-white rounded-xl shadow-md p-6 card-hover border-t-4 border-yellow-500 flex items-center justify-between relative overflow-hidden">
+                <div class="z-10">
+                    <p class="text-sm text-gray-500 font-medium mb-1">อุบัติเหตุถึงขั้นหยุดงาน (ส.ค.)</p>
+                    <h2 class="text-3xl font-bold text-gray-800">0<span class="text-lg text-gray-500 ml-1">ครั้ง</span></h2>
+                    <p class="text-xs text-green-600 mt-2 font-medium bg-green-100 px-2 py-1 rounded inline-block"><i class="fa-solid fa-shield-check mr-1"></i> ปลอดภัยจากการทำงาน 100%</p>
+                </div>
+                <div class="bg-yellow-100 text-yellow-600 p-4 rounded-full h-16 w-16 flex items-center justify-center text-2xl z-10">
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+                 <!-- Decorative background icon -->
+                <i class="fa-solid fa-shield-halved absolute -right-4 -bottom-4 text-7xl text-yellow-50 opacity-50 z-0"></i>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-1 space-y-8">
+                <!-- Attendance Chart -->
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2"><i class="fa-solid fa-chart-bar text-blue-600 mr-2"></i>เปรียบเทียบอัตราการมาทำงาน</h3>
+                    <div class="relative h-64 w-full">
+                        <canvas id="attendanceChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Incident Summary Note -->
+                <div class="bg-orange-50 rounded-xl shadow border border-orange-100 p-6">
+                    <h3 class="text-lg font-bold text-orange-800 mb-3"><i class="fa-solid fa-triangle-exclamation mr-2"></i>ภาพรวมอุบัติเหตุประจำเดือน</h3>
+                    <ul class="space-y-2 text-sm text-gray-700">
+                        <li class="flex justify-between items-center"><span class="font-medium">อุบัติเหตุถึงขั้นหยุดงาน:</span> <span class="bg-green-100 text-green-800 py-1 px-2 rounded font-bold">0 ครั้ง</span></li>
+                        <li class="flex justify-between items-center"><span class="font-medium">อุบัติเหตุนอกเวลางาน:</span> <span class="bg-orange-100 text-orange-800 py-1 px-2 rounded font-bold">1 ครั้ง</span></li>
+                    </ul>
+                    <div class="mt-4 text-xs text-orange-700 bg-orange-100 p-3 rounded-lg border border-orange-200">
+                        * มีรายงานอุบัติเหตุนอกเวลางาน 1 รายการ (กรณีรถกระบะภายนอกเสียหลักพุ่งชนหน้าร้าน) ไม่มีพนักงานได้รับบาดเจ็บ ดูรายละเอียดการดำเนินการด้านขวา
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-red-600 px-6 py-4 flex justify-between items-center">
+                        <h2 class="text-xl font-bold text-white"><i class="fa-solid fa-file-contract mr-2"></i>แบบฟอร์มรายงานอุบัติเหตุ (Accident Report Form)</h2>
+                        <span class="bg-white text-red-600 text-xs font-bold px-3 py-1 rounded-full shadow">รายงาน ส.ค. 2569</span>
+                    </div>
+                    
+                    <div class="p-6 md:p-8">
+                        <h3 class="text-center text-orange-600 font-bold text-lg mb-6 underline underline-offset-4 decoration-2">อุบัติเหตุนอกเวลาปฏิบัติงาน</h3>
+
+                        <div class="space-y-6">
+                            <!-- Section 1: Reporter Info -->
+                            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                                <h4 class="font-bold text-gray-800 mb-3 text-md flex items-center"><span class="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">1</span>ข้อมูลผู้รายงาน</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm ml-8">
+                                    <p><span class="text-gray-500 font-medium w-24 inline-block">ชื่อผู้รายงาน:</span> นางสาววิญารัตน์ พิบาลขัน</p>
+                                    <p><span class="text-gray-500 font-medium w-24 inline-block">ตำแหน่ง:</span> ผู้จัดการฝ่ายบริหาร</p>
+                                    <p><span class="text-gray-500 font-medium w-24 inline-block">เบอร์โทรศัพท์:</span> <a href="tel:0845307186" class="text-blue-600 hover:underline">084 530 7186</a></p>
+                                </div>
+                            </div>
+
+                            <!-- Section 2: Accident Info -->
+                            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                                <h4 class="font-bold text-gray-800 mb-3 text-md flex items-center"><span class="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">2</span>ข้อมูลอุบัติเหตุ</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm ml-8">
+                                    <p><span class="text-gray-500 font-medium w-28 inline-block">วันที่เกิดเหตุ:</span> 19 สิงหาคม 2569</p>
+                                    <p><span class="text-gray-500 font-medium w-28 inline-block">เวลาที่เกิดเหตุ:</span> 00.39 น.</p>
+                                    <p class="md:col-span-2"><span class="text-gray-500 font-medium w-28 inline-block">สถานที่เกิดเหตุ:</span> หน้าร้าน บจก.พัฒนาสิน ไทยเทรดดิ้ง</p>
+                                    <p class="md:col-span-2"><span class="text-gray-500 font-medium w-28 inline-block">ลักษณะอุบัติเหตุ:</span> <span class="text-orange-600 font-semibold">รถกระบะเสียหลักพุ่งชนประตูหน้าร้าน</span></p>
+                                </div>
+                            </div>
+
+                            <!-- Section 3: Vehicle Info -->
+                            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                                <h4 class="font-bold text-gray-800 mb-3 text-md flex items-center"><span class="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">3</span>ข้อมูลรถที่เกี่ยวข้อง</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm ml-8">
+                                    <p><span class="text-gray-500 font-medium w-32 inline-block">หมายเลขทะเบียนรถ:</span> กษ 4290 อุดรธานี</p>
+                                    <p><span class="text-gray-500 font-medium w-32 inline-block">ชื่อคนขับ:</span> คุณอรัญญา ศรีอักษร</p>
+                                    <p><span class="text-gray-500 font-medium w-32 inline-block">เบอร์โทรศัพท์คนขับ:</span> <a href="tel:0648322993" class="text-blue-600 hover:underline">064-832-2993</a></p>
+                                    <p><span class="text-gray-500 font-medium w-32 inline-block">อาการบาดเจ็บ:</span> <span class="text-green-600 font-medium">ไม่มีผู้ได้รับบาดเจ็บ</span></p>
+                                </div>
+                            </div>
+
+                            <!-- Section 4: Details -->
+                            <div class="bg-white p-4 rounded-lg border border-gray-300 shadow-sm">
+                                <h4 class="font-bold text-gray-800 mb-2 text-md flex items-center"><span class="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">4</span>รายละเอียดเหตุการณ์</h4>
+                                <p class="text-gray-700 text-sm leading-relaxed ml-8 indent-8 text-justify">
+                                    เมื่อวันที่ 19 สิงหาคม 2569 เวลา 00.39 น. มีรถกระบะ อีซูซุดีแม็กซ์ สีขาว ทะเบียน กษ 4290 อุดรธานี คนขับเป็นผู้หญิงอายุประมาณ 27 ปี และมีเด็กผู้ชาย 1 คน โดยสารมาด้วยกัน ได้ขับรถเสียหลักเนื่องจากฝนตก ถนนลื่น ทำให้เสียการทรงตัว รถจึงพุ่งชนเข้ามาบริเวณประตูหน้าร้านของบริษัท พัฒนาสินฯ ส่งผลให้เกิดความเสียหายคือ ประตูม้วนฉีกขาด และกระจกบานด้านในแตก
+                                </p>
+                            </div>
+
+                            <!-- Section 5: Post-incident Action -->
+                            <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                                <h4 class="font-bold text-blue-800 mb-2 text-md flex items-center"><span class="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">5</span>การดำเนินการหลังเหตุการณ์</h4>
+                                <p class="text-gray-700 text-sm ml-8 leading-relaxed">
+                                    ได้ติดต่อประสานงานแจ้งบริษัทประกันภัยของทางบริษัท พัฒนาสินฯ รับทราบเรื่องแล้ว และได้ดำเนินการประสานงานช่างกระจกให้เข้าตรวจสภาพพื้นที่หน้าร้าน เพื่อเสนอราคาจัดทำกระจกและประตูม้วนใหม่
+                                </p>
+                            </div>
+
+                            <!-- Section 6: Additional Comments -->
+                            <div class="bg-amber-50 p-4 rounded-lg border border-amber-200">
+                                <h4 class="font-bold text-amber-800 mb-2 text-md flex items-center"><span class="bg-amber-600 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">6</span>ข้อคิดเห็นเพิ่มเติม</h4>
+                                <p class="text-gray-700 text-sm ml-8 leading-relaxed">
+                                    โครงสร้างหลักของอาคารและทรัพย์สินอื่นๆ ภายในร้านไม่ได้รับผลกระทบ มีเพียงพื้นที่หน้าร้านที่ได้รับความเสียหายโดยตรง ได้ทำการดึงข้อมูลไฟล์วีดีโอจากกล้องวงจรปิด (CCTV) ในช่วงเวลาเกิดเหตุเพื่อสำรองไว้เป็นหลักฐานสำหรับการเคลมประกันเรียบร้อยแล้ว
+                                </p>
+                            </div>
+
+                            <!-- Section 7: Corrective Actions -->
+                            <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                                <h4 class="font-bold text-purple-800 mb-3 text-md flex items-center"><span class="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2 text-sm">7</span>การแก้ไขแจกแจงมาตรการ (Corrective & Preventive Actions)</h4>
+                                <ul class="list-decimal list-outside text-sm text-gray-800 ml-12 pr-4 space-y-3">
+                                    <li>
+                                        <strong class="text-purple-900">การจัดการพื้นที่และความปลอดภัยชั่วคราว:</strong> ดำเนินการเก็บกวาดเศษกระจก ปิดกั้นบริเวณที่เสียหาย และติดตั้งแผงกั้นชั่วคราวหน้าร้านเพื่อรักษาความปลอดภัยของทรัพย์สินภายในบริษัทระหว่างรอการซ่อมแซม
+                                    </li>
+                                    <li>
+                                        <strong class="text-purple-900">ด้านกฎหมายและประกันภัย:</strong> ประสานงานแจ้งความลงบันทึกประจำวันกับเจ้าหน้าที่ตำรวจ เพื่อใช้เป็นหลักฐานยืนยันความรับผิดชอบและประกอบการเรียกร้องค่าเสียหายกับทางบริษัทประกันภัย
+                                    </li>
+                                    <li>
+                                        <strong class="text-purple-900">การซ่อมแซมและฟื้นฟู:</strong> เร่งรัดให้ช่างกระจกและช่างประตูม้วนเข้าดำเนินการซ่อมแซมให้แล้วเสร็จโดยเร็วที่สุด เพื่อให้กลับมาใช้งานได้ตามปกติและรักษาความปลอดภัยของตัวอาคาร
+                                    </li>
+                                    <li>
+                                        <strong class="text-purple-900">มาตรการป้องกันในอนาคต:</strong> นำเสนอรายงาน เพื่อร่วมประเมินความเสี่ยงของพื้นที่ และอาจพิจารณาเรื่องการติดตั้งเสากันชน (Bollards) หรือสิ่งกีดขวางแนวป้องกันบริเวณหน้าร้าน เพื่อลดทอนความรุนแรงและป้องกันเหตุการณ์ซ้ำรอยจากกรณีรถเสียหลักในช่วงฤดูฝน
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-gray-400 py-6 mt-12">
+        <div class="container mx-auto px-4 text-center text-sm">
+            <p>&copy; 2026 บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด. เอกสารใช้ภายในองค์กรเท่านั้น</p>
+            <p class="mt-2 text-xs">สร้างเมื่อ: กันยายน 2026</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('attendanceChart').getContext('2d');
+            
+            // Setup gradients
+            const gradientBlue = ctx.createLinearGradient(0, 0, 0, 400);
+            gradientBlue.addColorStop(0, 'rgba(59, 130, 246, 0.8)');   // blue-500
+            gradientBlue.addColorStop(1, 'rgba(59, 130, 246, 0.2)');
+
+            const gradientGreen = ctx.createLinearGradient(0, 0, 0, 400);
+            gradientGreen.addColorStop(0, 'rgba(16, 185, 129, 0.8)'); // emerald-500
+            gradientGreen.addColorStop(1, 'rgba(16, 185, 129, 0.2)');
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['เฉลี่ยปี 2026', 'สิงหาคม'],
+                    datasets: [{
+                        label: 'อัตราการมาทำงาน (%)',
+                        data: [98.43, 98.83],
+                        backgroundColor: [
+                            gradientBlue,
+                            gradientGreen
+                        ],
+                        borderColor: [
+                            'rgb(37, 99, 235)', // blue-600
+                            'rgb(5, 150, 105)'  // emerald-600
+                        ],
+                        borderWidth: 1,
+                        borderRadius: 5,
+                        barPercentage: 0.6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.parsed.y + '%';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 95,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'เปอร์เซ็นต์ (%)'
+                            }
+                        }
+                    },
+                    animation: {
+                        duration: 1500,
+                        easing: 'easeOutQuart'
+                    }
+                }
+            });
+        });
+    </script>
+<a href="kaize.html" style="position: fixed; bottom: 20px; right: 20px; background-color: #0d6efd; color: white; padding: 10px 20px; text-decoration: none; border-radius: 30px; font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); z-index: 9999;">
+    หน้าถัดไป (Kaizen) ➜
+</body>
+</html>
