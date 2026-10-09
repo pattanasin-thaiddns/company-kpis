@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Kaizen Dashboard — กันยายน 2569</title>
+  <style>
+    :root{--navy:#10233f;--blue:#1756a9;--sky:#eaf3ff;--orange:#f28c28;--ink:#1c2b3a;--muted:#66758a;--line:#dfe7f1;--white:#fff}
+    *{box-sizing:border-box} body{margin:0;background:#f3f6fa;color:var(--ink);font-family:"Tahoma","Noto Sans Thai",Arial,sans-serif}
+    .page{max-width:1180px;margin:auto;padding:28px}
+    header{position:relative;overflow:hidden;background:linear-gradient(120deg,var(--navy),var(--blue));color:#fff;border-radius:24px;padding:34px 38px;box-shadow:0 14px 35px #12345a26}
+    header:after{content:"KAIZEN";position:absolute;right:-18px;bottom:-34px;font-size:110px;font-weight:900;opacity:.07;letter-spacing:8px}
+    .eyebrow{font-size:13px;letter-spacing:1.5px;font-weight:700;color:#bcd8ff}.title{font-size:30px;font-weight:800;margin:9px 0 6px}.company{font-size:16px;color:#e6f0ff}.period{display:inline-block;margin-top:18px;padding:8px 14px;border-radius:999px;background:#ffffff18;border:1px solid #ffffff40;font-weight:700}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:22px 0}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 7px 20px #263c5a0c}.label{color:var(--muted);font-size:14px}.metric{font-size:42px;font-weight:900;color:var(--blue);margin:8px 0}.unit{font-size:16px;color:var(--muted);font-weight:600}.metric.orange{color:var(--orange)}
+    .main{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}.empty{min-height:280px;display:flex;align-items:center;justify-content:center;text-align:center;padding:34px}.zero{width:94px;height:94px;margin:auto;display:grid;place-items:center;border-radius:50%;background:var(--sky);color:var(--blue);font-size:48px;font-weight:900;border:8px solid #f5f9ff}.empty h2{margin:18px 0 8px;font-size:22px}.empty p{color:var(--muted);line-height:1.7;margin:0}
+    h3{margin:0 0 17px;font-size:18px}.action{display:flex;gap:12px;margin:12px 0;padding:13px;border-radius:13px;background:#f7f9fc}.num{flex:0 0 30px;height:30px;display:grid;place-items:center;border-radius:9px;background:var(--orange);color:#fff;font-weight:800}.action b{font-size:14px}.action small{display:block;color:var(--muted);margin-top:4px;line-height:1.5}.note{margin-top:18px;padding:17px 20px;border-radius:15px;background:#fff8ee;border:1px solid #ffd8ae;color:#73451b;line-height:1.65}.footer{display:flex;justify-content:space-between;gap:16px;color:var(--muted);font-size:12px;margin-top:18px;padding:0 4px}.print{border:0;background:var(--navy);color:#fff;border-radius:11px;padding:10px 16px;font:inherit;font-weight:700;cursor:pointer}
+    @media(max-width:760px){.page{padding:14px}header{padding:25px}.title{font-size:24px}.grid,.main{grid-template-columns:1fr}.grid{gap:12px}.metric{font-size:36px}.footer{flex-direction:column}.print{width:100%}}
+    @media print{body{background:#fff}.page{max-width:none;padding:0}.print{display:none}.card,header{box-shadow:none}.footer{margin-top:12px}}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <div class="eyebrow">CONTINUOUS IMPROVEMENT REPORT</div>
+      <div class="title">รายงานสรุปผลหัวข้อส่ง Kaizen</div>
+      <div class="company">บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด</div>
+      <div class="period">ประจำเดือนกันยายน 2569</div>
+    </header>
+    <section class="grid" aria-label="ข้อมูลสรุป">
+      <article class="card"><div class="label">หัวข้อที่พนักงานส่ง</div><div class="metric">0 <span class="unit">เรื่อง</span></div></article>
+      <article class="card"><div class="label">พนักงานที่มีส่วนร่วม</div><div class="metric">0 <span class="unit">คน</span></div></article>
+      <article class="card"><div class="label">หัวข้อเข้าสู่การพิจารณา</div><div class="metric orange">0 <span class="unit">เรื่อง</span></div></article>
+    </section>
+    <section class="main">
+      <article class="card empty">
+        <div><div class="zero">0</div><h2>ไม่มีหัวข้อ Kaizen ส่งในเดือนนี้</h2><p>เดือนกันยายน 2569 ไม่มีพนักงานส่งหัวข้อไคเซ็น<br>จึงไม่มีรายละเอียดเรื่องหรือรายชื่อผู้เสนอในรอบเดือนนี้</p></div>
+      </article>
+      <aside class="card">
+        <h3>ข้อเสนอแนะเพื่อเพิ่มการมีส่วนร่วม</h3>
+        <div class="action"><div class="num">1</div><div><b>กำหนดช่วงเปิดรับที่ชัดเจน</b><small>ประชาสัมพันธ์วันเปิด–ปิดรับหัวข้อผ่านไลน์กลุ่มและ Morning Brief</small></div></div>
+        <div class="action"><div class="num">2</div><div><b>ให้หัวหน้าแผนกช่วยค้นหาปัญหา</b><small>ชวนพนักงานเสนอเรื่องเล็กที่ลดเวลา ลดขั้นตอน ลดความผิดพลาด หรือเพิ่มความปลอดภัย</small></div></div>
+        <div class="action"><div class="num">3</div><div><b>สื่อสารตัวอย่างที่ทำได้จริง</b><small>นำผลงานเดือนก่อนมาเป็นตัวอย่าง พร้อมแบบฟอร์มสั้นและผู้ช่วยให้คำปรึกษา</small></div></div>
+      </aside>
+    </section>
+    <div class="note"><b>ประเด็นติดตามเดือนถัดไป:</b> ตั้งเป้าหมายขั้นต่ำในการรับข้อเสนอ กำหนดผู้ประสานงานแต่ละแผนก และติดตามจำนวนหัวข้อเป็นรายสัปดาห์ เพื่อแก้ไขได้ก่อนสิ้นเดือน</div>
+    <footer class="footer"><span>ข้อมูล ณ สิ้นเดือนกันยายน 2569</span><button class="print" onclick="window.print()">พิมพ์ / บันทึกเป็น PDF</button></footer>
+  </main>
+<a href="index.html" style="position: fixed; bottom: 20px; right: 20px; background-color: #198754; color: white; padding: 10px 20px; text-decoration: none; border-radius: 30px; font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); z-index: 9999;">
+    ⟲ กลับหน้าหลัก
+
+
+</body>
+</html>

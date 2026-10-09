@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Dashboard กำไรก่อนหักภาษี PTN | กันยายน 2569</title>
+  <style>
+    :root{--navy:#15345b;--blue:#246bfd;--cyan:#24c6c8;--green:#11b779;--orange:#ff9f43;--pink:#f55f8b;--red:#e94366;--muted:#6f8299;--line:#deebf6;--bg:#eef6ff;--white:#fff}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:"Leelawadee UI","Tahoma",sans-serif;color:var(--navy);background:radial-gradient(circle at 0 0,#d6f7ff 0,transparent 30%),radial-gradient(circle at 100% 2%,#ffe1ed 0,transparent 31%),var(--bg)}
+    button,a{font-family:inherit}.page{max-width:1500px;margin:auto;padding:24px}.hero{position:relative;overflow:hidden;padding:32px 36px;border-radius:28px;color:#fff;background:linear-gradient(120deg,#1649c8,#287dfb 55%,#20c1c6);box-shadow:0 18px 48px #276cbf35}.hero:before,.hero:after{content:"";position:absolute;border-radius:50%;border:48px solid #ffffff18}.hero:before{width:260px;height:260px;right:-70px;top:-145px}.hero:after{width:110px;height:110px;right:270px;bottom:-80px}.eyebrow{font-size:13px;letter-spacing:1.7px;opacity:.84}.hero h1{font-size:clamp(27px,3.2vw,47px);line-height:1.15;margin:7px 0 4px}.hero p{font-size:17px;margin:0}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:21px;position:relative;z-index:2}.btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:13px;padding:11px 17px;font-size:14px;font-weight:700;text-decoration:none;cursor:pointer}.btn-white{background:#fff;color:#1754ca}.btn-glass{color:#fff;background:#ffffff20;border:1px solid #ffffff55}.link-note{font-size:11px;opacity:.78;margin-top:8px}
+    .grid{display:grid;gap:16px}.kpis{grid-template-columns:repeat(4,1fr);margin:20px 0}.card,.panel{background:#ffffffeb;border:1px solid #fff;border-radius:21px;box-shadow:0 10px 28px #3e71a516}.card{padding:20px;border-top:5px solid var(--accent)}.card .label{font-size:13px;color:var(--muted)}.card .value{font-size:clamp(25px,2.7vw,36px);font-weight:800;margin:6px 0}.delta{font-size:12px;font-weight:700}.good{color:var(--green)}.bad{color:var(--red)}
+    .panel{padding:22px}.panel h2{font-size:21px;margin:0 0 4px}.sub{font-size:13px;color:var(--muted);margin-bottom:15px}.two{grid-template-columns:1.35fr .65fr;margin-bottom:16px}.chart{height:306px;width:100%}.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;color:var(--muted);font-size:12px}.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}
+    .compare{grid-template-columns:1fr 1fr;margin-bottom:16px}.summary-strip{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 13px}.pill{padding:7px 11px;border-radius:999px;background:#f1f7fd;font-size:12px;font-weight:700}.list{display:grid;gap:9px}.item{display:grid;grid-template-columns:1fr auto;gap:12px;padding:11px 13px;border-radius:14px;background:#f7faff}.item.dec{border-left:5px solid var(--green)}.item.inc{border-left:5px solid var(--red)}.item b{font-size:14px}.item small{color:var(--muted)}.amount{text-align:right;font-weight:800}
+    .table-wrap{overflow:auto;border:1px solid #dce8f4;border-radius:16px}table{width:100%;min-width:1240px;border-collapse:collapse;background:#fff;font-size:12.5px}th,td{padding:12px 10px;text-align:right;white-space:nowrap;border-bottom:1px solid #e6eef6}th{position:sticky;top:0;background:#173e75;color:#fff;z-index:2}th:first-child,td:first-child{text-align:left;position:sticky;left:0}th:first-child{z-index:3}td:first-child{background:#fff;font-weight:650;min-width:260px}tr:hover td{background:#f2f8ff}tr:hover td:first-child{background:#f2f8ff}.sep{background:#fff0cf!important;font-weight:800}.ytd{background:#dff7ff!important;font-weight:800}.negative{color:var(--red);font-weight:750}.positive{color:var(--green);font-weight:750}.category td{background:#f4f8fc;color:#47617d}.total td{font-weight:800}
+    .insights{grid-template-columns:repeat(3,1fr);margin-top:16px}.insight{padding:18px;border-radius:17px;background:linear-gradient(145deg,#fff,#f5faff);border:1px solid #e1edf8}.insight strong{display:block;margin-bottom:6px}.footer{text-align:center;color:var(--muted);font-size:12px;padding:23px}
+    @media(max-width:980px){.kpis,.insights{grid-template-columns:repeat(2,1fr)}.two,.compare{grid-template-columns:1fr}}@media(max-width:580px){.page{padding:12px}.hero{padding:25px 20px}.kpis,.insights{grid-template-columns:1fr}.card .value{font-size:29px}}
+    @media print{body{background:#fff}.page{max-width:none;padding:0}.hero,.card,.panel{box-shadow:none}.btn,.link-note{display:none}.panel,.compare,.two{break-inside:avoid}}
+  </style>
+</head>
+<body>
+<main class="page">
+  <header class="hero">
+    <div class="eyebrow">FINANCIAL PERFORMANCE • SEPTEMBER 2026</div>
+    <h1>Dashboard กำไรสุทธิก่อนหักภาษี</h1>
+    <p>บริษัท พัฒนาสิน หนองคาย จำกัด • ประจำเดือน กันยายน 2569</p>
+    <div class="actions">
+      <a class="btn btn-white" href="financial-dashoard.html">↗ กำไรสุทธิก่อนหักภาษี PTS</a>
+      <a class="btn btn-glass" href="#monthly">ดูตาราง ม.ค.–ก.ย.</a>
+      <button class="btn btn-glass" onclick="window.print()">พิมพ์ / บันทึก PDF</button>
+    </div>
+    <div class="link-note">ปุ่ม PTS จะเปิดไฟล์ที่อยู่ในโฟลเดอร์เดียวกัน หากชื่อไฟล์ PTS ต่างจากนี้ สามารถแก้ค่า href ได้</div>
+  </header>
+
+  <section class="grid kpis">
+    <article class="card" style="--accent:var(--blue)"><div class="label">รายได้รวม • กันยายน</div><div class="value">฿508,588</div><div class="delta good">▲ 9.45% จากเดือนสิงหาคม</div></article>
+    <article class="card" style="--accent:var(--cyan)"><div class="label">กำไรขั้นต้น • กันยายน</div><div class="value">฿112,340</div><div class="delta good">▲ 5.48% จากเดือนสิงหาคม</div></article>
+    <article class="card" style="--accent:var(--orange)"><div class="label">รวมค่าใช้จ่าย • กันยายน</div><div class="value">฿127,931</div><div class="delta bad">▲ 9.20% จากเดือนสิงหาคม</div></article>
+    <article class="card" style="--accent:var(--red)"><div class="label">ขาดทุนก่อนหักภาษี • กันยายน</div><div class="value bad">฿(15,591)</div><div class="delta bad">Margin −3.07% • ขาดทุนเพิ่ม ฿4,939</div></article>
+  </section>
+
+  <section class="grid two">
+    <article class="panel"><h2>แนวโน้มผลประกอบการรายเดือน</h2><div class="sub">รายได้รวม กำไรขั้นต้น และกำไร/ขาดทุนก่อนหักภาษี • หน่วย: บาท</div><div id="trend" class="chart"></div><div class="legend"><span><i class="dot" style="background:#246bfd"></i>รายได้รวม</span><span><i class="dot" style="background:#24c6c8"></i>กำไรขั้นต้น</span><span><i class="dot" style="background:#e94366"></i>กำไร/ขาดทุนก่อนภาษี</span></div></article>
+    <article class="panel"><h2>ภาพรวมสะสม YTD</h2><div class="sub">มกราคม–กันยายน 2569</div><div id="donut" class="chart"></div><div class="legend"><span><i class="dot" style="background:#24c6c8"></i>กำไรขั้นต้น</span><span><i class="dot" style="background:#ff9f43"></i>ค่าใช้จ่าย</span></div></article>
+  </section>
+
+  <section class="grid compare">
+    <article class="panel"><h2 class="good">↓ ค่าใช้จ่ายที่ลดลง</h2><div class="sub">เปรียบเทียบเดือนกันยายนกับสิงหาคม 2569</div><div class="summary-strip"><span class="pill">ลดลงรวม ฿236</span><span class="pill">3 กลุ่มรายการ</span></div><div class="list" id="decrease"></div></article>
+    <article class="panel"><h2 class="bad">↑ ค่าใช้จ่ายที่เพิ่มขึ้น</h2><div class="sub">เปรียบเทียบเดือนกันยายนกับสิงหาคม 2569</div><div class="summary-strip"><span class="pill">เพิ่มขึ้นรวม ฿11,012</span><span class="pill">8 รายการ</span></div><div class="list" id="increase"></div></article>
+  </section>
+
+  <section class="panel" id="monthly">
+    <h2>ตารางเปรียบเทียบงบกำไรขาดทุน</h2><div class="sub">เดือนมกราคม–กันยายน 2569 และยอดสะสม (YTD) • หน่วย: บาท</div>
+    <div class="table-wrap"><table id="financial-table"></table></div>
+  </section>
+
+  <section class="grid insights">
+    <div class="insight"><strong>กำไรสะสม YTD ใกล้จุดคุ้มทุน</strong>รายได้สะสม <b>฿5.31 ล้านบาท</b> มีกำไรก่อนภาษีเพียง <b>฿981</b> หรือ Margin <b>0.02%</b> จึงยังมีความเปราะบางสูง</div>
+    <div class="insight"><strong>รายได้เพิ่ม แต่ค่าใช้จ่ายโตเร็วกว่า</strong>รายได้กันยายนเพิ่ม <b>฿43,924</b> แต่ค่าใช้จ่ายเพิ่ม <b>฿10,775</b> ทำให้ขาดทุนเพิ่มจากเดือนสิงหาคม <b>฿4,939</b></div>
+    <div class="insight"><strong>จุดควบคุมเร่งด่วน</strong>ค่าน้ำมันเพิ่ม <b>฿5,940</b> และค่าอุปกรณ์สำนักงานเพิ่ม <b>฿2,400</b> เป็นสองรายการหลักที่ควรตรวจสอบเอกสารและเหตุผลการใช้งาน</div>
+  </section>
+  <div class="footer">แหล่งข้อมูล: งบกำไรขาดทุนหนองคาย 9.2026.xlsx • ตัวเลขบนการ์ดปัดเศษเพื่อการนำเสนอ ส่วนตารางคำนวณจากค่าทศนิยมต้นฉบับ</div>
+</main>
+
+<script>
+  const months=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.'];
+  const data={
+    revenue:[950872.91,603841.34,769428.74,477483.01,408602.25,526482.49,598658.66,464663.43,508587.92],
+    cogs:[769650.65,476158.28,603373.49,333116.59,301817.43,403451.55,473303.13,358160.20,396248.40],
+    gross:[181222.26,127683.06,166055.25,144366.42,106784.82,123030.94,125355.53,106503.23,112339.52],
+    staff:[43765,43273,42585,42231,41921.50,43634.50,42590,42275,42445],
+    utilities:[1208,1181.11,1664.86,13216.80,1652.60,1615.33,1554.35,1502.74,1587.17],
+    other:[109611.08,98926.69,82953.26,74148.03,84380.09,94309.94,80851.73,73377.60,83898.57],
+    expenses:[154584.08,143380.80,127203.12,129595.83,127954.19,139559.77,124996.08,117155.34,127930.74],
+    profit:[26638.18,-15697.74,38852.13,14770.59,-21169.37,-16528.83,359.45,-10652.11,-15591.22]
+  };
+  const sum=a=>a.reduce((x,y)=>x+y,0);
+  const nfmt=n=>new Intl.NumberFormat('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2}).format(Math.abs(n));
+  const short=n=>new Intl.NumberFormat('th-TH',{maximumFractionDigits:0}).format(Math.abs(n));
+
+  function lineChart(){
+    const W=900,H=300,p={l:67,r:20,t:16,b:43},max=1000000,min=-100000,iw=W-p.l-p.r,ih=H-p.t-p.b;
+    const x=i=>p.l+i*iw/(months.length-1),y=v=>p.t+(max-v)*ih/(max-min);
+    let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" height="100%" role="img" aria-label="กราฟแนวโน้มรายเดือน">`;
+    [-100000,0,250000,500000,750000,1000000].forEach(v=>{s+=`<line x1="${p.l}" y1="${y(v)}" x2="${W-p.r}" y2="${y(v)}" stroke="#dce8f3"/><text x="${p.l-9}" y="${y(v)+4}" text-anchor="end" font-size="11" fill="#71859a">${v/1000}k</text>`});
+    months.forEach((m,i)=>s+=`<text x="${x(i)}" y="${H-12}" text-anchor="middle" font-size="12" fill="#6f8299">${m}</text>`);
+    [['revenue','#246bfd'],['gross','#24c6c8'],['profit','#e94366']].forEach(([k,c])=>{const pts=data[k].map((v,i)=>`${x(i)},${y(v)}`).join(' ');s+=`<polyline points="${pts}" fill="none" stroke="${c}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>`;data[k].forEach((v,i)=>s+=`<circle cx="${x(i)}" cy="${y(v)}" r="4.5" fill="${c}" stroke="#fff" stroke-width="2"><title>${months[i]} ฿${nfmt(v)}</title></circle>`)});
+    return s+'</svg>';
+  }
+  function donut(){
+    const gross=sum(data.gross),exp=sum(data.expenses),pct=gross/(gross+exp),r=80,c=2*Math.PI*r,a=c*pct;
+    return `<svg viewBox="0 0 360 300" width="100%" height="100%" role="img" aria-label="กราฟผลสะสม YTD"><circle cx="180" cy="130" r="${r}" fill="none" stroke="#ff9f43" stroke-width="34"/><circle cx="180" cy="130" r="${r}" fill="none" stroke="#24c6c8" stroke-width="34" stroke-dasharray="${a} ${c-a}" transform="rotate(-90 180 130)"/><text x="180" y="119" text-anchor="middle" font-size="14" fill="#6f8299">กำไรก่อนภาษี YTD</text><text x="180" y="150" text-anchor="middle" font-size="27" font-weight="800" fill="#11b779">฿${short(sum(data.profit))}</text><text x="180" y="177" text-anchor="middle" font-size="13" fill="#6f8299">Margin 0.02%</text></svg>`;
+  }
+  document.getElementById('trend').innerHTML=lineChart();
+  document.getElementById('donut').innerHTML=donut();
+
+  const decreases=[
+    ['ค่าอาหาร–เครื่องดื่ม',910,680,-230],
+    ['ค่าธรรมเนียม–ธนาคาร',195,190,-5],
+    ['ค่าเสื่อมราคาและเศษสตางค์ (รวม)',52778.97,52777.48,-1.49]
+  ];
+  const increases=[
+    ['ค่าน้ำมัน–ค่าแก๊สรถยนต์',8880,14820,5940],
+    ['ค่าอุปกรณ์สำนักงานใช้ไป',1049.63,3449.91,2400.28],
+    ['ค่าซ่อมแซม–เครื่องมืออุปกรณ์',0,1658.50,1658.50],
+    ['ค่าเบี้ยขยัน–พนักงาน',600,1000,400],
+    ['ค่าส่งเสริมการขาย',0,280,280],
+    ['ค่าเบ็ดเตล็ด',100,334,234],
+    ['ค่าไฟฟ้า',1310.14,1394.57,84.43],
+    ['ค่าตัดจำหน่าย–โปรแกรมและซอฟต์แวร์',1608,1622.68,14.68]
+  ];
+  function expenseItems(items,type){return items.map(x=>`<div class="item ${type}"><div><b>${x[0]}</b><br><small>ส.ค. ฿${nfmt(x[1])} → ก.ย. ฿${nfmt(x[2])}</small></div><div class="amount ${type==='dec'?'good':'bad'}">${x[3]>0?'+':'−'}฿${nfmt(x[3])}</div></div>`).join('')}
+  document.getElementById('decrease').innerHTML=expenseItems(decreases,'dec');
+  document.getElementById('increase').innerHTML=expenseItems(increases,'inc');
+
+  const rows=[
+    ['รายได้รวม','revenue','total'],
+    ['หัก ต้นทุนขายรวม','cogs',''],
+    ['กำไรขั้นต้น','gross','total'],
+    ['ค่าใช้จ่ายพนักงานและสวัสดิการ','staff','category'],
+    ['ค่าสาธารณูปโภค','utilities','category'],
+    ['ค่าใช้จ่ายดำเนินงานอื่น','other','category'],
+    ['รวมค่าใช้จ่าย (พนักงาน + สาธารณูปโภค + อื่นๆ)','expenses','total'],
+    ['กำไร (ขาดทุน) ก่อนหักภาษี','profit','total']
+  ];
+  let html='<thead><tr><th>รายการงบกำไรขาดทุน</th>'+months.map((m,i)=>`<th class="${i===8?'sep':''}">${m} 2569</th>`).join('')+'<th class="ytd">สะสม YTD</th></tr></thead><tbody>';
+  rows.forEach(([label,key,cls])=>{const cells=data[key].map((v,i)=>`<td class="${i===8?'sep ':''}${v<0?'negative':''}">${v<0?'('+nfmt(v)+')':nfmt(v)}</td>`).join('');const y=sum(data[key]);html+=`<tr class="${cls}"><td>${label}</td>${cells}<td class="ytd ${y<0?'negative':''}">${y<0?'('+nfmt(y)+')':nfmt(y)}</td></tr>`});
+  const margins=data.profit.map((v,i)=>v/data.revenue[i]),ym=sum(data.profit)/sum(data.revenue);
+  html+='<tr class="total"><td>% อัตรากำไร (Margin)</td>'+margins.map((v,i)=>`<td class="${i===8?'sep ':''}${v<0?'negative':'positive'}">${(v*100).toFixed(2)}%</td>`).join('')+`<td class="ytd ${ym<0?'negative':'positive'}">${(ym*100).toFixed(2)}%</td></tr></tbody>`;
+  document.getElementById('financial-table').innerHTML=html;
+</script>
+</body>
+</html>
