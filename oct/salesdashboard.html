@@ -1,0 +1,715 @@
+<!-- ... existing code ... -->
+<html lang="th" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard สรุปยอดขาย - บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            orange: '#f97316',
+                            orangeDark: '#ea580c',
+                            navy: '#0f172a',
+                            navyLight: '#1e293b',
+                            blue: '#2563eb',
+                            emerald: '#10b981',
+                            rose: '#f43f5e'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Kanit', 'Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts: Kanit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Clean Elevated Cards & Soft Glassmorphism */
+        .glass-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 8px 10px -6px rgba(15, 23, 42, 0.03);
+            backdrop-filter: blur(12px);
+        }
+
+        .dark .glass-card {
+            background: rgba(15, 23, 42, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #f97316;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen transition-colors duration-300 pb-12">
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-50 glass-card border-b border-slate-200 dark:border-slate-800/80 px-4 lg:px-8 py-4 mb-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="p-3 bg-gradient-to-tr from-orange-500 to-amber-500 rounded-2xl shadow-lg shadow-orange-500/25 text-white">
+                    <i class="fa-solid fa-chart-line text-2xl"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-xl md:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+                            บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด
+                        </h1>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 mt-0.5">
+                        <p class="text-xs md:text-sm text-orange-600 dark:text-orange-400 font-medium flex items-center gap-1.5">
+                            <i class="fa-regular fa-calendar-days"></i> รายงานสรุปผลการดำเนินงาน ประจำเดือนตุลาคม 2569
+                        </p>
+                        <span class="text-slate-300 dark:text-slate-700">|</span>
+                        <span class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-[11px] font-medium px-2 py-0.5 rounded-md">
+                            <i class="fa-solid fa-location-dot text-orange-500 mr-1"></i>สาขาอุดรธานี & สาขาหนองคาย
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls & Theme Toggle -->
+            <div class="flex items-center space-x-3">
+                <div class="bg-slate-100 dark:bg-slate-900/80 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700/50 text-xs flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="text-slate-600 dark:text-slate-300">วันทำการ: <strong class="text-slate-900 dark:text-white font-bold">26 วัน</strong></span>
+                </div>
+                
+                <button id="themeToggleBtn" onclick="toggleTheme()" class="p-2.5 rounded-xl glass-card text-slate-700 hover:bg-slate-100 dark:text-amber-400 dark:hover:bg-slate-800 transition-all duration-200" title="เปลี่ยนธีม">
+                    <i id="themeIcon" class="fa-solid fa-sun text-lg"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 lg:px-8 space-y-6">
+
+        <!-- Banner Alert / Overall Status Summary -->
+        <section class="glass-card rounded-2xl p-4 md:p-6 bg-gradient-to-r from-orange-500/10 via-amber-500/5 to-white dark:from-slate-900 dark:via-orange-950/20 dark:to-slate-900 border-l-4 border-l-orange-500">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div class="space-y-1">
+                    <div class="flex items-center gap-2">
+                        <span class="bg-orange-500/10 text-orange-600 dark:bg-orange-500/20 dark:text-orange-400 text-xs font-semibold px-2.5 py-0.5 rounded-full uppercase">สรุปภาพรวมเดือนตุลาคม</span>
+                        <span class="text-xs text-slate-500 dark:text-slate-400">เป้าหมายเฉลี่ยรายวัน: ~500,000 บาท/วันทำการ</span>
+                    </div>
+                    <h2 class="text-lg md:text-xl font-semibold text-slate-900 dark:text-white">
+                        ยอดขายรวมทุกช่องทางบรรลุ <span id="overallPercentText" class="text-orange-600 dark:text-orange-400 font-bold">0%</span> ของเป้าหมายประจำเดือน
+                    </h2>
+                </div>
+                <div class="flex items-center gap-3 w-full md:w-auto justify-end">
+                    <div class="text-right">
+                        <div class="text-xs text-slate-500 dark:text-slate-400">วันหยุดปิดทำการประจำเดือน</div>
+                        <div class="text-sm font-semibold text-rose-600 dark:text-rose-400">5 วัน (อาทิตย์ + วันออกพรรษา)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- KPI Summary Cards (4 Cards) -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+            <!-- Card 1: ยอดขายรวมทุกช่องทาง -->
+            <div class="glass-card rounded-2xl p-5 relative overflow-hidden group border-orange-200 dark:border-orange-500/30 shadow-orange-500/5 transition-all duration-300 hover:shadow-lg">
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <span class="text-xs font-medium text-orange-600 dark:text-orange-400 uppercase tracking-wider">รวมทุกช่องทาง</span>
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white">ยอดขายรวมทั้งหมด</h3>
+                    </div>
+                    <div class="p-2.5 bg-orange-500/10 text-orange-600 dark:text-orange-400 rounded-xl">
+                        <i class="fa-solid fa-sack-dollar text-xl"></i>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <div>
+                        <div class="text-xs text-slate-500 dark:text-slate-400">ยอดขายจริงรวม</div>
+                        <div class="text-2xl font-black text-orange-600 dark:text-orange-400" id="totalActual">0</div>
+                    </div>
+                    <div class="flex justify-between text-xs text-slate-500 dark:text-slate-400 pt-2 border-t border-slate-100 dark:border-slate-800">
+                        <span>เป้าหมาย: <strong class="text-slate-700 dark:text-slate-300" id="totalTarget">0</strong></span>
+                        <span id="totalStatus">--</span>
+                    </div>
+                    <!-- Progress Bar -->
+                    <div class="space-y-1 pt-1">
+                        <div class="flex justify-between text-xs font-semibold">
+                            <span class="text-slate-500">ความสำเร็จ</span>
+                            <span class="text-orange-600 dark:text-orange-400" id="totalPct">0%</span>
+                        </div>
+                        <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
+                            <div id="totalBar" class="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 h-2 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: ขายส่งอุดร -->
+            <div class="glass-card rounded-2xl p-5 relative overflow-hidden group hover:border-slate-300 dark:hover:border-slate-700 transition-all duration-300">
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <span class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">สาขาอุดรธานี</span>
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white">ขายส่งอุดร</h3>
+                    </div>
+                    <div class="p-2.5 bg-slate-900/10 text-slate-800 dark:bg-slate-800 dark:text-slate-200 rounded-xl">
+                        <i class="fa-solid fa-truck-field text-lg"></i>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <div>
+                        <div class="text-xs text-slate-500 dark:text-slate-400">ยอดขายจริง</div>
+                        <div class="text-2xl font-black text-slate-900 dark:text-white" id="udonWholesaleActual">0</div>
+                    </div>
+                    <div class="flex justify-between text-xs text-slate-500 dark:text-slate-400 pt-2 border-t border-slate-100 dark:border-slate-800">
+                        <span>เป้าหมาย: <strong class="text-slate-700 dark:text-slate-300" id="udonWholesaleTarget">0</strong></span>
+                        <span id="udonWholesaleStatus">--</span>
+                    </div>
+                    <!-- Progress Bar -->
+                    <div class="space-y-1 pt-1">
+                        <div class="flex justify-between text-xs font-semibold">
+                            <span class="text-slate-500">ความสำเร็จ</span>
+                            <span class="text-slate-900 dark:text-slate-200" id="udonWholesalePct">0%</span>
+                        </div>
+                        <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
+                            <div id="udonWholesaleBar" class="bg-gradient-to-r from-slate-700 to-slate-900 dark:from-slate-400 dark:to-slate-200 h-2 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: หน้าร้านอุดร -->
+            <div class="glass-card rounded-2xl p-5 relative overflow-hidden group hover:border-blue-300 dark:hover:border-blue-700 transition-all duration-300">
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <span class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">สาขาอุดรธานี</span>
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white">หน้าร้านอุดร</h3>
+                    </div>
+                    <div class="p-2.5 bg-blue-500/10 text-blue-600 dark:text-blue-400 rounded-xl">
+                        <i class="fa-solid fa-store text-lg"></i>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <div>
+                        <div class="text-xs text-slate-500 dark:text-slate-400">ยอดขายจริง</div>
+                        <div class="text-2xl font-black text-slate-900 dark:text-white" id="udonRetailActual">0</div>
+                    </div>
+                    <div class="flex justify-between text-xs text-slate-500 dark:text-slate-400 pt-2 border-t border-slate-100 dark:border-slate-800">
+                        <span>เป้าหมาย: <strong class="text-slate-700 dark:text-slate-300" id="udonRetailTarget">0</strong></span>
+                        <span id="udonRetailStatus">--</span>
+                    </div>
+                    <!-- Progress Bar -->
+                    <div class="space-y-1 pt-1">
+                        <div class="flex justify-between text-xs font-semibold">
+                            <span class="text-slate-500">ความสำเร็จ</span>
+                            <span class="text-blue-600 dark:text-blue-400" id="udonRetailPct">0%</span>
+                        </div>
+                        <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
+                            <div id="udonRetailBar" class="bg-gradient-to-r from-blue-500 to-indigo-500 h-2 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: สาขาหนองคาย -->
+            <div class="glass-card rounded-2xl p-5 relative overflow-hidden group hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300">
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <span class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">สาขาหนองคาย</span>
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white">สาขาหนองคาย</h3>
+                    </div>
+                    <div class="p-2.5 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-xl">
+                        <i class="fa-solid fa-building-flag text-lg"></i>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <div>
+                        <div class="text-xs text-slate-500 dark:text-slate-400">ยอดขายจริง</div>
+                        <div class="text-2xl font-black text-slate-900 dark:text-white" id="nkActual">0</div>
+                    </div>
+                    <div class="flex justify-between text-xs text-slate-500 dark:text-slate-400 pt-2 border-t border-slate-100 dark:border-slate-800">
+                        <span>เป้าหมาย: <strong class="text-slate-700 dark:text-slate-300" id="nkTarget">0</strong></span>
+                        <span id="nkStatus">--</span>
+                    </div>
+                    <!-- Progress Bar -->
+                    <div class="space-y-1 pt-1">
+                        <div class="flex justify-between text-xs font-semibold">
+                            <span class="text-slate-500">ความสำเร็จ</span>
+                            <span class="text-emerald-600 dark:text-emerald-400" id="nkPct">0%</span>
+                        </div>
+                        <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
+                            <div id="nkBar" class="bg-gradient-to-r from-emerald-500 to-teal-500 h-2 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Charts Section -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Main Daily Chart (2 Columns) -->
+            <div class="lg:col-span-2 glass-card rounded-2xl p-5 space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-chart-column text-orange-500"></i> กราฟเปรียบเทียบยอดขายรายวัน (1-31 ตุลาคม 2569)
+                        </h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">แสดงแนวโน้มยอดขายจำแนกตามช่องทางรายวัน</p>
+                    </div>
+                    <div class="flex items-center gap-3 text-xs">
+                        <span class="flex items-center gap-1.5 text-slate-600 dark:text-slate-400"><span class="w-2.5 h-2.5 rounded-full bg-slate-800 dark:bg-slate-300 inline-block"></span> ขายส่งอุดร</span>
+                        <span class="flex items-center gap-1.5 text-slate-600 dark:text-slate-400"><span class="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block"></span> หน้าร้านอุดร</span>
+                        <span class="flex items-center gap-1.5 text-slate-600 dark:text-slate-400"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> หนองคาย</span>
+                    </div>
+                </div>
+                <div class="relative h-72 sm:h-80 w-full">
+                    <canvas id="dailySalesChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Share & Ratio Chart (1 Column) -->
+            <div class="glass-card rounded-2xl p-5 space-y-4 flex flex-col justify-between">
+                <div>
+                    <div class="border-b border-slate-100 dark:border-slate-800 pb-3">
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-chart-pie text-orange-500"></i> สัดส่วนยอดขายตามช่องทาง
+                        </h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">สัดส่วนรายได้ประจำเดือนตุลาคม</p>
+                    </div>
+                    <div class="relative h-56 w-full mt-4 flex items-center justify-center">
+                        <canvas id="shareDoughnutChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-slate-50 dark:bg-slate-900/80 p-3.5 rounded-xl border border-slate-100 dark:border-slate-800 text-xs space-y-2">
+                    <div class="flex justify-between text-slate-700 dark:text-slate-300">
+                        <span class="font-medium">ขายส่งอุดร (ช่องทางหลัก):</span>
+                        <strong class="text-slate-900 dark:text-white font-bold" id="wholesaleRatio">91.5%</strong>
+                    </div>
+                    <div class="flex justify-between text-slate-700 dark:text-slate-300">
+                        <span class="font-medium">หน้าร้านอุดร + หนองคาย:</span>
+                        <strong class="text-orange-600 dark:text-orange-400 font-bold" id="retailRatio">8.5%</strong>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detailed Daily Data Table -->
+        <section class="glass-card rounded-2xl p-5 space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
+                <div>
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-table-list text-orange-500"></i> ตารางรายละเอียดยอดขายรายวัน (Daily Sales Table)
+                    </h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">ข้อมูลยอดขายครบถ้วน 31 วัน พร้อมสถานะวันทำการ</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="relative w-full sm:w-64">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                        <input type="text" id="tableSearch" onkeyup="filterTable()" placeholder="ค้นหาวันที่ เช่น 25, ออกพรรษา..." class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl pl-8 pr-3 py-1.5 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Responsive Table Container -->
+            <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
+                <table class="w-full text-sm text-left text-slate-700 dark:text-slate-300" id="salesTable">
+                    <thead class="text-xs uppercase bg-slate-100 dark:bg-slate-900/90 text-slate-600 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800">
+                        <tr>
+                            <th scope="col" class="px-4 py-3.5 text-center">วันที่</th>
+                            <th scope="col" class="px-4 py-3.5 text-right">ขายส่งอุดร (บาท)</th>
+                            <th scope="col" class="px-4 py-3.5 text-right">หน้าร้านอุดร (บาท)</th>
+                            <th scope="col" class="px-4 py-3.5 text-right">สาขาหนองคาย (บาท)</th>
+                            <th scope="col" class="px-4 py-3.5 text-right">ยอดขายรวม (บาท)</th>
+                            <th scope="col" class="px-4 py-3.5 text-center">สถานะ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody" class="divide-y divide-slate-100 dark:divide-slate-800/60">
+                        <!-- Dynamic Rows Inject Here -->
+                    </tbody>
+                    <tfoot class="bg-slate-100 dark:bg-slate-900 font-bold text-slate-900 dark:text-white border-t-2 border-slate-200 dark:border-slate-800">
+                        <tr>
+                            <td class="px-4 py-4 text-center">รวมทั้งสิ้น</td>
+                            <td class="px-4 py-4 text-right text-slate-900 dark:text-white" id="footWholesale">0</td>
+                            <td class="px-4 py-4 text-right text-blue-600 dark:text-blue-400" id="footRetail">0</td>
+                            <td class="px-4 py-4 text-right text-emerald-600 dark:text-emerald-400" id="footNK">0</td>
+                            <td class="px-4 py-4 text-right text-orange-600 dark:text-orange-400 text-base" id="footTotal">0</td>
+                            <td class="px-4 py-4 text-center text-xs text-slate-500">26 วันทำการ</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-12 text-center text-xs text-slate-500 dark:text-slate-400">
+        <p>© 2026 บริษัท พัฒนาสิน ไทยเทรดดิ้ง จำกัด — ระบบสรุปการดำเนินงานขาย ประจำเดือนตุลาคม 2569</p>
+    </footer>
+
+    <!-- JavaScript Data & Logic -->
+    <script>
+        // Data Structure for October 2026
+        const summaryData = {
+            udonRetail: { actual: 424340, target: 600000, days: 26 },
+            udonWholesale: { actual: 9120677, target: 11800000, days: 26 },
+            nongKhai: { actual: 426315, target: 600000, days: 26 },
+            total: { actual: 9971332, target: 13000000, days: 26 }
+        };
+
+        const dailyData = [
+            { day: 1, dateStr: "1 ต.ค. 69", retail: 11111, wholesale: 1704, nk: 12188, isClosed: false },
+            { day: 2, dateStr: "2 ต.ค. 69", retail: 19854, wholesale: 348723, nk: 21808, isClosed: false },
+            { day: 3, dateStr: "3 ต.ค. 69", retail: 18765, wholesale: 69543, nk: 21264, isClosed: false },
+            { day: 4, dateStr: "4 ต.ค. 69", retail: 0, wholesale: 0, nk: 0, isClosed: true, reason: "วันอาทิตย์ (ปิดทำการ)" },
+            { day: 5, dateStr: "5 ต.ค. 69", retail: 16317, wholesale: 452968, nk: 20838, isClosed: false },
+            { day: 6, dateStr: "6 ต.ค. 69", retail: 10774, wholesale: 303151, nk: 12515, isClosed: false },
+            { day: 7, dateStr: "7 ต.ค. 69", retail: 20922, wholesale: 581323, nk: 28178, isClosed: false },
+            { day: 8, dateStr: "8 ต.ค. 69", retail: 14926, wholesale: 209345, nk: 16556, isClosed: false },
+            { day: 9, dateStr: "9 ต.ค. 69", retail: 16859, wholesale: 273871, nk: 13199, isClosed: false },
+            { day: 10, dateStr: "10 ต.ค. 69", retail: 8738, wholesale: 251076, nk: 15059, isClosed: false },
+            { day: 11, dateStr: "11 ต.ค. 69", retail: 0, wholesale: 0, nk: 0, isClosed: true, reason: "วันอาทิตย์ (ปิดทำการ)" },
+            { day: 12, dateStr: "12 ต.ค. 69", retail: 19612, wholesale: 284788, nk: 23268, isClosed: false },
+            { day: 13, dateStr: "13 ต.ค. 69", retail: 12549, wholesale: 455981, nk: 15733, isClosed: false },
+            { day: 14, dateStr: "14 ต.ค. 69", retail: 20452, wholesale: 143962, nk: 6774, isClosed: false },
+            { day: 15, dateStr: "15 ต.ค. 69", retail: 16813, wholesale: 288473, nk: 9146, isClosed: false },
+            { day: 16, dateStr: "16 ต.ค. 69", retail: 5267, wholesale: 435375, nk: 12416, isClosed: false },
+            { day: 17, dateStr: "17 ต.ค. 69", retail: 21859, wholesale: 336181, nk: 14669, isClosed: false },
+            { day: 18, dateStr: "18 ต.ค. 69", retail: 0, wholesale: 0, nk: 0, isClosed: true, reason: "วันอาทิตย์ (ปิดทำการ)" },
+            { day: 19, dateStr: "19 ต.ค. 69", retail: 23205, wholesale: 521768, nk: 15266, isClosed: false },
+            { day: 20, dateStr: "20 ต.ค. 69", retail: 13193, wholesale: 522640, nk: 26107, isClosed: false },
+            { day: 21, dateStr: "21 ต.ค. 69", retail: 22356, wholesale: 337075, nk: 16087, isClosed: false },
+            { day: 22, dateStr: "22 ต.ค. 69", retail: 22202, wholesale: 455610, nk: 22063, isClosed: false },
+            { day: 23, dateStr: "23 ต.ค. 69", retail: 14718, wholesale: 383513, nk: 12403, isClosed: false },
+            { day: 24, dateStr: "24 ต.ค. 69", retail: 18378, wholesale: 412228, nk: 8743, isClosed: false },
+            { day: 25, dateStr: "25 ต.ค. 69", retail: 0, wholesale: 0, nk: 0, isClosed: true, reason: "วันอาทิตย์ (ปิดทำการ)" },
+            { day: 26, dateStr: "26 ต.ค. 69", retail: 0, wholesale: 0, nk: 0, isClosed: true, reason: "วันออกพรรษา (ปิดทำการ)" },
+            { day: 27, dateStr: "27 ต.ค. 69", retail: 13982, wholesale: 347014, nk: 28098, isClosed: false },
+            { day: 28, dateStr: "28 ต.ค. 69", retail: 12146, wholesale: 564049, nk: 12276, isClosed: false },
+            { day: 29, dateStr: "29 ต.ค. 69", retail: 11886, wholesale: 356726, nk: 19449, isClosed: false },
+            { day: 30, dateStr: "30 ต.ค. 69", retail: 8885, wholesale: 364904, nk: 9535, isClosed: false },
+            { day: 31, dateStr: "31 ต.ค. 69", retail: 28571, wholesale: 418686, nk: 12678, isClosed: false }
+        ];
+
+        // Format Number Helpers
+        const formatNum = (num) => new Intl.NumberFormat('th-TH').format(num);
+        const formatCurrency = (num) => new Intl.NumberFormat('th-TH', { style: 'currency', currency: 'THB', maximumFractionDigits: 0 }).format(num).replace('THB', '฿');
+
+        // Theme Toggle Functionality
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeIcon = document.getElementById('themeIcon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                html.classList.add('light');
+                themeIcon.className = 'fa-solid fa-sun text-lg';
+            } else {
+                html.classList.remove('light');
+                html.classList.add('dark');
+                themeIcon.className = 'fa-solid fa-moon text-lg';
+            }
+            updateChartsTheme();
+        }
+
+        // Initialize KPI Cards
+        function initKPICards() {
+            const getStatusBadge = (pct) => {
+                if (pct >= 80) return `<span class="bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400 px-2 py-0.5 rounded text-xs font-semibold"><i class="fa-solid fa-arrow-trend-up"></i> นำจังหวะ</span>`;
+                return `<span class="bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400 px-2 py-0.5 rounded text-xs font-semibold"><i class="fa-solid fa-arrow-trend-down"></i> ตามจังหวะ</span>`;
+            };
+
+            // 1. Udon Retail
+            const udonRetailPct = (summaryData.udonRetail.actual / summaryData.udonRetail.target) * 100;
+            document.getElementById('udonRetailActual').innerText = formatCurrency(summaryData.udonRetail.actual);
+            document.getElementById('udonRetailTarget').innerText = formatCurrency(summaryData.udonRetail.target);
+            document.getElementById('udonRetailPct').innerText = udonRetailPct.toFixed(1) + '%';
+            document.getElementById('udonRetailBar').style.width = Math.min(udonRetailPct, 100) + '%';
+            document.getElementById('udonRetailStatus').innerHTML = getStatusBadge(udonRetailPct);
+
+            // 2. Udon Wholesale
+            const udonWholesalePct = (summaryData.udonWholesale.actual / summaryData.udonWholesale.target) * 100;
+            document.getElementById('udonWholesaleActual').innerText = formatCurrency(summaryData.udonWholesale.actual);
+            document.getElementById('udonWholesaleTarget').innerText = formatCurrency(summaryData.udonWholesale.target);
+            document.getElementById('udonWholesalePct').innerText = udonWholesalePct.toFixed(1) + '%';
+            document.getElementById('udonWholesaleBar').style.width = Math.min(udonWholesalePct, 100) + '%';
+            document.getElementById('udonWholesaleStatus').innerHTML = getStatusBadge(udonWholesalePct);
+
+            // 3. Nong Khai
+            const nkPct = (summaryData.nongKhai.actual / summaryData.nongKhai.target) * 100;
+            document.getElementById('nkActual').innerText = formatCurrency(summaryData.nongKhai.actual);
+            document.getElementById('nkTarget').innerText = formatCurrency(summaryData.nongKhai.target);
+            document.getElementById('nkPct').innerText = nkPct.toFixed(1) + '%';
+            document.getElementById('nkBar').style.width = Math.min(nkPct, 100) + '%';
+            document.getElementById('nkStatus').innerHTML = getStatusBadge(nkPct);
+
+            // 4. Total
+            const totalPct = (summaryData.total.actual / summaryData.total.target) * 100;
+            document.getElementById('totalActual').innerText = formatCurrency(summaryData.total.actual);
+            document.getElementById('totalTarget').innerText = formatCurrency(summaryData.total.target);
+            document.getElementById('totalPct').innerText = totalPct.toFixed(1) + '%';
+            document.getElementById('totalBar').style.width = Math.min(totalPct, 100) + '%';
+            document.getElementById('totalStatus').innerHTML = getStatusBadge(totalPct);
+            document.getElementById('overallPercentText').innerText = totalPct.toFixed(1) + '%';
+
+            // Share Ratios
+            const wholesaleShare = ((summaryData.udonWholesale.actual / summaryData.total.actual) * 100).toFixed(1);
+            const retailShare = (((summaryData.udonRetail.actual + summaryData.nongKhai.actual) / summaryData.total.actual) * 100).toFixed(1);
+            document.getElementById('wholesaleRatio').innerText = wholesaleShare + '%';
+            document.getElementById('retailRatio').innerText = retailShare + '%';
+        }
+
+        // Render Table Data
+        function renderTable() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            let sumRetail = 0, sumWholesale = 0, sumNK = 0, sumTotal = 0;
+
+            dailyData.forEach((row) => {
+                const totalDaily = row.retail + row.wholesale + row.nk;
+                sumRetail += row.retail;
+                sumWholesale += row.wholesale;
+                sumNK += row.nk;
+                sumTotal += totalDaily;
+
+                const tr = document.createElement('tr');
+                tr.className = row.isClosed 
+                    ? 'bg-rose-50/60 dark:bg-rose-950/20 hover:bg-rose-100/70 dark:hover:bg-rose-900/30 transition-colors font-medium' 
+                    : 'hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors';
+
+                if (row.isClosed) {
+                    tr.innerHTML = `
+                        <td class="px-4 py-3 text-center font-semibold text-rose-600 dark:text-rose-400">${row.dateStr}</td>
+                        <td colspan="3" class="px-4 py-3 text-center text-xs text-rose-500 italic">
+                            <i class="fa-solid fa-store-slash mr-1"></i> ${row.reason}
+                        </td>
+                        <td class="px-4 py-3 text-right text-slate-400">0</td>
+                        <td class="px-4 py-3 text-center">
+                            <span class="bg-rose-100 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 text-xs px-2 py-0.5 rounded-full font-medium">ปิดทำการ</span>
+                        </td>
+                    `;
+                } else {
+                    tr.innerHTML = `
+                        <td class="px-4 py-3 text-center font-medium text-slate-800 dark:text-slate-200">${row.dateStr}</td>
+                        <td class="px-4 py-3 text-right text-slate-900 dark:text-slate-100 font-semibold">${formatNum(row.wholesale)}</td>
+                        <td class="px-4 py-3 text-right text-slate-600 dark:text-slate-300">${formatNum(row.retail)}</td>
+                        <td class="px-4 py-3 text-right text-slate-600 dark:text-slate-300">${formatNum(row.nk)}</td>
+                        <td class="px-4 py-3 text-right font-bold text-orange-600 dark:text-orange-400">${formatNum(totalDaily)}</td>
+                        <td class="px-4 py-3 text-center">
+                            <span class="bg-emerald-100 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-xs px-2 py-0.5 rounded-full font-medium">เปิดทำการ</span>
+                        </td>
+                    `;
+                }
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('footRetail').innerText = formatNum(sumRetail);
+            document.getElementById('footWholesale').innerText = formatNum(sumWholesale);
+            document.getElementById('footNK').innerText = formatNum(sumNK);
+            document.getElementById('footTotal').innerText = formatNum(sumTotal);
+        }
+
+        // Table Search Filter
+        function filterTable() {
+            const input = document.getElementById('tableSearch').value.toUpperCase();
+            const trs = document.getElementById('tableBody').getElementsByTagName('tr');
+            for (let i = 0; i < trs.length; i++) {
+                const textContent = trs[i].textContent || trs[i].innerText;
+                if (textContent.toUpperCase().indexOf(input) > -1) {
+                    trs[i].style.display = "";
+                } else {
+                    trs[i].style.display = "none";
+                }
+            }
+        }
+
+        // Chart Instances
+        let dailyChart, doughnutChart;
+
+        function initCharts() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const textColor = isDark ? '#94a3b8' : '#475569';
+            const gridColor = isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)';
+
+            // 1. Daily Stacked Bar Chart
+            const ctxDaily = document.getElementById('dailySalesChart').getContext('2d');
+            dailyChart = new Chart(ctxDaily, {
+                type: 'bar',
+                data: {
+                    labels: dailyData.map(d => d.day),
+                    datasets: [
+                        {
+                            label: 'ขายส่งอุดร',
+                            data: dailyData.map(d => d.wholesale),
+                            backgroundColor: isDark ? '#e2e8f0' : '#1e293b',
+                            borderRadius: 4,
+                        },
+                        {
+                            label: 'หน้าร้านอุดร',
+                            data: dailyData.map(d => d.retail),
+                            backgroundColor: '#3b82f6',
+                            borderRadius: 4,
+                        },
+                        {
+                            label: 'สาขาหนองคาย',
+                            data: dailyData.map(d => d.nk),
+                            backgroundColor: '#10b981',
+                            borderRadius: 4,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            stacked: true,
+                            grid: { color: gridColor },
+                            ticks: { color: textColor, font: { family: 'Kanit' } }
+                        },
+                        y: {
+                            stacked: true,
+                            grid: { color: gridColor },
+                            ticks: { 
+                                color: textColor, 
+                                font: { family: 'Kanit' },
+                                callback: function(value) {
+                                    return (value / 1000) + 'k';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            bodyFont: { family: 'Kanit' },
+                            titleFont: { family: 'Kanit' },
+                            callbacks: {
+                                title: function(context) {
+                                    return 'วันที่ ' + context[0].label + ' ต.ค. 2569';
+                                },
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) label += ': ';
+                                    if (context.parsed.y !== null) {
+                                        label += formatCurrency(context.parsed.y);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 2. Doughnut Share Chart
+            const ctxDoughnut = document.getElementById('shareDoughnutChart').getContext('2d');
+            doughnutChart = new Chart(ctxDoughnut, {
+                type: 'doughnut',
+                data: {
+                    labels: ['ขายส่งอุดร', 'หน้าร้านอุดร', 'สาขาหนองคาย'],
+                    datasets: [{
+                        data: [
+                            summaryData.udonWholesale.actual,
+                            summaryData.udonRetail.actual,
+                            summaryData.nongKhai.actual
+                        ],
+                        backgroundColor: [
+                            isDark ? '#f8fafc' : '#0f172a', 
+                            '#3b82f6', 
+                            '#10b981'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: textColor,
+                                font: { family: 'Kanit', size: 12 },
+                                boxWidth: 12,
+                                padding: 15
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const value = context.parsed;
+                                    const total = summaryData.total.actual;
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    return ` ${context.label}: ${formatCurrency(value)} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '68%'
+                }
+            });
+        }
+
+        function updateChartsTheme() {
+            if (!dailyChart || !doughnutChart) return;
+
+            const isDark = document.documentElement.classList.contains('dark');
+            const textColor = isDark ? '#94a3b8' : '#475569';
+            const gridColor = isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)';
+
+            dailyChart.options.scales.x.grid.color = gridColor;
+            dailyChart.options.scales.x.ticks.color = textColor;
+            dailyChart.options.scales.y.grid.color = gridColor;
+            dailyChart.options.scales.y.ticks.color = textColor;
+            dailyChart.data.datasets[0].backgroundColor = isDark ? '#e2e8f0' : '#1e293b';
+            dailyChart.update();
+
+            doughnutChart.options.plugins.legend.labels.color = textColor;
+            doughnutChart.data.datasets[0].backgroundColor[0] = isDark ? '#f8fafc' : '#0f172a';
+            doughnutChart.update();
+        }
+
+        // On Load Initialization
+        window.addEventListener('DOMContentLoaded', () => {
+            initKPICards();
+            renderTable();
+            initCharts();
+        });
+    </script>
+<a href="deliverydashboard.html" style="position: fixed; bottom: 20px; right: 20px; background-color: #0d6efd; color: white; padding: 10px 20px; text-decoration: none; border-radius: 30px; font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); z-index: 9999;">
+    หน้าถัดไป (Delivery) ➜
+</body>
+</html>

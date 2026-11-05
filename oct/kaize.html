@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kaizen Executive Dashboard - ตุลาคม 2569</title>
+<!-- Tailwind CSS for utility styling -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Google Fonts: Prompt & Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- FontAwesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          brand: {
+            50: '#f0f7ff',
+            100: '#e0effe',
+            500: '#0284c7',
+            600: '#0369a1',
+            700: '#075985',
+            800: '#0c4a6e',
+            900: '#0f172a',
+          },
+          accent: {
+            orange: '#f97316',
+            emerald: '#10b981',
+            rose: '#f43f5e',
+            purple: '#8b5cf6',
+            amber: '#f59e0b'
+          }
+        },
+        fontFamily: {
+          sans: ['Prompt', 'Inter', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  body {
+    font-family: 'Prompt', 'Inter', sans-serif;
+    background: #0f172a;
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.5) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(14, 165, 233, 0.15) 0px, transparent 50%),
+      radial-gradient(at 50% 100%, rgba(15, 23, 42, 0.9) 0px, transparent 50%);
+    background-attachment: fixed;
+    color: #f8fafc;
+    min-height: 100vh;
+  }
+
+  /* Glassmorphism Styles */
+  .glass-card {
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  }
+
+  .glass-card-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .glass-card-hover:hover {
+    transform: translateY(-4px);
+    border-color: rgba(56, 189, 248, 0.3);
+    box-shadow: 0 20px 35px -10px rgba(2, 132, 199, 0.25);
+  }
+
+  .glass-pill {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: rgba(15, 23, 42, 0.6);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(51, 65, 85, 0.8);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(2, 132, 199, 0.8);
+  }
+
+  /* Pulse Glow Effect */
+  @keyframes alertGlow {
+    0%, 100% { box-shadow: 0 0 15px rgba(249, 115, 22, 0.2); }
+    50% { box-shadow: 0 0 25px rgba(249, 115, 22, 0.45); }
+  }
+  .alert-glow {
+    animation: alertGlow 3s infinite;
+  }
+
+  /* Bar animation */
+  .bar-grow {
+    transition: height 1s ease-out, width 1s ease-out;
+  }
+
+  /* Print Stylesheet */
+  @media print {
+    body {
+      background: #ffffff !important;
+      color: #0f172a !important;
+    }
+    .glass-card {
+      background: #ffffff !important;
+      border: 1px solid #cbd5e1 !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+      color: #0f172a !important;
+    }
+    .no-print, .tools-panel {
+      display: none !important;
+    }
+    .text-slate-400, .text-slate-300, .text-slate-200 {
+      color: #334155 !important;
+    }
+    .bg-slate-900\/80, .bg-slate-800\/80, .bg-slate-800\/50 {
+      background: #f8fafc !important;
+    }
+    .print-break-inside {
+      break-inside: avoid;
+    }
+    table th {
+      background-color: #f1f5f9 !important;
+      color: #0f172a !important;
+    }
+  }
+</style>
+</head>
+<body class="p-3 sm:p-6 lg:p-8 antialiased selection:bg-sky-500 selection:text-white">
+
+<div class="max-w-7xl mx-auto space-y-6">
+
+  <!-- TOP HEADER BANNER -->
+  <header class="glass-card rounded-2xl p-6 sm:p-8 relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+    <!-- Decorative background glow -->
+    <div class="absolute -right-10 -top-10 w-60 h-60 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute left-1/3 -bottom-10 w-60 h-60 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="space-y-2 z-10">
+      <div class="flex items-center gap-3 flex-wrap">
+        <span class="glass-pill px-3 py-1 rounded-full text-xs font-semibold text-sky-400 tracking-wider uppercase flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-sky-400 animate-ping"></span> Executive Overview
+        </span>
+        <span class="text-xs text-slate-400 bg-slate-800/80 px-2.5 py-1 rounded-md border border-slate-700/50">
+          <i class="fa-regular fa-calendar text-sky-400 mr-1"></i> ประจำเดือนตุลาคม 2569
+        </span>
+      </div>
+      <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white flex items-center gap-3">
+        <i class="fa-solid fa-chart-line text-sky-400"></i> รายงานสรุปผลหัวข้อส่ง Kaizen
+      </h1>
+      <p class="text-slate-300 text-sm sm:text-base max-w-2xl font-light">
+        รายงานวิเคราะห์และติดตามข้อเสนอแนะเพื่อการปรับปรุงงานพัฒนาองค์กร (เปรียบเทียบข้อมูลสะสม ม.ค. - ต.ค. 2569)
+      </p>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex items-center gap-3 z-10 no-print w-full md:w-auto justify-end">
+      <button onclick="window.print()" class="px-4 py-2.5 rounded-xl bg-sky-600/90 hover:bg-sky-500 text-white font-medium text-sm transition-all shadow-lg shadow-sky-600/25 hover:shadow-sky-500/40 flex items-center gap-2 border border-sky-400/30 active:scale-95">
+        <i class="fa-solid fa-print"></i> พิมพ์ / ส่งออก PDF
+      </button>
+      <button onclick="resetFilters()" class="px-3.5 py-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 text-sm font-medium transition-all border border-slate-700 flex items-center gap-2 hover:text-white active:scale-95">
+        <i class="fa-solid fa-rotate-left"></i> รีเซ็ต
+      </button>
+    </div>
+  </header>
+
+  <!-- ALERT BANNER: OCTOBER 0 ITEMS -->
+  <div class="glass-card rounded-2xl p-5 border-l-4 border-l-orange-500 bg-gradient-to-r from-orange-950/40 via-slate-900/60 to-slate-900/60 alert-glow flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <div class="flex items-start gap-4">
+      <div class="w-12 h-12 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center shrink-0 border border-orange-500/30 text-xl mt-0.5 sm:mt-0">
+        <i class="fa-solid fa-triangle-exclamation animate-bounce"></i>
+      </div>
+      <div>
+        <h3 class="font-semibold text-orange-200 text-base sm:text-lg flex items-center gap-2">
+          แจ้งเตือนสถานะการส่งข้อเสนอแนะประจำเดือน
+          <span class="text-xs font-normal px-2 py-0.5 bg-orange-500/20 text-orange-300 border border-orange-500/40 rounded-full">สำคัญ</span>
+        </h3>
+        <p class="text-slate-300 text-sm mt-0.5">
+          เดือน<strong class="text-white font-medium underline decoration-orange-500">ตุลาคม 2569 ไม่มีพนักงานส่งหัวข้อไคเซ็น (0 หัวข้อ)</strong> ต่อเนื่องเป็นเดือนที่ 2 ถัดจากเดือนกันยายน 2569 (0 หัวข้อ)
+        </p>
+      </div>
+    </div>
+    <div class="shrink-0 w-full sm:w-auto text-right">
+      <span class="text-xs font-mono text-slate-400 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-700/80 block sm:inline-block">
+        เป้าหมายประเมิน: ≥ 5 หัวข้อ/เดือน
+      </span>
+    </div>
+  </div>
+
+  <!-- KPI METRICS GRID -->
+  <section class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+    
+    <!-- KPI 1 -->
+    <div class="glass-card glass-card-hover rounded-2xl p-5 relative overflow-hidden group">
+      <div class="absolute -right-4 -bottom-4 w-20 h-20 bg-orange-500/10 rounded-full blur-xl group-hover:bg-orange-500/20 transition-all"></div>
+      <div class="flex justify-between items-start">
+        <span class="text-slate-400 text-xs sm:text-sm font-medium">ยอดส่ง ต.ค. 2569</span>
+        <span class="p-2 rounded-xl bg-orange-500/10 text-orange-400 border border-orange-500/20 text-sm">
+          <i class="fa-solid fa-inbox"></i>
+        </span>
+      </div>
+      <div class="mt-3 flex items-baseline gap-2">
+        <span class="text-3xl sm:text-4xl font-bold text-orange-400 font-mono">0</span>
+        <span class="text-xs text-slate-400">หัวข้อ</span>
+      </div>
+      <div class="mt-2 text-xs text-orange-300/80 flex items-center gap-1">
+        <i class="fa-solid fa-arrow-down-long text-orange-400"></i> ลดลง 100% จากเป้าหมาย
+      </div>
+    </div>
+
+    <!-- KPI 2 -->
+    <div class="glass-card glass-card-hover rounded-2xl p-5 relative overflow-hidden group">
+      <div class="absolute -right-4 -bottom-4 w-20 h-20 bg-sky-500/10 rounded-full blur-xl group-hover:bg-sky-500/20 transition-all"></div>
+      <div class="flex justify-between items-start">
+        <span class="text-slate-400 text-xs sm:text-sm font-medium">ยอดส่งสะสม (ม.ค. - ต.ค.)</span>
+        <span class="p-2 rounded-xl bg-sky-500/10 text-sky-400 border border-sky-500/20 text-sm">
+          <i class="fa-solid fa-layer-group"></i>
+        </span>
+      </div>
+      <div class="mt-3 flex items-baseline gap-2">
+        <span class="text-3xl sm:text-4xl font-bold text-white font-mono">33</span>
+        <span class="text-xs text-slate-400">หัวข้อ</span>
+      </div>
+      <div class="mt-2 text-xs text-slate-400 flex items-center gap-1">
+        <i class="fa-solid fa-calendar-check text-sky-400"></i> เฉลี่ย 3.3 หัวข้อ/เดือน
+      </div>
+    </div>
+
+    <!-- KPI 3 -->
+    <div class="glass-card glass-card-hover rounded-2xl p-5 relative overflow-hidden group">
+      <div class="absolute -right-4 -bottom-4 w-20 h-20 bg-emerald-500/10 rounded-full blur-xl group-hover:bg-emerald-500/20 transition-all"></div>
+      <div class="flex justify-between items-start">
+        <span class="text-slate-400 text-xs sm:text-sm font-medium">สถานะเสร็จสมบูรณ์</span>
+        <span class="p-2 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-sm">
+          <i class="fa-solid fa-circle-check"></i>
+        </span>
+      </div>
+      <div class="mt-3 flex items-baseline gap-2">
+        <span class="text-3xl sm:text-4xl font-bold text-emerald-400 font-mono">1</span>
+        <span class="text-xs text-slate-400">/ 33 หัวข้อ</span>
+      </div>
+      <div class="mt-2 text-xs text-emerald-400/90 flex items-center gap-1">
+        <i class="fa-solid fa-chart-pie"></i> อัตราความสำเร็จ 3.03%
+      </div>
+    </div>
+
+    <!-- KPI 4 -->
+    <div class="glass-card glass-card-hover rounded-2xl p-5 relative overflow-hidden group">
+      <div class="absolute -right-4 -bottom-4 w-20 h-20 bg-purple-500/10 rounded-full blur-xl group-hover:bg-purple-500/20 transition-all"></div>
+      <div class="flex justify-between items-start">
+        <span class="text-slate-400 text-xs sm:text-sm font-medium">จำนวนผู้ร่วมส่งผลงาน</span>
+        <span class="p-2 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20 text-sm">
+          <i class="fa-solid fa-users"></i>
+        </span>
+      </div>
+      <div class="mt-3 flex items-baseline gap-2">
+        <span class="text-3xl sm:text-4xl font-bold text-white font-mono">16</span>
+        <span class="text-xs text-slate-400">คน (สะสม)</span>
+      </div>
+      <div class="mt-2 text-xs text-purple-300 flex items-center gap-1">
+        <i class="fa-solid fa-trophy text-amber-400"></i> นำโดย คุณวิญารัตน์ (5 เรื่อง)
+      </div>
+    </div>
+
+  </section>
+
+  <!-- MAIN CHARTS & ANALYSIS SECTION -->
+  <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+    <!-- MONTHLY TREND CHART (8 Cols) -->
+    <div class="glass-card rounded-2xl p-6 lg:col-span-8 flex flex-col justify-between">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-6">
+        <div>
+          <h2 class="text-lg font-semibold text-white flex items-center gap-2">
+            <i class="fa-solid fa-chart-column text-sky-400"></i> สถิติการส่งหัวข้อ Kaizen รายเดือน (ปี 2569)
+          </h2>
+          <p class="text-xs text-slate-400">เปรียบเทียบปริมาณการส่งข้อเสนอแนะตั้งแต่เดือน มกราคม - ตุลาคม 2569</p>
+        </div>
+        <div class="flex items-center gap-3 text-xs">
+          <span class="flex items-center gap-1.5 text-slate-300">
+            <span class="w-3 h-3 rounded bg-sky-500 inline-block"></span> ปกติ
+          </span>
+          <span class="flex items-center gap-1.5 text-slate-300">
+            <span class="w-3 h-3 rounded bg-orange-500 inline-block"></span> ไม่มีการส่ง (0)
+          </span>
+        </div>
+      </div>
+
+      <!-- Custom Bar Chart Container -->
+      <div class="h-64 sm:h-72 w-full flex items-end justify-between gap-2 sm:gap-4 pt-8 pb-2 px-2 sm:px-4 border-b border-slate-700/60">
+        <!-- Bars generated by JavaScript -->
+        <div id="monthlyChartBars" class="w-full h-full flex items-end justify-between gap-1.5 sm:gap-3"></div>
+      </div>
+
+      <!-- Chart Footer Summary -->
+      <div class="mt-4 pt-3 flex flex-wrap justify-between items-center text-xs text-slate-400 gap-2">
+        <span><i class="fa-solid fa-circle-info text-sky-400 mr-1"></i> เดือนที่ส่งสูงสุด: <strong>มกราคม (7 หัวข้อ)</strong></span>
+        <span>ช่วงหยุดส่ง: <strong>กันยายน - ตุลาคม (0 หัวข้อ)</strong></span>
+      </div>
+    </div>
+
+    <!-- CATEGORIES BREAKDOWN (4 Cols) -->
+    <div class="glass-card rounded-2xl p-6 lg:col-span-4 flex flex-col justify-between">
+      <div>
+        <h2 class="text-lg font-semibold text-white flex items-center gap-2 mb-1">
+          <i class="fa-solid fa-tags text-purple-400"></i> สถิติแยกตามประเภท
+        </h2>
+        <p class="text-xs text-slate-400 mb-5">จำแนกเป้าหมายของ Kaizen (1 เรื่องอาจมีหลายประเภท)</p>
+        
+        <div id="categoryList" class="space-y-3.5">
+          <!-- Categories filled by JS -->
+        </div>
+      </div>
+
+      <div class="mt-6 pt-4 border-t border-slate-700/60 text-xs text-slate-400">
+        <i class="fa-solid fa-lightbulb text-amber-400 mr-1"></i> มุ่งเน้น <strong>เพิ่มคุณภาพ</strong> และ <strong>ลดเวลางาน</strong> เป็นหลัก (ประเภทละ 22 เรื่อง)
+      </div>
+    </div>
+
+  </section>
+
+  <!-- SECONDARY SECTION: TOP CONTRIBUTORS & EXECUTIVE ACTION PLAN -->
+  <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+    <!-- TOP CONTRIBUTORS (5 Cols) -->
+    <div class="glass-card rounded-2xl p-6 lg:col-span-5 flex flex-col justify-between">
+      <div>
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-lg font-semibold text-white flex items-center gap-2">
+            <i class="fa-solid fa-trophy text-amber-400"></i> ผู้ส่งผลงานสูงสุด (Top Contributors)
+          </h2>
+          <span class="text-xs text-slate-400 bg-slate-800 px-2.5 py-1 rounded-full border border-slate-700">
+            สะสม 16 คน
+          </span>
+        </div>
+
+        <div id="topContributorsList" class="space-y-3">
+          <!-- Top contributors generated by JS -->
+        </div>
+      </div>
+
+      <div class="mt-5 pt-3 border-t border-slate-700/60 text-xs text-slate-400 text-center">
+        * ข้อมูลคำนวณจากยอดส่งผลงานสะสม ม.ค. - ต.ค. 2569
+      </div>
+    </div>
+
+    <!-- EXECUTIVE SUMMARY & RECOMMENDATIONS (7 Cols) -->
+    <div class="glass-card rounded-2xl p-6 lg:col-span-7 flex flex-col justify-between border-l-4 border-l-sky-500">
+      <div>
+        <h2 class="text-lg font-semibold text-white flex items-center gap-2 mb-4">
+          <i class="fa-solid fa-clipboard-check text-sky-400"></i> สรุปบทวิเคราะห์ & ข้อเสนอแนะเชิงบริหาร (Executive Action Plan)
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <!-- Item 1 -->
+          <div class="bg-slate-800/50 rounded-xl p-4 border border-slate-700/50 space-y-1.5">
+            <div class="flex items-center gap-2 text-orange-400 font-medium">
+              <i class="fa-solid fa-circle-exclamation"></i> ข้อสังเกตสภาวะชะลอตัว
+            </div>
+            <p class="text-slate-300 text-xs leading-relaxed">
+              การไม่มีการส่ง Kaizen ติดต่อกัน 2 เดือน (ก.ย. - ต.ค.) สะท้อนถึงความสนใจของพนักงานที่ลดลง หรือขาดกระบวนการติดตาม กระตุ้นจากหัวหน้างาน
+            </p>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="bg-slate-800/50 rounded-xl p-4 border border-slate-700/50 space-y-1.5">
+            <div class="flex items-center gap-2 text-emerald-400 font-medium">
+              <i class="fa-solid fa-bars-progress"></i> การติดตามผลงานที่ค้าง
+            </div>
+            <p class="text-slate-300 text-xs leading-relaxed">
+              จาก 33 หัวข้อที่ส่งเข้ามา มีสถานะ "สมบูรณ์" เพียง 1 หัวข้อ (3%) ควรเร่งทบทวนและอัปเดตสถานะอีก 32 หัวข้อเพื่อปิดเล่มและสรุปผลสำเร็จ
+            </p>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="bg-slate-800/50 rounded-xl p-4 border border-slate-700/50 space-y-1.5">
+            <div class="flex items-center gap-2 text-sky-400 font-medium">
+              <i class="fa-solid fa-bullhorn"></i> แคมเปญกระตุ้น พ.ย. 2569
+            </div>
+            <p class="text-slate-300 text-xs leading-relaxed">
+              เร่งจัดแคมเปญ Quick Kaizen หรือตั้งโจทย์เฉพาะกลุ่ม เช่น "5s/ความปลอดภัย" ประจำเดือน พ.ย. เพื่อฟื้นฟูบรรยากาศการมีส่วนร่วม
+            </p>
+          </div>
+
+          <!-- Item 4 -->
+          <div class="bg-slate-800/50 rounded-xl p-4 border border-slate-700/50 space-y-1.5">
+            <div class="flex items-center gap-2 text-purple-400 font-medium">
+              <i class="fa-solid fa-award"></i> ระบบชื่นชมและรางวัล (Recognition)
+            </div>
+            <p class="text-slate-300 text-xs leading-relaxed">
+              พิจารณามอบวุฒิบัตรหรือรางวัลพิเศษแก่ผู้เสนอผลงานสูงสุด เช่น คุณวิญารัตน์ (5 เรื่อง) และคุณภคพร/วิชิตา/ณัฐวริยา/น้ำทิพย์ (คนละ 4 เรื่อง)
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-4 border-t border-slate-700/60 flex flex-wrap justify-between items-center text-xs text-slate-400 gap-2">
+        <span class="flex items-center gap-1.5">
+          <i class="fa-solid fa-user-gear text-sky-400"></i> หน่วยงานรับผิดชอบ: ฝ่ายบริหารและพัฒนาองค์กร
+        </span>
+        <span class="text-slate-400">เป้าหมาย Q4: ปิดสถานะสมบูรณ์อย่างน้อย 50%</span>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- TABLE SECTION: INTERACTIVE KAIZEN REGISTER -->
+  <section class="glass-card rounded-2xl p-6 print-break-inside">
+    
+    <!-- Table Header & Controls -->
+    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
+      <div>
+        <h2 class="text-xl font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-table-list text-sky-400"></i> ทะเบียนหัวข้อ Kaizen ทั้งหมด
+        </h2>
+        <p class="text-xs text-slate-400 mt-0.5">ตารางสืบค้นและคัดกรองข้อมูลประวัติการส่งข้อเสนอแนะสะสม</p>
+      </div>
+
+      <!-- Controls Panel -->
+      <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto no-print">
+        <!-- Search Input -->
+        <div class="relative flex-1 sm:w-64">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+          <input type="text" id="searchInput" placeholder="ค้นหา เรื่อง, ชื่อผู้เสนอ, เลขที่..." 
+            class="w-full pl-9 pr-4 py-2 rounded-xl bg-slate-900/80 border border-slate-700 text-white placeholder-slate-400 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all">
+        </div>
+
+        <!-- Month Filter -->
+        <div class="w-full sm:w-auto">
+          <select id="monthSelect" 
+            class="w-full sm:w-auto px-3.5 py-2 rounded-xl bg-slate-900/80 border border-slate-700 text-white text-sm focus:outline-none focus:border-sky-500 transition-all cursor-pointer">
+            <option value="0">📅 ทุกเดือน (ม.ค. - ต.ค.)</option>
+            <!-- Options populated by JS -->
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table Container -->
+    <div class="overflow-x-auto rounded-xl border border-slate-700/60 bg-slate-900/40">
+      <table class="w-full text-left text-sm border-collapse min-w-[760px]">
+        <thead>
+          <tr class="border-b border-slate-700 bg-slate-800/80 text-slate-300 font-medium text-xs tracking-wider uppercase">
+            <th class="py-3.5 px-4 text-center w-12">#</th>
+            <th class="py-3.5 px-4 w-28">เลขที่เอกสาร</th>
+            <th class="py-3.5 px-4 w-24">วันที่ส่ง</th>
+            <th class="py-3.5 px-4 w-52">ผู้เสนอ / ตำแหน่ง</th>
+            <th class="py-3.5 px-4">เรื่องที่เสนอแนะ (Kaizen Title)</th>
+            <th class="py-3.5 px-4 w-44">พื้นที่/สถานที่</th>
+            <th class="py-3.5 px-4 text-center w-28">สถานะ</th>
+          </tr>
+        </thead>
+        <tbody id="kaizenTableBody" class="divide-y divide-slate-800 text-slate-300 text-xs sm:text-sm">
+          <!-- Dynamic Content Generated by JavaScript -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Table Footer Stats -->
+    <div class="mt-4 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-400 gap-2">
+      <div id="tableRecordCount">กำลังโหลดข้อมูล...</div>
+      <div class="flex items-center gap-2">
+        <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500"></span> สมบูรณ์ (1)
+        <span class="inline-block w-2.5 h-2.5 rounded-full bg-slate-600 ml-2"></span> รอดำเนินการ (32)
+      </div>
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="text-center text-xs text-slate-400 py-4 border-t border-slate-800 space-y-1">
+    <p>รายงานสรุปผลการส่งข้อเสนอแนะ Kaizen ประจำเดือนตุลาคม 2569 · ระบบสารสนเทศเพื่อการบริหารจัดการ</p>
+    <p class="text-slate-400">ข้อมูล ณ วันที่ 3 พฤศจิกายน 2569</p>
+  </footer>
+
+</div>
+
+<!-- JAVASCRIPT LOGIC -->
+<script>
+// Data Store
+const DATA = {
+  months: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.'],
+  monthCounts: [7, 3, 6, 2, 5, 1, 6, 3, 0, 0],
+  categories: [
+    { name: "เพิ่มคุณภาพ", count: 22, icon: "fa-shield-halved", color: "bg-sky-500" },
+    { name: "ลดเวลางาน", count: 22, icon: "fa-clock", color: "bg-indigo-500" },
+    { name: "ยอดขาย", count: 10, icon: "fa-chart-line", color: "bg-emerald-500" },
+    { name: "สิ่งแวดล้อม", count: 8, icon: "fa-leaf", color: "bg-teal-500" },
+    { name: "ลดต้นทุน", count: 4, icon: "fa-coins", color: "bg-amber-500" },
+    { name: "นวัตกรรมใหม่", count: 3, icon: "fa-wand-magic-sparkles", color: "bg-purple-500" },
+    { name: "เพิ่มความปลอดภัย", count: 2, icon: "fa-user-shield", color: "bg-rose-500" },
+    { name: "5ส / เป็นระเบียบ", count: 2, icon: "fa-broom", color: "bg-blue-500" }
+  ],
+  contributors: [
+    { name: "นางสาว วิญารัตน์ พิบาลขัน", pos: "ผู้จัดการฝ่ายบริหาร", count: 5, avatar: "👩‍💼" },
+    { name: "นางสาว ภคพร สีแวงนอก", pos: "หัวหน้าแผนกบัญชี/การเงิน", count: 4, avatar: "👩‍💻" },
+    { name: "นางสาว วิชิตา สีแวงนอก", pos: "พนักงานจัดซื้อ", count: 4, avatar: "👩‍💼" },
+    { name: "นางสาว ณัฐวริยา คงกล้า", pos: "หัวหน้าแผนกขาย", count: 4, avatar: "👩‍💼" },
+    { name: "นางสาว น้ำทิพย์ ทุมสิทธิ์", pos: "หัวหน้าขายสาขาหนองคาย", count: 4, avatar: "👩‍💼" },
+    { name: "นาย วิชัย ทองเหล็ก", pos: "พนักงานขับรถ / จัดส่ง", count: 3, avatar: "👨‍✈️" },
+    { name: "นาย หนุ่ย วงศ์ใหญ่", pos: "พนักงานจัดส่ง", count: 2, avatar: "👨‍🔧" }
+  ],
+  items: [
+    { no: 1, id: "KZ-2601-02", date: "19/1/2569", m: 1, who: "นางสาว ภคพร สีแวงนอก", pos: "หัวหน้าแผนกบัญชี/การเงิน", title: "ส่วนลดพิเศษชำระเงินตามเงื่อนไข", loc: "สำนักงาน", done: false },
+    { no: 2, id: "KZ-2601-03", date: "23/1/2569", m: 1, who: "นางสาว วิญารัตน์ พิบาลขัน", pos: "ผู้จัดการฝ่ายบริหาร", title: "การจัดการสินค้า Dead Stock", loc: "คลังสินค้า", done: false },
+    { no: 3, id: "KZ-2601-04", date: "20/1/2569", m: 1, who: "นางสาว วิชิตา สีแวงนอก", pos: "พนักงานจัดซื้อ", title: "ปรับปรุงจุดสั่งซื้อสินค้า ROP", loc: "คลังสินค้า", done: false },
+    { no: 4, id: "KZ-2601-05", date: "26/1/2569", m: 1, who: "นางสาว ณัฐวริยา คงกล้า", pos: "หัวหน้าแผนกขาย", title: "การสื่อสารรับออเดอร์ผิดพลาด", loc: "สำนักงาน", done: false },
+    { no: 5, id: "KZ-2601-06", date: "21/1/2569", m: 1, who: "นาย ธงชัย คุยดี", pos: "ผู้จัดการฝ่ายปฏิบัติการ", title: "ความปลอดภัยการใช้งานของบันไดขึ้นท่อ", loc: "หน้าชั้นท่อ PVC ร้านพัฒนาสิน", done: false },
+    { no: 6, id: "KZ-2601-07", date: "28/1/2569", m: 1, who: "นางสาว หนึ่งฤทัย บุตรดีคำ", pos: "พนักงานขายปลีก", title: "ลดหนี้สินค้าขายปลีกหน้าร้าน", loc: "ขายปลีกหน้าร้าน", done: false },
+    { no: 7, id: "KZ-2601-08", date: "23/1/2569", m: 1, who: "นาย วิชัย ทองเหล็ก", pos: "พนักงานขับรถ", title: "จัดเรียงอุปกรณ์น้ำไทย ตามหมวดหมู่/ตามขนาด", loc: "โกดังลูกเก่า", done: false },
+    { no: 8, id: "KZ-2602-09", date: "16/2/2569", m: 2, who: "นางสาว วิญารัตน์ พิบาลขัน", pos: "ผู้จัดการฝ่ายบริหาร", title: "ทำแคตตาล็อกสินค้าในรูปแบบ E-Flipbook เพื่อเพิ่มประสิทธิภาพการขาย", loc: "สำนักงาน", done: true },
+    { no: 9, id: "KZ-2602-10", date: "23/2/2569", m: 2, who: "นางสาว สุวนันท์ คามะเชียงพิณ", pos: "พนักงานขายส่ง", title: "การปรับปรุงการจัดเก็บท่อ PVC เพื่อเพิ่มความปลอดภัยและลดเวลาการทำงาน", loc: "ชั้นวางท่อ PVC โซนคลังสินค้า", done: false },
+    { no: 10, id: "KZ-2602-11", date: "26/2/2569", m: 2, who: "นางสาว อภิรักษ์ ชั้นงาม", pos: "พนักงานบัญชี / การเงิน", title: "ปัญหาการทวงหนี้", loc: "สำนักงาน", done: false },
+    { no: 11, id: "KZ-2603-12", date: "9/3/2569", m: 3, who: "นางสาว น้ำทิพย์ ทุมสิทธิ์", pos: "หัวหน้าขายสาขาหนองคาย", title: "การจัดหมวดหมู่สินค้าใหม่", loc: "พัฒนาสิน หนองคาย", done: false },
+    { no: 12, id: "KZ-2603-13", date: "10/3/2569", m: 3, who: "นางสาว วิชิตา สีแวงนอก", pos: "พนักงานจัดซื้อ", title: "เคลมท่อชำรุดส่งคืนโรงงาน", loc: "ชั้นวางท่อ PVC", done: false },
+    { no: 13, id: "KZ-2603-14", date: "21/3/2569", m: 3, who: "นางสาว ณัฐวริยา คงกล้า", pos: "หัวหน้าแผนกขาย", title: "การจัดเรียงสินค้าตามโซน/หมวดหมู่", loc: "หน้าร้าน พัฒนาสิน", done: false },
+    { no: 14, id: "KZ-2603-15", date: "23/3/2569", m: 3, who: "นางสาว วิญารัตน์ พิบาลขัน", pos: "ผู้จัดการฝ่ายบริหาร", title: "การนำระบบนับสินค้าแบบปิดตัวเลข มาใช้ในการรับท่อพีวีซี", loc: "สำนักงาน / ชั้นวางท่อพีวีซี", done: false },
+    { no: 15, id: "KZ-2603-16", date: "20/3/2569", m: 3, who: "นาย หนุ่ย วงศ์ใหญ่", pos: "พนักงานจัดส่ง", title: "ปรับปรุงพื้นที่จัดเก็บสกรู-น็อต", loc: "โกดังลูกเก่า", done: false },
+    { no: 16, id: "KZ-2603-17", date: "28/3/2569", m: 3, who: "นางสาว ภคพร สีแวงนอก", pos: "หัวหน้าแผนกบัญชี/การเงิน", title: "วางบิลฉับไว ใส่ใจข้อมูล", loc: "สำนักงาน", done: false },
+    { no: 17, id: "KZ-2604-18", date: "18/4/2569", m: 4, who: "นางสาว น้ำทิพย์ ทุมสิทธิ์", pos: "หัวหน้าขายสาขาหนองคาย", title: "จัดโปรส่งเสริมการขาย สินค้าที่บรรจุภัณฑ์ซีด กรอบ แตก", loc: "พัฒนาสิน หนองคาย", done: false },
+    { no: 18, id: "KZ-2604-19", date: "21/4/2569", m: 4, who: "นางสาว วิญารัตน์ พิบาลขัน", pos: "ผู้จัดการฝ่ายบริหาร", title: "การเพิ่มจุดตรวจสอบคุณภาพ (QC) ท่อ PVC ก่อนนำขึ้นรถจัดส่ง", loc: "พื้นที่จัดเตรียมสินค้า / คลังสินค้า", done: false },
+    { no: 19, id: "KZ-2605-20", date: "9/5/2569", m: 5, who: "นาย พัฒน์พงษ์ ทองขัน", pos: "พนักงานขายหนองคาย", title: "ชั้นจัดเก็บท่อพีวีซี สาขาหนองคาย", loc: "พัฒนาสิน หนองคาย", done: false },
+    { no: 20, id: "KZ-2605-21", date: "12/5/2569", m: 5, who: "นางสาว ณัฐวริยา คงกล้า", pos: "หัวหน้าแผนกขาย", title: "จัดแยกตะปูคอนกรีต และแพ็คสินค้าที่กล่องบรรจุภัณฑ์ใหม่", loc: "โกดัง พัฒนาสิน", done: false },
+    { no: 21, id: "KZ-2605-22", date: "18/5/2569", m: 5, who: "นางสาว วิชิตา สีแวงนอก", pos: "พนักงานจัดซื้อ", title: "การปรับปรุงกระบวนการประกาศสินค้าทดแทนให้รวดเร็วและเป็นมาตรฐาน", loc: "ระบบสื่อสารภายในองค์กร (ไลน์กลุ่ม)", done: false },
+    { no: 22, id: "KZ-2605-23", date: "20/5/2569", m: 5, who: "นางสาว ภคพร สีแวงนอก", pos: "หัวหน้าแผนกบัญชี/การเงิน", title: "การติดตามสถานะการจัดส่งใบกำกับภาษี", loc: "สำนักงานพัฒนาสิน", done: false },
+    { no: 23, id: "KZ-2605-24", date: "23/5/2569", m: 5, who: "นาย หนุ่ย วงศ์ใหญ่", pos: "พนักงานจัดส่ง", title: "ปรับปรุงแสงสว่างในคลังสินค้า", loc: "คลังสินค้า", done: false },
+    { no: 24, id: "KZ-2606-25", date: "18/6/2569", m: 6, who: "นางสาว น้ำทิพย์ ทุมสิทธิ์", pos: "พนักงานขายหนองคาย", title: "จัดระเบียบหมวดหมู่สินค้าอุปกรณ์ PVC และสินค้าอื่น ๆ", loc: "พัฒนาสิน หนองคาย", done: false },
+    { no: 25, id: "KZ-2607-26", date: "8/7/2569", m: 7, who: "นางสาว น้ำทิพย์ ทุมสิทธิ์", pos: "พนักงานขายหนองคาย", title: "การนำกระดาษที่ใช้แล้ว 1 หน้า นำกลับมาใช้งานรีไซเคิล", loc: "พัฒนาสิน หนองคาย", done: false },
+    { no: 26, id: "KZ-2607-27", date: "9/7/2569", m: 7, who: "นางสาว ณัฐวริยา คงกล้า", pos: "หัวหน้าแผนกขาย", title: "จัดวางชั้นท่อน้ำไทย ที่ป่นกัน และแยกช่องย่อยท่อไม่เต็มมัด", loc: "ชั้นท่อพีวีซี หน้าโกดัง พัฒนาสิน", done: false },
+    { no: 27, id: "KZ-2607-28", date: "20/7/2569", m: 7, who: "นาย วิชัย / นาย สุรชัย / นาย นาวี", pos: "พนักงานจัดส่ง", title: "การจัดเรียงและแยกหมวดหมู่ไม้ฝา", loc: "พื้นที่คลังสินค้า / โซนจัดเก็บไม้ฝา", done: false },
+    { no: 28, id: "KZ-2607-29", date: "23/7/2569", m: 7, who: "นาย วิชัย ทองเหล็ก / นาย สุรชัย สมสนุก", pos: "พนักงานจัดส่ง", title: "การจัดการลังสินค้าและติดป้ายระบุสถานะเพื่อลดความซ้ำซ้อน", loc: "พื้นที่คลังสินค้า / จุดจัดเก็บอุปกรณ์", done: false },
+    { no: 29, id: "KZ-2607-30", date: "28/7/2569", m: 7, who: "นางสาว วิชิตา สีแวงนอก", pos: "พนักงานจัดซื้อ", title: "การปรับปรุงกระบวนการจัดเก็บดอกสว่านเพื่อความรวดเร็วในการปฏิบัติงาน", loc: "พื้นที่จัดเก็บดอกสว่าน (สำนักงาน)", done: false },
+    { no: 30, id: "KZ-2607-31", date: "28/7/2569", m: 7, who: "นางสาว ภคพร สีแวงนอก", pos: "หัวหน้าแผนกบัญชี/การเงิน", title: "ปรับปรุงการจัดเรียงแฟ้มเอกสารบิลซื้อตามลำดับตัวอักษร ก–ฮ", loc: "สำนักงาน / ออฟฟิศ", done: false },
+    { no: 31, id: "KZ-2608-32", date: "20/8/2569", m: 8, who: "นาย ชัยพร อร่ามเรือง", pos: "กรรมการผู้จัดการ", title: "เปลี่ยนการดึงข้อมูลยอดขายจาก SML ลง Excel เป็นการใช้ AI Agent", loc: "สำนักงาน / ออฟฟิศ", done: false },
+    { no: 32, id: "KZ-2608-33", date: "24/8/2569", m: 8, who: "นางสาว วิญารัตน์ พิบาลขัน", pos: "ผู้จัดการฝ่ายบริหาร", title: "การนำระบบสมาชิกสะสมแต้มใน Line OA มาใช้เพื่อเพิ่มยอดขาย", loc: "จุดชำระเงิน (แคชเชียร์ขายปลีก)", done: false },
+    { no: 33, id: "KZ-2608-34", date: "29/8/2569", m: 8, who: "นาง เกศณี อร่ามเรือง", pos: "กรรมการบริหาร", title: "Digital Promotion – เปลี่ยนพื้นที่รอ ให้เป็นพื้นที่ขาย", loc: "หน้าร้าน พัฒนาสิน", done: false }
+  ]
+};
+
+// HTML Escaper for security
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, m => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+  })[m]);
+}
+
+// 1. Render Monthly Bar Chart
+function renderMonthlyChart() {
+  const container = document.getElementById('monthlyChartBars');
+  const maxVal = Math.max(...DATA.monthCounts, 1);
+  
+  container.innerHTML = DATA.months.map((m, idx) => {
+    const val = DATA.monthCounts[idx];
+    const heightPercent = val > 0 ? (val / maxVal) * 85 : 4; // minimum height for 0
+    const isZero = val === 0;
+    const isOct = idx === 9; // October
+    
+    return `
+      <div class="flex-1 flex flex-col items-center h-full justify-end group relative cursor-pointer" onclick="filterByMonth(${idx + 1})">
+        <!-- Tooltip -->
+        <div class="opacity-0 group-hover:opacity-100 transition-opacity absolute -top-10 bg-slate-800 text-white text-xs px-2.5 py-1 rounded-lg border border-slate-700 shadow-xl pointer-events-none z-20 whitespace-nowrap">
+          ${DATA.months[idx]} 2569: <strong>${val} หัวข้อ</strong>
+        </div>
+
+        <!-- Value Label -->
+        <span class="text-xs font-mono font-bold mb-1.5 ${isZero ? 'text-orange-400' : 'text-slate-300'}">
+          ${val}
+        </span>
+
+        <!-- Bar Element -->
+        <div class="w-full max-w-[36px] rounded-t-lg transition-all duration-500 relative overflow-hidden ${
+          isZero 
+            ? 'bg-orange-500/20 border-t-2 border-orange-500 group-hover:bg-orange-500/40' 
+            : 'bg-gradient-to-t from-sky-600 to-sky-400 group-hover:from-sky-500 group-hover:to-sky-300 shadow-lg shadow-sky-500/20'
+        }" style="height: ${heightPercent}%">
+          ${isOct ? '<div class="absolute inset-0 bg-orange-500/30 animate-pulse"></div>' : ''}
+        </div>
+
+        <!-- Month Label -->
+        <span class="text-[11px] sm:text-xs mt-2.5 ${isOct ? 'text-orange-400 font-bold' : 'text-slate-400'} font-medium">
+          ${m}
+        </span>
+      </div>
+    `;
+  }).join('');
+}
+
+// 2. Render Category Progress Bars
+function renderCategoryList() {
+  const container = document.getElementById('categoryList');
+  const maxCount = DATA.categories[0].count;
+
+  container.innerHTML = DATA.categories.map(cat => {
+    const percent = Math.round((cat.count / maxCount) * 100);
+    return `
+      <div class="space-y-1">
+        <div class="flex justify-between items-center text-xs">
+          <span class="text-slate-300 flex items-center gap-2">
+            <i class="fa-solid ${cat.icon} w-4 text-center text-slate-400"></i> ${escapeHtml(cat.name)}
+          </span>
+          <span class="font-mono text-slate-200 font-medium">${cat.count} <span class="text-slate-400 text-[10px]">ครั้ง</span></span>
+        </div>
+        <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
+          <div class="h-full ${cat.color} rounded-full transition-all duration-1000" style="width: ${percent}%"></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// 3. Render Top Contributors
+function renderTopContributors() {
+  const container = document.getElementById('topContributorsList');
+  const maxCount = DATA.contributors[0].count;
+
+  container.innerHTML = DATA.contributors.map((person, idx) => {
+    const isTop1 = idx === 0;
+    return `
+      <div class="flex items-center justify-between p-2.5 rounded-xl ${isTop1 ? 'bg-amber-500/10 border border-amber-500/30' : 'bg-slate-800/40 border border-slate-800'} transition-all">
+        <div class="flex items-center gap-3">
+          <div class="text-xl shrink-0 w-8 text-center">${person.avatar}</div>
+          <div class="min-w-0">
+            <div class="text-xs sm:text-sm font-medium text-white truncate flex items-center gap-1.5">
+              ${escapeHtml(person.name)}
+              ${isTop1 ? '<i class="fa-solid fa-crown text-amber-400 text-xs" title="ผู้ส่งสูงสุด"></i>' : ''}
+            </div>
+            <div class="text-[11px] text-slate-400 truncate">${escapeHtml(person.pos)}</div>
+          </div>
+        </div>
+        <div class="text-right shrink-0">
+          <span class="text-sm font-mono font-bold ${isTop1 ? 'text-amber-400' : 'text-sky-400'}">${person.count}</span>
+          <span class="text-[10px] text-slate-400 block">หัวข้อ</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// 4. Render Table Dropdown Options
+function populateMonthDropdown() {
+  const select = document.getElementById('monthSelect');
+  DATA.months.forEach((m, idx) => {
+    const opt = document.createElement('option');
+    opt.value = idx + 1;
+    opt.textContent = `${m} 2569 (${DATA.monthCounts[idx]} เรื่อง)`;
+    select.appendChild(opt);
+  });
+}
+
+// 5. Render Filtered Table Data
+function renderTable() {
+  const tbody = document.getElementById('kaizenTableBody');
+  const query = document.getElementById('searchInput').value.toLowerCase().trim();
+  const selectedMonth = parseInt(document.getElementById('monthSelect').value);
+
+  const filtered = DATA.items.filter(item => {
+    const matchMonth = selectedMonth === 0 || item.m === selectedMonth;
+    const matchQuery = !query || 
+      item.title.toLowerCase().includes(query) ||
+      item.who.toLowerCase().includes(query) ||
+      item.id.toLowerCase().includes(query) ||
+      item.loc.toLowerCase().includes(query);
+    return matchMonth && matchQuery;
+  });
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="7" class="py-12 text-center text-slate-400 bg-slate-900/20">
+          <i class="fa-solid fa-folder-open text-3xl text-slate-600 mb-2 block"></i>
+          ไม่พบข้อมูลข้อเสนอแนะ Kaizen ตามเงื่อนไขที่ระบุ
+          ${selectedMonth === 10 ? '<br><span class="text-orange-400 text-xs font-medium">(เดือนตุลาคม 2569 ยอดส่งเป็น 0 หัวข้อ)</span>' : ''}
+        </td>
+      </tr>
+    `;
+  } else {
+    tbody.innerHTML = filtered.map(item => `
+      <tr class="hover:bg-slate-800/50 transition-colors">
+        <td class="py-3 px-4 text-center font-mono text-slate-400">${item.no}</td>
+        <td class="py-3 px-4 font-mono font-medium text-sky-400">${escapeHtml(item.id)}</td>
+        <td class="py-3 px-4 text-slate-400 whitespace-nowrap">${escapeHtml(item.date)}</td>
+        <td class="py-3 px-4">
+          <div class="font-medium text-slate-200">${escapeHtml(item.who)}</div>
+          <div class="text-[11px] text-slate-400">${escapeHtml(item.pos)}</div>
+        </td>
+        <td class="py-3 px-4 text-slate-200 font-medium">${escapeHtml(item.title)}</td>
+        <td class="py-3 px-4 text-slate-400">${escapeHtml(item.loc)}</td>
+        <td class="py-3 px-4 text-center">
+          ${item.done 
+            ? '<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/30"><i class="fa-solid fa-circle-check"></i> สมบูรณ์</span>'
+            : '<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium bg-slate-800 text-slate-400 border border-slate-700"><i class="fa-regular fa-clock"></i> รอดำเนินการ</span>'
+          }
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  // Update counter
+  document.getElementById('tableRecordCount').innerHTML = 
+    `แสดงผล <strong class="text-white">${filtered.length}</strong> จากทั้งหมด <strong class="text-white">${DATA.items.length}</strong> รายการ`;
+}
+
+// Global Filter Reset
+function resetFilters() {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('monthSelect').value = '0';
+  renderTable();
+}
+
+// Click Month Bar Shortcut Filter
+function filterByMonth(mIndex) {
+  document.getElementById('monthSelect').value = mIndex;
+  renderTable();
+  document.getElementById('kaizenTableBody').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// Initialize Dashboard
+window.addEventListener('DOMContentLoaded', () => {
+  renderMonthlyChart();
+  renderCategoryList();
+  renderTopContributors();
+  populateMonthDropdown();
+  renderTable();
+
+  // Attach event listeners
+  document.getElementById('searchInput').addEventListener('input', renderTable);
+  document.getElementById('monthSelect').addEventListener('change', renderTable);
+});
+</script>
+<a href="index.html" style="position: fixed; bottom: 20px; right: 20px; background-color: #198754; color: white; padding: 10px 20px; text-decoration: none; border-radius: 30px; font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); z-index: 9999;">
+    ⟲ กลับหน้าหลัก
+</body>
+</html>
